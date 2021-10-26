@@ -57,6 +57,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
+import com.adityaamolbavadekar.hiphe.interaction.HipheErrorLog
 import com.adityaamolbavadekar.hiphe.utils.constants
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase

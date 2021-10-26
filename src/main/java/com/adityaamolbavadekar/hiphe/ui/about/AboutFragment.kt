@@ -81,7 +81,7 @@ class AboutFragment : Fragment() {
         val packageName = pckMangr.packageName
         val versionName = pckMangr.versionName
         val versionCode = pckMangr.versionCode.toString()
-        versionTextView.text = versionCode + "(${versionName})"
+        versionTextView.text = "$versionCode (${versionName})"
         return root
     }
 

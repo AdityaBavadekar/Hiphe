@@ -25,7 +25,11 @@ import android.net.NetworkRequest
 import androidx.lifecycle.LiveData
 import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
 import com.adityaamolbavadekar.hiphe.interaction.HipheWarningLog
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
+//FROM TUTORIAL BY CODING-WITH-MITCH
 class ConnectionLiveData(context: Context) : LiveData<Boolean>() {
 
     private lateinit var networkCallback: ConnectivityManager.NetworkCallback
@@ -60,6 +64,14 @@ class ConnectionLiveData(context: Context) : LiveData<Boolean>() {
             val isInternet =
                 networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             if (isInternet == true) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    val hasInternet = DoesNetworkHaveInternet.execute()
+                    if (hasInternet) {
+                        HipheInfoLog(TAG, "onAvailable: adding network. $network")
+                        validNetworks.add(network)
+                        checkValidNetworks()
+                    }
+                }
                 validNetworks.add(network)
             } else {
                 checkValidNetworks()

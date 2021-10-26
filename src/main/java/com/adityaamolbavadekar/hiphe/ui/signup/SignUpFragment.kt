@@ -70,13 +70,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.preference.PreferenceManager
-import com.adityaamolbavadekar.hiphe.HipheErrorLog
-import com.adityaamolbavadekar.hiphe.HipheInfoLog
 import com.adityaamolbavadekar.hiphe.MainActivity
 import com.adityaamolbavadekar.hiphe.R
-import com.adityaamolbavadekar.hiphe.interaction.showLongToast
-import com.adityaamolbavadekar.hiphe.interaction.showSnackbar
-import com.adityaamolbavadekar.hiphe.interaction.showToast
+import com.adityaamolbavadekar.hiphe.interaction.*
 import com.adityaamolbavadekar.hiphe.ui.googlesign.GoogleSignInFragment
 import com.adityaamolbavadekar.hiphe.ui.login.LoginFragment
 import com.adityaamolbavadekar.hiphe.utils.constants

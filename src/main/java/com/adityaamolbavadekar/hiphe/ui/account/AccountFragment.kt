@@ -62,10 +62,10 @@ import android.widget.TextView
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
-import com.adityaamolbavadekar.hiphe.HipheInfoLog
 import com.adityaamolbavadekar.hiphe.LauncherActivity
 import com.adityaamolbavadekar.hiphe.MainActivity
 import com.adityaamolbavadekar.hiphe.R
+import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
 import com.adityaamolbavadekar.hiphe.utils.constants
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignIn

@@ -64,12 +64,9 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
-import com.adityaamolbavadekar.hiphe.*
+import com.adityaamolbavadekar.hiphe.MainActivity
 import com.adityaamolbavadekar.hiphe.R
-import com.adityaamolbavadekar.hiphe.interaction.showLongToast
-import com.adityaamolbavadekar.hiphe.interaction.showSnackbar
-import com.adityaamolbavadekar.hiphe.interaction.showSnackbarWithAction
-import com.adityaamolbavadekar.hiphe.interaction.showToast
+import com.adityaamolbavadekar.hiphe.interaction.*
 import com.adityaamolbavadekar.hiphe.ui.googlesign.GoogleSignInFragment
 import com.adityaamolbavadekar.hiphe.ui.signup.SignUpFragment
 import com.adityaamolbavadekar.hiphe.utils.constants

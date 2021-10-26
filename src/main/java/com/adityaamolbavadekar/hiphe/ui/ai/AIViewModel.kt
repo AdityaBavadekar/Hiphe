@@ -51,8 +51,6 @@
 
 package com.adityaamolbavadekar.hiphe.ui.ai
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class AIViewModel : ViewModel() {

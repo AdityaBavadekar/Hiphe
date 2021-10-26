@@ -51,8 +51,6 @@
 
 package com.adityaamolbavadekar.hiphe.utils
 
-import android.content.Context
-
 class constants {
 
     companion object {

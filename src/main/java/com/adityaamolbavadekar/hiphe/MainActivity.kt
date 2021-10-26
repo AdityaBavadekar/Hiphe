@@ -91,7 +91,6 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp

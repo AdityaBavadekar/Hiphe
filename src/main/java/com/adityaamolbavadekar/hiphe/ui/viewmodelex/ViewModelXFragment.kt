@@ -51,22 +51,14 @@
 
 package com.adityaamolbavadekar.hiphe.ui.signup
 
-import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.adityaamolbavadekar.hiphe.MainActivity
 import com.adityaamolbavadekar.hiphe.R
-import com.adityaamolbavadekar.hiphe.ui.googlesign.GoogleSignInFragment
-import com.adityaamolbavadekar.hiphe.ui.login.LoginFragment
-import com.adityaamolbavadekar.hiphe.utils.constants
-import com.google.android.material.button.MaterialButton
 
 class ViewModelXFragment : Fragment() {
 

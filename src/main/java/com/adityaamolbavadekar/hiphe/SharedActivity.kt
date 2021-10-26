@@ -52,7 +52,6 @@
 package com.adityaamolbavadekar.hiphe
 
 import android.app.Activity
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -60,7 +59,6 @@ import android.provider.OpenableColumns
 import android.util.Log
 import android.webkit.MimeTypeMap
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.getSystemService
 import com.adityaamolbavadekar.hiphe.interaction.showToast
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore

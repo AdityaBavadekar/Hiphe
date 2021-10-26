@@ -61,35 +61,43 @@ import androidx.core.view.isVisible
 import com.adityaamolbavadekar.hiphe.R
 
 fun notifyNetworkMode(
-        networkStateOnline: Boolean,
-        context: Context,
-        networkStateNotifierCardView: CardView,
-        networkStateNotifierTextView: TextView
+    networkStateOnline: Boolean,
+    context: Context,
+    networkStateNotifierCardView: CardView,
+    networkStateNotifierTextView: TextView
 ) {
     when (networkStateOnline) {
-        true -> notifyOnlineMode(networkStateNotifierCardView, networkStateNotifierTextView, context)
-        false -> notifyOfflineMode(networkStateNotifierCardView, networkStateNotifierTextView, context)
+        true -> notifyOnlineMode(
+            networkStateNotifierCardView,
+            networkStateNotifierTextView,
+            context
+        )
+        false -> notifyOfflineMode(
+            networkStateNotifierCardView,
+            networkStateNotifierTextView,
+            context
+        )
     }
 }
 
 fun notifyOnlineMode(
-        networkStateNotifierCardView: CardView,
-        networkStateNotifierTextView: TextView,
-        context: Context
+    networkStateNotifierCardView: CardView,
+    networkStateNotifierTextView: TextView,
+    context: Context
 ) {
     networkStateNotifierTextView.text = context.getString(R.string.title_back_online)
     Handler(Looper.getMainLooper()).postDelayed({
         if (networkStateNotifierCardView.isVisible) networkStateNotifierCardView.visibility =
-                View.GONE//hide Card
+            View.GONE//hide Card
     }, 1000)
 }
 
 fun notifyOfflineMode(
-        networkStateNotifierCardView: CardView,
-        networkStateNotifierTextView: TextView,
-        context: Context
+    networkStateNotifierCardView: CardView,
+    networkStateNotifierTextView: TextView,
+    context: Context
 ) {
     networkStateNotifierTextView.text = context.getString(R.string.title_offline_no_connection)
     if (!networkStateNotifierCardView.isVisible) networkStateNotifierCardView.visibility =
-            View.VISIBLE//show Card
+        View.VISIBLE//show Card
 }

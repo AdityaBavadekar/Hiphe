@@ -52,7 +52,6 @@
 package com.adityaamolbavadekar.hiphe.interaction
 
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
 import java.io.BufferedReader
 import java.io.InputStreamReader

@@ -123,18 +123,18 @@ fun userDeviceDataHashmap(context: Context): HashMap<String, String> {
     val pckMangr = context.packageManager.getPackageInfo(context.packageName, 0)
     val packageName = pckMangr.packageName
     val versionName = pckMangr.versionName
-    val requestedPermissions = pckMangr.requestedPermissions
-    val activities = pckMangr.activities
+//    val requestedPermissions = pckMangr.requestedPermissions
+//    val activities = pckMangr.activities
 //    val listOfAppsRunning = getRunningApps(context)
 //    val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
 //    val networkOperatorName = tm.networkOperatorName
-    val installLoacation = pckMangr.installLocation
-    val permissionsGranted = PackageInfo().permissions
-    val versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-        pckMangr.longVersionCode
-    } else {
-        pckMangr.versionCode
-    }
+//    val installLoacation = pckMangr.installLocation
+//    val permissionsGranted = PackageInfo().permissions
+//    val versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+//        pckMangr.longVersionCode
+//    } else {
+//        pckMangr.versionCode
+//    }
     val androidVersion = Build.VERSION.RELEASE
     val time = Build.TIME
     val user = Build.USER

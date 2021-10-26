@@ -63,7 +63,6 @@ import com.adityaamolbavadekar.hiphe.interaction.HipheDebugLog
 import com.adityaamolbavadekar.hiphe.interaction.HipheErrorLog
 import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
 import com.adityaamolbavadekar.hiphe.interaction.NetworkStateReceiver
-import com.adityaamolbavadekar.hiphe.services.InternetStateCheckerService
 import com.adityaamolbavadekar.hiphe.utils.constants
 
 class LauncherActivity : AppCompatActivity() {
@@ -74,7 +73,7 @@ class LauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        startService(Intent(this, InternetStateCheckerService::class.java))
+//        startService(Intent(this, InternetStateCheckerService::class.java))
         val receiver = NetworkStateReceiver()
         registerReceiver(receiver, IntentFilter(constants.networkStateKey))
         if (intent.getStringExtra("LOGS") != null) {
