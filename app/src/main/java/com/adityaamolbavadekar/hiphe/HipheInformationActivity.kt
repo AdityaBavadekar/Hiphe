@@ -15,40 +15,6 @@
  *
  ******************************************************************************/
 
-/*******************************************************************************
- * Copyright (c) 2021. Aditya Bavadekar
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- *
- ******************************************************************************/
-
-/*******************************************************************************
- * Copyright (c) 2021. Aditya Bavadekar
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- *
- ******************************************************************************/
-
 package com.adityaamolbavadekar.hiphe
 
 import android.content.Intent
@@ -123,7 +89,7 @@ class HipheInformationActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         hipheInformationViewModel =
-                ViewModelProviders.of(this).get(HipheInformationViewModel::class.java)
+            ViewModelProviders.of(this).get(HipheInformationViewModel::class.java)
         progressBar = findViewById(R.id.progressBar)
         usernameTextView = findViewById(R.id.usernameTextView)
         nameTextView = findViewById(R.id.nameTextView)
@@ -164,39 +130,43 @@ class HipheInformationActivity : AppCompatActivity() {
                 data?.lastPathSegment?.also { userEmailId ->
                     HipheInfoLog(TAG, "Data obtained from link(userEmailId) : $userEmailId")
                     Uri.parse("https://hiphe.page.link/")
-                            .buildUpon()
-                            .appendPath(userEmailId)
-                            .build().also { appData ->
-                                this.showToast("$appData")
-                                HipheInfoLog(TAG, "Data obtained from link(appData) : $appData")
-                                val fullEmailAddress = "$userEmailId@gmail.com"
-                                HipheInfoLog(TAG, "Data combined(fullEmailAddress) : $fullEmailAddress")
+                        .buildUpon()
+                        .appendPath(userEmailId)
+                        .build().also { appData ->
+                            this.showToast("$appData")
+                            HipheInfoLog(TAG, "Data obtained from link(appData) : $appData")
+                            val fullEmailAddress = "$userEmailId@gmail.com"
+                            HipheInfoLog(TAG, "Data combined(fullEmailAddress) : $fullEmailAddress")
 
-                                firestore = Firebase.firestore
-                                firestore.collection("users")
-                                        .document(fullEmailAddress)
-                                        .get()
-                                        .addOnSuccessListener { document ->
-                                            if (document.exists()) {
-                                                val user = document.toObject(HipheUserClass::class.java)!!
-                                                HipheDebugLog(
-                                                        TAG,
-                                                        "Successfully Found User Document and Converted to HipheUserClass : $user"
-                                                )
-                                                HipheInfoLog(TAG, "DOCUMENT FOUND : $document")
-                                                showUserInfo(
-                                                        user.username,
-                                                        user.photoURL,
-                                                        user.name,
-                                                        user.createdOn
-                                                )
-                                            } else {
-                                                HipheErrorLog(TAG, "Document specified does not exists : ", "Unknown Document")
+                            firestore = Firebase.firestore
+                            firestore.collection("users")
+                                .document(fullEmailAddress)
+                                .get()
+                                .addOnSuccessListener { document ->
+                                    if (document.exists()) {
+                                        val user = document.toObject(HipheUserClass::class.java)!!
+                                        HipheDebugLog(
+                                            TAG,
+                                            "Successfully Found User Document and Converted to HipheUserClass : $user"
+                                        )
+                                        HipheInfoLog(TAG, "DOCUMENT FOUND : $document")
+                                        showUserInfo(
+                                            user.username,
+                                            user.photoURL,
+                                            user.name,
+                                            user.createdOn
+                                        )
+                                    } else {
+                                        HipheErrorLog(
+                                            TAG,
+                                            "Document specified does not exists : ",
+                                            "Unknown Document"
+                                        )
 
-                                                this.showToast("User is invalid")
-                                                progressBar.visibility = View.GONE
-                                                mainCardViewError.visibility = View.VISIBLE
-                                            }
+                                        this.showToast("User is invalid")
+                                        progressBar.visibility = View.GONE
+                                        mainCardViewError.visibility = View.VISIBLE
+                                    }
 /*
                                     documents.forEach { document ->
 
@@ -224,27 +194,27 @@ class HipheInformationActivity : AppCompatActivity() {
                                     }
 */
 
-                                        }
-                                        .addOnFailureListener { e ->
-                                            HipheErrorLog(
-                                                    TAG,
-                                                    "firestore.collection(\"users\").get().addOnSuccessListener { documents ->.addOnFailureListener >>",
-                                                    e.toString()
-                                            )
-                                            this.showToast("$e")
-                                            progressBar.visibility = View.GONE
-                                            mainCardViewError.visibility = View.VISIBLE
-                                        }
+                                }
+                                .addOnFailureListener { e ->
+                                    HipheErrorLog(
+                                        TAG,
+                                        "firestore.collection(\"users\").get().addOnSuccessListener { documents ->.addOnFailureListener >>",
+                                        e.toString()
+                                    )
+                                    this.showToast("$e")
+                                    progressBar.visibility = View.GONE
+                                    mainCardViewError.visibility = View.VISIBLE
+                                }
 
 
-                            }
+                        }
                 }
             }
         } catch (e: Exception) {
             HipheErrorLog(
-                    TAG,
-                    "Error in HipheInformationActivity\$handleIntentMain(intent: Intent?)",
-                    e.toString()
+                TAG,
+                "Error in HipheInformationActivity\$handleIntentMain(intent: Intent?)",
+                e.toString()
             )
             this.showToast("$e")
             progressBar.visibility = View.GONE
@@ -253,22 +223,22 @@ class HipheInformationActivity : AppCompatActivity() {
     }
 
     private fun showUserInfo(
-            username: String,
-            photoURL: String,
-            name: String,
-            creationTimestamp: Long
+        username: String,
+        photoURL: String,
+        name: String,
+        creationTimestamp: Long
     ) {
         try {
             val photoUri = Uri.parse(photoURL)
             Glide.with(this)
-                    .load(photoUri)
-                    .into(photoImageView)
+                .load(photoUri)
+                .into(photoImageView)
         } catch (e: Exception) {
             val photoUri =
-                    Uri.parse("https://upload.wikimedia.org/wikipedia/commons/f/f3/Instagram_verifed.png")
+                Uri.parse("https://upload.wikimedia.org/wikipedia/commons/f/f3/Instagram_verifed.png")
             Glide.with(this)
-                    .load(photoUri)
-                    .into(photoImageView)
+                .load(photoUri)
+                .into(photoImageView)
         }
         hipheInformationViewModel.setName(name)
         hipheInformationViewModel.setEmailAddress("Email Address : $username")
