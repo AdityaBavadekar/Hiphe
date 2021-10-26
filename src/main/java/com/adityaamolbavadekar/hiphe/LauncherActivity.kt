@@ -60,6 +60,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.adityaamolbavadekar.hiphe.interaction.NetworkStateReceiver
+import com.adityaamolbavadekar.hiphe.services.InternetStateCheckerService
 import com.adityaamolbavadekar.hiphe.utils.constants
 
 class LauncherActivity : AppCompatActivity() {

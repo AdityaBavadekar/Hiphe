@@ -59,7 +59,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import com.adityaamolbavadekar.hiphe.interaction.NetworkStateReceiver
 import com.adityaamolbavadekar.hiphe.interaction.notifyNetworkMode
+import com.adityaamolbavadekar.hiphe.network.ConnectionLiveData
 import com.adityaamolbavadekar.hiphe.ui.googlesign.GoogleSignInFragment
+import com.adityaamolbavadekar.hiphe.utils.NetworkConnection
 import com.adityaamolbavadekar.hiphe.utils.constants
 
 class IntroActivity : AppCompatActivity() {
@@ -68,6 +70,7 @@ class IntroActivity : AppCompatActivity() {
     private val TAG = "IntroActivity"
     private lateinit var networkStateCardView: CardView
     private lateinit var networkStateTextView: TextView
+    private lateinit var connectionLiveData: ConnectionLiveData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,10 +78,11 @@ class IntroActivity : AppCompatActivity() {
 
         val receiver = NetworkStateReceiver()
         registerReceiver(receiver, IntentFilter(constants.networkStateKey))
+        connectionLiveData = ConnectionLiveData(this)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.nav_host_fragment_intro, GoogleSignInFragment())
-                    .commit()
+                .replace(R.id.nav_host_fragment_intro, GoogleSignInFragment())
+                .commit()
         }
         Log.i(TAG, "Custom INFO LOG1 IntroActivity\$onCreate")
         Log.i(TAG, "Custom INFO LOG2 IntroActivity\$onCreate")
@@ -93,12 +97,12 @@ class IntroActivity : AppCompatActivity() {
         networkStateCardView = findViewById(R.id.offlineNotifierCardIntro)
         networkStateTextView = findViewById(R.id.offlineNotifierCardTextViewIntro)
         val networkConnection = NetworkConnection(this)
-        networkConnection.observe(this, { isConnectedToNetwork ->
+        connectionLiveData.observe(this, androidx.lifecycle.Observer { isConnectedToNetwork ->
             notifyNetworkMode(
-                    isConnectedToNetwork,
-                    this,
-                    networkStateCardView,
-                    networkStateTextView
+                isConnectedToNetwork,
+                this,
+                networkStateCardView,
+                networkStateTextView
             )
         })
     }

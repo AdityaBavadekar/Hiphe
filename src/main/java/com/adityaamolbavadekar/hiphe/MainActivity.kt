@@ -91,13 +91,19 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.observe
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
+import com.adityaamolbavadekar.hiphe.interaction.HipheErrorLog
+import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
 import com.adityaamolbavadekar.hiphe.interaction.notifyNetworkMode
+import com.adityaamolbavadekar.hiphe.network.ConnectionLiveData
+import com.adityaamolbavadekar.hiphe.services.UploaderService
+import com.adityaamolbavadekar.hiphe.utils.NetworkConnection
 import com.adityaamolbavadekar.hiphe.utils.constants
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -124,6 +130,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var networkStateCardView: CardView
     private lateinit var networkStateTextView: TextView
+    private lateinit var connectionLiveData: ConnectionLiveData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -151,13 +158,23 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+        connectionLiveData = ConnectionLiveData(this)
         auth = Firebase.auth
         startService(Intent(this, UploaderService::class.java))
 
         networkStateCardView = findViewById(R.id.offlineNotifierCardMain)
         networkStateTextView = findViewById(R.id.offlineNotifierCardTextViewMain)
         val networkConnection = NetworkConnection(this)
-        networkConnection.observe(this, { isConnectedToNetwork ->
+//        networkConnection.observe(this, { isConnectedToNetwork ->
+//            notifyNetworkMode(
+//                isConnectedToNetwork,
+//                this,
+//                networkStateCardView,
+//                networkStateTextView
+//            )
+//        })
+
+        connectionLiveData.observe(this, androidx.lifecycle.Observer { isConnectedToNetwork ->
             notifyNetworkMode(
                 isConnectedToNetwork,
                 this,

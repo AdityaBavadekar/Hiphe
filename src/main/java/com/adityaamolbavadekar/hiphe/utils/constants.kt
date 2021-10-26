@@ -74,6 +74,9 @@ class constants {
         const val networkStateOnline = "ONLINE"
         const val networkStateOffline = "OFFLINE"
         const val isUserUnexplored = "IS_VISITOR"
+        const val TYPE_WIFI = 1
+        const val TYPE_MOBILE = 2
+        const val TYPE_NOT_CONNECTED = 0
 
         //ACTIVITY_TAGS
         const val TAG_MainActivity = "MainActivity"

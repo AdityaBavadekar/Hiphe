@@ -231,8 +231,19 @@
         </receiver>
 
         <receiver
-            android:name=".NetworkConnection$NetworkReceiver"
+            android:name=".utils.NetworkConnection$NetworkReceiver"
             android:enabled="true" />
+
+        <receiver
+            android:name=".receivers.NetworkChangeReceiver"
+            android:label="NetworkChangeReceiver">
+            <intent-filter>
+                <action
+                    android:name="android.net.conn.CONNECTIVITY_CHANGE"
+                    tools:ignore="BatteryLife" />
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
 
         <receiver
             android:name=".interaction.NetworkStateReceiver"
@@ -240,7 +251,7 @@
             android:exported="false" />
 
         <service
-            android:name=".UploaderService"
+            android:name=".services.UploaderService"
             android:enabled="true"
             android:exported="false" />
 

@@ -14,8 +14,7 @@
  *    limitations under the License.
  *
  ******************************************************************************/
-
-package com.adityaamolbavadekar.hiphe
+package com.adityaamolbavadekar.hiphe.services
 
 import android.app.ActivityManager
 import android.app.DownloadManager
@@ -25,6 +24,9 @@ import android.content.Intent
 import android.os.IBinder
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
+import com.adityaamolbavadekar.hiphe.HipheErrorLog
+import com.adityaamolbavadekar.hiphe.HipheInfoLog
+import com.adityaamolbavadekar.hiphe.createDynamicLink
 import com.adityaamolbavadekar.hiphe.interaction.showLongToast
 import com.adityaamolbavadekar.hiphe.interaction.userDeviceDataHashmap
 import com.adityaamolbavadekar.hiphe.utils.constants
