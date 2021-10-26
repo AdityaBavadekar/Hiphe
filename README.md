@@ -1,17 +1,18 @@
 ![Hiphe](https://img.shields.io/badge/Hiphe-application%202021-blue)
+![Licence](https://img.shields.io/hexpm/l/plug?color=blue&logo=hiphe&logoColor=blue&style=for-the-badge)
 
 # Hiphe
 ```com.adityaamolbavadekar.hiphe ```
 - Application Hiphe is made by Aditya Bavadekar
 - Hiphe is written using [Android Studio](https://developer.android.com/studio) in Kotlin [@JetBrains](https://github.com/JetBrains/kotlin)
----
 
-### __Download .Apk File__ : 
+
+## __Download .Apk File__ : 
 _To download APK [click this link](app/build/)._
 
----
 
-### Libraries Used:
+
+## Libraries Used:
 - Google Material
 - Firebase AppIndexing
 - Firebase Deeplink
@@ -28,12 +29,12 @@ _To download APK [click this link](app/build/)._
 - Chrome Custom Tabs
 - Safety-net
 - Android Youtube Player
----
+
 
 # Contributing
 Please be sure to review Hiphe's [contributing guidelines](.github) to learn how to help the project.
 
----
+
 
 # Licence
 ```
