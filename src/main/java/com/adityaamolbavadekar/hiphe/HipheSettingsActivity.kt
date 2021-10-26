@@ -30,10 +30,10 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
-import androidx.preference.SwitchPreference
 import com.adityaamolbavadekar.hiphe.ui.FaqsFragment
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
@@ -80,8 +80,8 @@ class HipheSettingsActivity : AppCompatActivity() {
     class SettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey)
-            findPreference<SwitchPreference>("theme")?.setOnPreferenceChangeListener { preference, newValue ->
-                when (newValue) {
+            findPreference<ListPreference>("theme")?.setOnPreferenceChangeListener { preference, newValue ->
+                when (newValue.toString()) {
                     "1" -> {
                         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                         HipheInfoLog(LauncherActivity.TAG, "Initiating MODE_NIGHT_YES")
