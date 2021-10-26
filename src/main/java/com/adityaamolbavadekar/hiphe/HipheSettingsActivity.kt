@@ -34,6 +34,8 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
+import com.adityaamolbavadekar.hiphe.interaction.getTheFinalLogs
 import com.adityaamolbavadekar.hiphe.ui.FaqsFragment
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth

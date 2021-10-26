@@ -54,7 +54,6 @@ package com.adityaamolbavadekar.hiphe.room
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.adityaamolbavadekar.hiphe.HipheLog
 import java.text.SimpleDateFormat
 import java.util.*
 

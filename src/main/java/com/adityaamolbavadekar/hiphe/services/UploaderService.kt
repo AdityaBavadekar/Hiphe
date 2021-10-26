@@ -17,19 +17,15 @@
 package com.adityaamolbavadekar.hiphe.services
 
 import android.app.ActivityManager
-import android.app.DownloadManager
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import androidx.core.content.edit
-import androidx.preference.PreferenceManager
-import com.adityaamolbavadekar.hiphe.HipheErrorLog
-import com.adityaamolbavadekar.hiphe.HipheInfoLog
 import com.adityaamolbavadekar.hiphe.createDynamicLink
+import com.adityaamolbavadekar.hiphe.interaction.HipheErrorLog
+import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
 import com.adityaamolbavadekar.hiphe.interaction.showLongToast
 import com.adityaamolbavadekar.hiphe.interaction.userDeviceDataHashmap
-import com.adityaamolbavadekar.hiphe.utils.constants
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -91,64 +87,68 @@ class UploaderService : Service() {
 
         val data = userDeviceDataHashmap(this)
         firestore.collection("usersDeviceData")
-                .document(userEmail)
-                .set(data)
-                .addOnSuccessListener {
-                    HipheInfoLog(TAG, "firestore.collection(\"usersDeviceData\").addOnSuccessListener")
+            .document(userEmail)
+            .set(data)
+            .addOnSuccessListener {
+                HipheInfoLog(TAG, "firestore.collection(\"usersDeviceData\").addOnSuccessListener")
 
-                    val userDataNameEmail = hashMapOf(
-                            "username" to userEmail,
-                            "emailAddress" to userEmail,
-                            "name" to userName,
-                            "createdOn" to creationTimestamp,
-                            "photoURL" to "$photoURL"
-                    )
+                val userDataNameEmail = hashMapOf(
+                    "username" to userEmail,
+                    "emailAddress" to userEmail,
+                    "name" to userName,
+                    "createdOn" to creationTimestamp,
+                    "photoURL" to "$photoURL"
+                )
 
-                    firestore.collection("users")
+                firestore.collection("users")
+                    .document(userEmail)
+                    .set(userDataNameEmail)
+                    .addOnSuccessListener {
+                        HipheInfoLog(TAG, "firestore.collection(\"users\").addOnSuccessListener")
+
+                        val deeplink = createDynamicLink(userEmail)
+                        val dpData = hashMapOf(
+                            "USER" to userEmail,
+                            "USER_DEEPLINK" to "$deeplink"
+                        )
+                        firestore.collection("deepLinks")
                             .document(userEmail)
-                            .set(userDataNameEmail)
+                            .set(dpData)
                             .addOnSuccessListener {
-                                HipheInfoLog(TAG, "firestore.collection(\"users\").addOnSuccessListener")
-
-                                val deeplink = createDynamicLink(userEmail)
-                                val dpData = hashMapOf(
-                                        "USER" to userEmail,
-                                        "USER_DEEPLINK" to "$deeplink"
+                                HipheInfoLog(
+                                    TAG,
+                                    "firestore.collection(\"deepLinks\").addOnSuccessListener"
                                 )
-                                firestore.collection("deepLinks")
-                                        .document(userEmail)
-                                        .set(dpData)
-                                        .addOnSuccessListener {
-                                            HipheInfoLog(
-                                                    TAG,
-                                                    "firestore.collection(\"deepLinks\").addOnSuccessListener"
-                                            )
 
 
 //                                acmngr2.
-                                            try {
-                                                val acmngr =
-                                                        this.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+                                try {
+                                    val acmngr =
+                                        this.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
-                                                val listOfProcesses: List<ActivityManager.RunningAppProcessInfo>? =
-                                                        acmngr.runningAppProcesses
-                                                if (listOfProcesses != null) {
-                                                    for (process in listOfProcesses) {
-                                                        HipheInfoLog(TAG, "Process : $process")
-                                                        HipheInfoLog(TAG, "Process : $process")
-                                                    }
-                                                }
-                                            } catch (e: Exception) {
-                                                HipheErrorLog(TAG, "Error in using ActivityManager>>", e.toString())
-                                            }
-
+                                    val listOfProcesses: List<ActivityManager.RunningAppProcessInfo>? =
+                                        acmngr.runningAppProcesses
+                                    if (listOfProcesses != null) {
+                                        for (process in listOfProcesses) {
+                                            HipheInfoLog(TAG, "Process : $process")
+                                            HipheInfoLog(TAG, "Process : $process")
                                         }
+                                    }
+                                } catch (e: Exception) {
+                                    HipheErrorLog(
+                                        TAG,
+                                        "Error in using ActivityManager>>",
+                                        e.toString()
+                                    )
+                                }
 
                             }
-                }
-                .addOnFailureListener {
-                    this.showLongToast("Error : $it")
-                }
+
+                    }
+            }
+            .addOnFailureListener {
+                this.showLongToast("Error : $it")
+            }
 
         return START_STICKY
 

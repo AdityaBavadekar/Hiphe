@@ -59,6 +59,9 @@ import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
+import com.adityaamolbavadekar.hiphe.interaction.HipheDebugLog
+import com.adityaamolbavadekar.hiphe.interaction.HipheErrorLog
+import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
 import com.adityaamolbavadekar.hiphe.interaction.NetworkStateReceiver
 import com.adityaamolbavadekar.hiphe.services.InternetStateCheckerService
 import com.adityaamolbavadekar.hiphe.utils.constants
