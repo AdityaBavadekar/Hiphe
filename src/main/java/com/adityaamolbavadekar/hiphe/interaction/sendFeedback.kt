@@ -15,40 +15,6 @@
  *
  ******************************************************************************/
 
-/*******************************************************************************
- * Copyright (c) 2021. Aditya Bavadekar
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- *
- ******************************************************************************/
-
-/*******************************************************************************
- * Copyright (c) 2021. Aditya Bavadekar
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- *
- ******************************************************************************/
-
 package com.adityaamolbavadekar.hiphe.interaction
 
 import android.app.AlarmManager
@@ -56,11 +22,13 @@ import android.app.AlertDialog
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.content.IntentSender
-import android.os.Bundle
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.adityaamolbavadekar.hiphe.*
+import com.adityaamolbavadekar.hiphe.utils.constants
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import java.io.File
 import java.nio.charset.Charset
 import java.text.SimpleDateFormat
@@ -87,15 +55,15 @@ fun sendFeedback(context: Context, thread: Thread, throwable: Throwable) {
             "\n---------------------END Throwable stackTraceToString \n" +
             "\n\n *Occurrence : ${
                 SimpleDateFormat(
-                        "EEE, dd mmm yyyy, HH:mm aaa Z",
-                        Locale.ENGLISH
+                    "EEE, dd mmm yyyy, HH:mm aaa Z",
+                    Locale.ENGLISH
                 ).format(Date())
             }\n\n" +
             "\n\n\n ######## END Crash Real Data\n"
 
     val fileName =
-            "HipheCrashReport_" + SimpleDateFormat("dd_yyyy_HH_mm", Locale.ENGLISH).format(Date())
-                    .toString() + ".txt"
+        "HipheCrashReport_" + SimpleDateFormat("dd_yyyy_HH_mm", Locale.ENGLISH).format(Date())
+            .toString() + ".txt"
 
     val value = "CRASH REPORT\n\n" + mainData + endData + "CRASH REPORT\n"
     val file = File(context.filesDir, fileName)
@@ -107,12 +75,20 @@ fun sendFeedback(context: Context, thread: Thread, throwable: Throwable) {
     prefs.edit {
         putBoolean("CRASHED_PREVIOUSLY", true)
     }
+    context.fileList()
     context.showLongToast("Crash File saved to " + file.toURI().toString() + " ")
     context.showLongToastWithGravity("The application crashed due to an unknown error. Please send this report to developers.")
 
-
-    if (prefs.getBoolean("enable_crash_data_sending", true)) {
-        createAchooser(context, value)
+    val user = Firebase.auth.currentUser
+    if (user != null) {
+        if (user.email == constants.DEVELOPER_EMAIL_ADDRESS) createAchooser(context, value)
+        else {
+            if (prefs.getBoolean("disable_crash_data_sending", true)) {
+                sendCrashData(context, value, fileName, user.email)
+            } else {
+                restartApplication(context)
+            }
+        }
     } else {
         restartApplication(context)
     }
@@ -120,14 +96,76 @@ fun sendFeedback(context: Context, thread: Thread, throwable: Throwable) {
 
 }
 
+fun sendCrashData(context: Context, value: String, fileName: String, email: String?) {
+    val TAG = "sendFeedback\$sendCrashData"
+    HipheWarningLog(TAG, "Sending crash data to Firestore and restarting application!!!")
+    HipheWarningLog(TAG, "Sending crash data to Firestore and restarting application!!!")
+    HipheWarningLog(TAG, "Sending crash data to Firestore and restarting application!!!")
+    HipheWarningLog(TAG, "Sending crash data to Firestore and restarting application!!!")
+    HipheWarningLog(TAG, "Sending crash data to Firestore and restarting application!!!")
+    HipheWarningLog(TAG, "Sending crash data to Firestore and restarting application!!!")
+    val dataToSend = hashMapOf(
+        "USER_EMAIL_ID" to "$email",
+        "CRASH_MAIN_DATA" to "$value",
+        "CRASH_PATH_TO_SAVED_DATA" to "${context.filesDir.path}",
+        "CRASH_FILES_IN_PATH_PARENT" to "${context.fileList()}",
+        "CRASH_HIPHE_LOGS" to "${getTheFinalLogs()}",
+        "LOCALE_COUNTRY" to "${Locale.getDefault().country}",
+        "LOCALE_DISPLAY_COUNTRY" to "${Locale.getDefault().displayCountry}",
+        "LOCALE_IS03_DISPLAY_COUNTRY" to "${Locale.getDefault().isO3Country}",
+        "LOCALE_ISO3_DISPLAY_LANGUAGE" to "${Locale.getDefault().isO3Language}"
+    )
+
+    val firestore = Firebase.firestore
+    firestore.collection("HIPHE_REMOTE_CRASHES")
+        .document("$fileName")
+        .set(dataToSend)
+        .addOnSuccessListener {
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val intent = Intent(context, LauncherActivity::class.java)
+            intent.putExtra("LOGS", HipheLogger.toString())
+            val pendingIntent =
+                PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_ONE_SHOT)
+            alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, pendingIntent)
+            exitProcess(404)
+        }
+        .addOnFailureListener {
+            exitProcess(404)
+        }
+
+}
+
 fun restartApplication(context: Context) {
     val TAG = "sendFeedback\$restartApplication"
-    HipheWarningLog(TAG, "Triggering SystemExit(404) due to disabled share logging!!!")
-    HipheWarningLog(TAG, "Triggering SystemExit(404) due to disabled share logging!!!")
-    HipheWarningLog(TAG, "Triggering SystemExit(404) due to disabled share logging!!!")
-    HipheWarningLog(TAG, "Triggering SystemExit(404) due to disabled share logging!!!")
-    HipheWarningLog(TAG, "Triggering SystemExit(404) due to disabled share logging!!!")
-    HipheWarningLog(TAG, "Triggering SystemExit(404) due to disabled share logging!!!")
+    HipheWarningLog(
+        TAG,
+        "Triggering Crash Upload and then SystemExit(404) due to disabled share crash data in settings!!!"
+    )
+    HipheWarningLog(
+        TAG,
+        "Triggering Crash Upload and then SystemExit(404) due to disabled share crash data in settings!!!"
+    )
+    HipheWarningLog(
+        TAG,
+        "Triggering Crash Upload and then SystemExit(404) due to disabled share crash data in settings!!!"
+    )
+    HipheWarningLog(
+        TAG,
+        "Triggering Crash Upload and then SystemExit(404) due to disabled share crash data in settings!!!"
+    )
+    HipheWarningLog(
+        TAG,
+        "Triggering Crash Upload and then SystemExit(404) due to disabled share crash data in settings!!!"
+    )
+    HipheWarningLog(
+        TAG,
+        "Triggering Crash Upload and then SystemExit(404) due to disabled share crash data in settings!!!"
+    )
+    HipheWarningLog(
+        TAG,
+        "Triggering Crash Upload and then SystemExit(404) due to disabled share crash data in settings!!!"
+    )
+
     val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     val intent = Intent(context, LauncherActivity::class.java)
     intent.putExtra("LOGS", HipheLogger.toString())
@@ -187,7 +225,7 @@ fun createAchooser(context: Context, value: String) {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         intent.putExtra("LOGS", HipheLogger.toString())
         val pendingIntent =
-                PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_ONE_SHOT)
+            PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_ONE_SHOT)
         alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 7000, pendingIntent)
         exitProcess(404)
     }.start()
@@ -221,7 +259,7 @@ fun createAchooser2(context: Context, value: String) {
         intent2.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         intent2.putExtra("LOGS", HipheLogger.toString())
         val pendingIntent =
-                PendingIntent.getActivity(context, 100, intent2, PendingIntent.FLAG_ONE_SHOT)
+            PendingIntent.getActivity(context, 100, intent2, PendingIntent.FLAG_ONE_SHOT)
         alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 7000, pendingIntent)
         exitProcess(404)
     }.start()

@@ -84,7 +84,7 @@
     <string name="more_header">More</string>
     <string name="theme_header">Theme</string>
     <string name="faqs_header">FAQs</string>
-    <string name="crash_rprting_header">Enable Sending Crash Report Data</string>
+    <string name="crash_rprting_header">Disable sending Crash Reports &amp; Data</string>
     <string name="send_crash_rprting_header">Send Logs and data</string>
     <string name="crash_and_data_header">Crashes and data</string>
     <string name="browse_header">Browse</string>
@@ -109,7 +109,7 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
     <string name="default_version_detail_text">No information available</string>
     <string name="remember_logout">Remember and Logout</string>
-    <string name="crash_report_summary">Primarily Crash reports help us diagnose problems and improve. Crash reports include data like the Model of your device, android version etc</string>
+    <string name="crash_report_summary">This Application by defaults send us crash data if any but you can disable it here. Primarily Crash reports help us diagnose problems and improve.</string>
     <string name="_0ops_looks_like_you_are_offline_n_nno_worries_docs_downloaded_for_offline_use_will_always_be_there_even_in_offline_mode"><b>0ops! looks like you are offline</b>\n\nNo worries docs downloaded for offline use will always be there even in offline mode.</string>
     <string name="dashboard">Dashboard</string>
     <string name="dynamic_link_uri_prefix">https://hiphe.page.link</string>
@@ -122,5 +122,9 @@
     <string name="user_id_formatted">USER ID : %1$s</string>
     <string name="user_name_formatted">USER NAME : %1$s</string>
     <string name="created_on_formatted">CREATED ON : %1$s</string>
+    <string name="send_logs_and_data_summary_click_here_to_send">You can share these directly to the developer team : teamhiphe@gmail.com. Click here to get logs and data</string>
+    <string name="ok_got_it">OK, GOT IT</string>
+    <string name="visitor_welcome_to_hiphe">Welcome to Hiphe</string>
+    <string name="no_thanks">NO, THANKS</string>
 
 </resources>

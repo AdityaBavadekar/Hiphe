@@ -77,8 +77,8 @@
         app:iconSpaceReserved="false"
         app:title="@string/browse_header">
         <Preference
-            app:iconSpaceReserved="false"
             android:key="faqs"
+            app:iconSpaceReserved="false"
             app:summary="Find answers to commonly asked Hiphe questions"
             app:title="@string/faqs_header" />
     </PreferenceCategory>
@@ -87,16 +87,16 @@
         app:iconSpaceReserved="false"
         app:title="@string/crash_and_data_header">
         <SwitchPreference
-            android:key="enable_crash_data_sending"
+            android:defaultValue="false"
+            android:key="disable_crash_data_sending"
             app:iconSpaceReserved="false"
             app:summary="@string/crash_report_summary"
             app:title="@string/crash_rprting_header" />
         <Preference
             android:key="send_logs"
             app:allowDividerAbove="true"
-            app:defaultValue="true"
             app:iconSpaceReserved="false"
-            app:summary="You can share these directly to the developer team : teamhiphe@gmail.com"
+            app:summary="@string/send_logs_and_data_summary_click_here_to_send"
             app:title="@string/send_crash_rprting_header" />
     </PreferenceCategory>
 

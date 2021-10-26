@@ -62,6 +62,7 @@ class constants {
         const val applicationVersioCode = "2.0"
         const val applicationVersionName = "2.231.56"
         const val DEVELOPER_NAME = "Aditya Bavadekar"
+        const val DEVELOPER_EMAIL_ADDRESS = "adityarbavadekar@gmail.com"
         const val BOOL_TRUE = true
         const val BOOL_FALSE = false
         const val checkIsLoggedInPrefKey = "IS_LOGGED_IN"

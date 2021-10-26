@@ -159,16 +159,20 @@ class MainActivity : AppCompatActivity() {
         val networkConnection = NetworkConnection(this)
         networkConnection.observe(this, { isConnectedToNetwork ->
             notifyNetworkMode(
-                    isConnectedToNetwork,
-                    this,
-                    networkStateCardView,
-                    networkStateTextView
+                isConnectedToNetwork,
+                this,
+                networkStateCardView,
+                networkStateTextView
             )
         })
+
+        val isVisitor = intent.getBooleanExtra(constants.isUserUnexplored, false)
+
+
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+                .setAction("Action", null).show()
             selectImageFromAlbum()
         }
 
@@ -177,9 +181,9 @@ class MainActivity : AppCompatActivity() {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .build()
+            .requestEmail()
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .build()
         // Build a GoogleSignInClient with the options specified by gso.
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
@@ -189,19 +193,44 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
-                setOf(
-                        R.id.nav_home,
-                        R.id.nav_gallery,
-                        R.id.nav_slideshow,
-                        R.id.nav_account,
-                        R.id.nav_about,
-                        R.id.nav_settings,
-                        R.id.nav_dashboard
+            setOf(
+                R.id.nav_home,
+                R.id.nav_gallery,
+                R.id.nav_slideshow,
+                R.id.nav_account,
+                R.id.nav_about,
+                R.id.nav_settings,
+                R.id.nav_dashboard
 
-                ), drawerLayout
+            ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        if (isVisitor) {
+            HipheInfoLog(TAG, "User is a newcomer, asking him if he wants to be guided")
+            val b = MaterialAlertDialogBuilder(this)
+            b.setIcon(R.drawable.ic_twotone_important_devices_24)
+            b.setTitle(getString(R.string.visitor_welcome_to_hiphe))
+            b.setMessage("Welcome\nIt is our pleasure to see you, here are some quick thing you can do :\n*View about Hiphe\n*Explore list of plants\n*Do your customisations in settings\n\nOr do you want to take a quik tour to our app? If yes, click \"OK\",else click \"NO, THANKS\"")
+            b.setPositiveButton(getString(R.string.ok)) { dialogInterface, _ ->
+                HipheInfoLog(TAG, "User AGREED to take a tour")
+                dialogInterface.dismiss()
+                takeHipheTour()
+                //TODO("GUIDE USER TO USE APPLICATION")
+            }
+            b.setNegativeButton(getString(R.string.no_thanks)) { dialogInterface, _ ->
+                HipheInfoLog(TAG, "User DISAGREED to take a tour")
+                dialogInterface.dismiss()
+            }
+            b.setCancelable(false)
+            b.create()
+            b.show()
+        }
+    }
+
+    private fun takeHipheTour() {
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -232,8 +261,8 @@ class MainActivity : AppCompatActivity() {
                         putBoolean(constants.checkIsLoggedInPrefKey, false)
                     }
                     HipheInfoLog(
-                            TAG,
-                            "User is logging out without remembrance, googleSignInClient.revokeAccess() auth.signOut()"
+                        TAG,
+                        "User is logging out without remembrance, googleSignInClient.revokeAccess() auth.signOut()"
                     )
                     startActivity(Intent(this, LauncherActivity::class.java))
                     ba.dismiss()
@@ -251,8 +280,8 @@ class MainActivity : AppCompatActivity() {
                         putBoolean(constants.checkIsLoggedInPrefKey, false)
                     }
                     HipheInfoLog(
-                            TAG,
-                            "User is logging out with remembrance, googleSignInClient.revokeAccess() auth.signOut()"
+                        TAG,
+                        "User is logging out with remembrance, googleSignInClient.revokeAccess() auth.signOut()"
                     )
                     startActivity(Intent(this, LauncherActivity::class.java))
                     ba.dismiss()
@@ -277,12 +306,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun getAccounts(): String? {
         return if (ContextCompat.checkSelfPermission(
-                        this,
-                        android.Manifest.permission.GET_ACCOUNTS
-                ) == PackageManager.PERMISSION_GRANTED
+                this,
+                android.Manifest.permission.GET_ACCOUNTS
+            ) == PackageManager.PERMISSION_GRANTED
         ) {
             val accountManager =
-                    this.getSystemService(Context.ACCOUNT_SERVICE) as AccountManager
+                this.getSystemService(Context.ACCOUNT_SERVICE) as AccountManager
             val accounts = accountManager.accounts
             var emailID = ""
             for (account in accounts) {
@@ -298,31 +327,31 @@ class MainActivity : AppCompatActivity() {
         val image = InputImage.fromFilePath(this, imageUri)
         val labeler = ImageLabeling.getClient(ImageLabelerOptions.DEFAULT_OPTIONS)
         labeler.process(image)
-                .addOnSuccessListener { labels ->
-                    var resultingText = ""
-                    for (label in labels) {
-                        val text = label.text
-                        val confidence = label.confidence
-                        val index = label.index
-                        resultingText += "\n****\n Guess : $text \n Confidence : $confidence\n Index : $index\n"
-                    }
-                    showAlertDialogImageLabelingResult(
-                            resultingText,
-                            imageUri,
-                            labels[0].text,
-                            labels[0].confidence,
-                    )
+            .addOnSuccessListener { labels ->
+                var resultingText = ""
+                for (label in labels) {
+                    val text = label.text
+                    val confidence = label.confidence
+                    val index = label.index
+                    resultingText += "\n****\n Guess : $text \n Confidence : $confidence\n Index : $index\n"
                 }
-                .addOnFailureListener {
+                showAlertDialogImageLabelingResult(
+                    resultingText,
+                    imageUri,
+                    labels[0].text,
+                    labels[0].confidence,
+                )
+            }
+            .addOnFailureListener {
 
-                }
+            }
     }
 
     private fun showAlertDialogImageLabelingResult(
-            resultingText: String,
-            imageUri: Uri,
-            firstGuess: String,
-            firstGuesssConfidence: Float
+        resultingText: String,
+        imageUri: Uri,
+        firstGuess: String,
+        firstGuesssConfidence: Float
     ) {
         val d = Dialog(this)
         d.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -343,11 +372,11 @@ class MainActivity : AppCompatActivity() {
 
 
         val speak =
-                "$firstGuess is first guess with confidence level of ${firstGuesssConfidence}percent FROM ARTIFICIAL INTELLIGENCE "
+            "$firstGuess is first guess with confidence level of ${firstGuesssConfidence}percent FROM ARTIFICIAL INTELLIGENCE "
         val accountInfo = getAccounts()
         if (accountInfo != null) {
             val acSpeak =
-                    "hey $accountInfo $firstGuess is first guess with confidence level of ${firstGuesssConfidence}percent FROM ARTIFICIAL INTELLIGENCE "
+                "hey $accountInfo $firstGuess is first guess with confidence level of ${firstGuesssConfidence}percent FROM ARTIFICIAL INTELLIGENCE "
             txt2Sp = TextToSpeech(this) { status ->
                 if (status == TextToSpeech.SUCCESS) {
                     TEXT_TO_SPEECH_INITIALISED = true
@@ -369,11 +398,11 @@ class MainActivity : AppCompatActivity() {
             val txt2SpResult = txt2Sp!!
             txt2SpResult.language = Locale.US
             txt2SpResult.speak(
-                    textToSpeak,
-                    TextToSpeech.QUEUE_FLUSH,
-                    null,
-                    Random(100).toString() + java.util.Random().toString() + System.currentTimeMillis()
-                            .toString()
+                textToSpeak,
+                TextToSpeech.QUEUE_FLUSH,
+                null,
+                Random(100).toString() + java.util.Random().toString() + System.currentTimeMillis()
+                    .toString()
             )
             if (!txt2SpResult.isSpeaking) txt2Sp!!.shutdown()
         }
@@ -386,18 +415,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var imgLabelingLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                if (it.resultCode == Activity.RESULT_OK) {
-                    val data = it.data
-                    if (data?.data != null) {
-                        val dataUri = data.data
-                        if (dataUri != null) {
-                            imgLabeling(dataUri)
-                            return@registerForActivityResult
-                        }
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (it.resultCode == Activity.RESULT_OK) {
+                val data = it.data
+                if (data?.data != null) {
+                    val dataUri = data.data
+                    if (dataUri != null) {
+                        imgLabeling(dataUri)
+                        return@registerForActivityResult
                     }
                 }
             }
+        }
 
     override fun onStart() {
         super.onStart()
