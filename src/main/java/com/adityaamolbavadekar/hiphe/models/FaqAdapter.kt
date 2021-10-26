@@ -54,10 +54,10 @@ class FaqAdapter(private val itemIndexList: MutableList<FAQ>) :
         val currentItem = itemIndexList[position]
         holder.apply {
             titleTextView.text = currentItem.titleText
-            subTitleTextView.text = currentItem.titleText
+            subTitleTextView.text = currentItem.subTitleText
             var text = "TAGS : "
             currentItem.tags.forEach {
-                text += it.name
+                text += it.name+", "
             }
             tagsTextView.text = text
         }
