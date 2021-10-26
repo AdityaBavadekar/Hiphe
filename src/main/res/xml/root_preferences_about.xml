@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021. Aditya Bavadekar
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  ~
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:iconSpaceReserved="false">
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/about_hiphe">
+
+        <Preference
+            app:iconSpaceReserved="false"
+            app:summary="Aditya Bavadekar"
+            app:title="Developer" />
+        <Preference
+            app:iconSpaceReserved="false"
+            app:summary="2.0"
+            app:title="Version" />
+        <Preference
+            app:iconSpaceReserved="false"
+            app:summary="v2.231.56"
+            app:title="Build" />
+        <Preference
+            app:iconSpaceReserved="false"
+            app:summary="Read Hiphe's User Data Privacy Policy"
+            app:title="Privacy Policy" />
+        <Preference
+            app:iconSpaceReserved="false"
+            app:summary="Read Hiphe's Terms of Service"
+            app:title="Hiphe Terms of Service" />
+
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Other"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            app:icon="@drawable/ic_baseline_update_24"
+            app:iconSpaceReserved="false"
+            app:title="Check for updates" />
+        <Preference
+            app:allowDividerAbove="true"
+            app:icon="@drawable/ic_baseline_help_outline_24"
+            app:iconSpaceReserved="false"
+            app:summary="Find answers to your Hiphe questions here"
+            app:title="Help" />
+        <Preference
+            app:allowDividerAbove="true"
+            app:icon="@drawable/ic_outline_feedback_24"
+            app:iconSpaceReserved="false"
+            app:summary="Help us make Hiphe a better place for everyone"
+            app:title="Send feedback" />
+        <Preference
+            app:allowDividerAbove="true"
+            app:icon="@drawable/ic_baseline_outlined_flag_24"
+            app:iconSpaceReserved="false"
+            app:persistent="true"
+            app:title="Report content or user" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
