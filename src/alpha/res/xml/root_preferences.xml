@@ -1,0 +1,119 @@
+<!--
+  ~ Copyright (c) 2021. Aditya Bavadekar
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  ~
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory
+        android:key="yh"
+        app:iconSpaceReserved="false"
+        app:isPreferenceVisible="false"
+        app:title="@string/you_h_header">
+
+        <Preference
+            android:key="younhiphe"
+            app:iconSpaceReserved="false"
+            app:layout="@layout/fragment_you_and_hiphe" />
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/notifications_header">
+
+        <Preference
+            android:key="ntf"
+            app:iconSpaceReserved="false"
+            app:key="@string/notifications_header"
+            app:title="@string/notifications_pref_title"
+            app:useSimpleSummaryProvider="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:summary="Theme related changes will take effect after app relaunch"
+        app:title="@string/theme_header">
+        <!--
+        <SwitchPreference
+            app:allowDividerBelow="true"
+            app:iconSpaceReserved="false"
+            app:key="dark_theme"
+            app:summary="Dark themes are made for moments when surroundings have a low light or it is night time."
+            app:title="Dark Theme" />-->
+        <ListPreference
+            app:defaultValue="3"
+            app:entries="@array/theme_entries"
+            app:entryValues="@array/theme_values"
+            app:iconSpaceReserved="false"
+            app:key="theme"
+            app:title="@string/theme_pref_title"
+            app:useSimpleSummaryProvider="true" />
+        <!--
+                <DropDownPreference
+                    app:defaultValue="3"
+                    app:entries="@array/theme_entries"
+                    app:entryValues="@array/theme_values"
+                    app:iconSpaceReserved="false"
+                    app:title="@string/theme_pref_title"
+                    app:useSimpleSummaryProvider="true" />-->
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/browse_header">
+        <Preference
+            android:key="faqs"
+            app:iconSpaceReserved="false"
+            app:summary="Find answers to commonly asked Hiphe questions"
+            app:title="@string/faqs_header" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/crash_and_data_header">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="disable_crash_data_sending"
+            app:iconSpaceReserved="false"
+            app:summary="@string/crash_report_summary"
+            app:title="@string/crash_rprting_header" />
+        <Preference
+            android:key="send_logs"
+            app:allowDividerAbove="true"
+            app:iconSpaceReserved="false"
+            app:summary="@string/send_logs_and_data_summary_click_here_to_send"
+            app:title="@string/send_crash_rprting_header" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/more_header">
+        <Preference
+            app:allowDividerBelow="true"
+            app:iconSpaceReserved="false"
+            app:key="about"
+            app:title="@string/about_hiphe" />
+        <Preference
+            android:enabled="false"
+            app:enableCopying="false"
+            app:iconSpaceReserved="false"
+            app:shouldDisableView="true"
+            app:title="Hiphe, an Aditya Bavadekar App" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
