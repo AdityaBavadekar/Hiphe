@@ -41,9 +41,6 @@ class UserDeviceData {
         val versionName = pckMangr.versionName
         val requestedPermissions = pckMangr.requestedPermissions
         val activities = pckMangr.activities
-//    val listOfAppsRunning = getRunningApps(context)
-//    val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-//    val networkOperatorName = tm.networkOperatorName
         val installLoacation = pckMangr.installLocation
         val permissionsGranted = PackageInfo().permissions
         val versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

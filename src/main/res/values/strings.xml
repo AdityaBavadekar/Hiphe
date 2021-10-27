@@ -128,5 +128,6 @@
     <string name="no_thanks">NO, THANKS</string>
     <string name="ok_update_hiphe">Ok Update Hiphe</string>
     <string name="gitHub_developer_name">AdityaBavadekar</string>
+    <string name="no_update_required">No Update Required</string>
 
 </resources>

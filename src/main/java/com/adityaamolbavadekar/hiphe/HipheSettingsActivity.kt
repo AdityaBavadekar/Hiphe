@@ -191,15 +191,30 @@ class HipheSettingsActivity : AppCompatActivity() {
 
         override fun onPreferenceTreeClick(preference: Preference?): Boolean {
             when (preference?.key) {
-                "hiphe_check_update"->{
+                "hiphe_check_update" -> {
+                    val pckMangr = requireActivity().packageManager.getPackageInfo(
+                        requireActivity().packageName,
+                        0
+                    )
+                    val versionName = pckMangr.versionName
                     val appUpdater = AppUpdater(requireActivity())
                         .setButtonDismiss(getString(R.string.cancel))
                         .setButtonUpdate(getString(R.string.ok_update_hiphe))
                         .setDisplay(Display.DIALOG)
                         .setUpdateFrom(UpdateFrom.GITHUB)
-                        .setGitHubUserAndRepo(getString(R.string.gitHub_developer_name),getString(R.string.app_name))
+                        .setGitHubUserAndRepo(
+                            getString(R.string.gitHub_developer_name),
+                            getString(R.string.app_name)
+                        )
                         .setUpdateXML(constants.UPDATE_FROM_XML_URL)
+                        .setIcon(R.drawable.ic_baseline_update_24)
+                        .setTitleOnUpdateNotAvailable(getString(R.string.no_update_required))
+                        .setCancelable(false)
+                        .setContentOnUpdateNotAvailable("You are on latest version of Hiphe i.e. $versionName . \nTune in receive update of Hiphe.")
                     appUpdater.start()
+                    appUpdater.setButtonDismissClickListener { dialog, which ->
+                        appUpdater.stop()
+                    }
                     return true
                 }
                 else -> return false
@@ -249,6 +264,7 @@ class HipheSettingsActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
+
 
     companion object {
         const val TAG = "HipheSettingsActivity"
