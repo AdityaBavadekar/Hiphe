@@ -157,7 +157,7 @@ class LauncherActivity : AppCompatActivity() {
     companion object {
         const val TAG = "LauncherActivity"
         const val BASE_URL =
-            "https://raw.githubusercontent.com/AdityaBavadekar/Hiphe/main/changelog"
+            "https://raw.githubusercontent.com/AdityaBavadekar/Hiphe/main/changelog/"
     }
 
 }
