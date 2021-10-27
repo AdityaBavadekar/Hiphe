@@ -1,6 +1,5 @@
-Privacy Policy of Hiphe
+# Privacy Policy of Hiphe
 
------------------------------------------------------
 At "Hiphe", we are always comited to ensure complete "Privacy" and "Security" to the users. This Privacy Policy document contains types of information that is collected and recorded by Hiphe and how we use it.
 If you have additional questions or require more information about our "Privacy Policy", do not hesitate to contact us.
 
@@ -10,9 +9,7 @@ Consent:
 By using our application, you hereby consent to our Privacy Policy and agree to its terms.
 
 -----------------------------------------------------
-<p>By using our website, you hereby consent to our Privacy Policy and agree to its terms. This Privacy Policy has been generated with the <a href="https://www.privacypolicygenerator.info/"><span class="s1">Privacy Policy Generator</span></a> which is available from <a href="https://www.privacypolicygenerator.info/"><span class="s1">https://www.privacypolicygenerator.info/</span></a><span class="Apple-converted-space">&</span></p>
-<p><br></p>
-<p><strong>Information we collect</strong></p>
+<p>By using our app, you hereby consent to our Privacy Policy and agree to its terms. <strong>Information we collect</strong></p>
 <p><br></p>
 <p>The personal information that you are asked to provide, and the reasons why you are asked to provide it, will be made clear to you at the point we ask you to provide your personal information.</p>
 <p><br></p>
