@@ -1,5 +1,5 @@
-![Hiphe](https://img.shields.io/badge/Hiphe-application%202021-blue) ![](https://img.shields.io/github/v/release/AdityaBavadekar/Hiphe?color=black&include_prereleases&label=Hiphe%20release%20version%20&style=for-the-badge)
- ![Licence](https://img.shields.io/hexpm/l/plug?color=blue&logo=hiphe&logoColor=blue&style=for-the-badge)
+ ![](https://img.shields.io/github/v/release/AdityaBavadekar/Hiphe?color=black&include_prereleases&label=Hiphe%20release%20version%20&style=for-the-badge)
+ ![Licence](https://img.shields.io/hexpm/l/plug?color=blue&logo=hiphe&logoColor=blue&style=for-the-badge) ![Hiphe](https://img.shields.io/badge/Hiphe-application%202021-blue)
 <!-- ![Latest Hiphe Version](https://img.shields.io/github/v/release/AdityaBavadekar/Hiphe?include_prereleases&style=for-the-badge) -->
 
 # Hiphe 
@@ -9,7 +9,7 @@
 
 
 ## __Download .Apk File__ : 
-_To download APK [click this link](tag/2.231.56)._
+_To download APK [click this link](https://github.com/AdityaBavadekar/Hiphe/releases/download/v2.231.56/Hiphe-v2.231.56.apk)._
 
 
 
@@ -33,7 +33,7 @@ _To download APK [click this link](tag/2.231.56)._
 
 
 # Contributing
-Please be sure to review Hiphe's [contributing guidelines](.github) to learn how to help the project.
+Please be sure to review Hiphe's [contributing guidelines](.github/) to learn how to help the project.
 
 
 
