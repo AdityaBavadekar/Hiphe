@@ -5,10 +5,6 @@ If you have additional questions or require more information about our "Privacy 
 
 This privacy policy applies only to our online activities and is valid for users of "Hiphe" with regards to the information that they shared and/or collect in&My Website. This policy is not applicable to any information collected offline other than this application.
 
-Consent:
-By using our application, you hereby consent to our Privacy Policy and agree to its terms.
-
------------------------------------------------------
 <p>By using our app, you hereby consent to our Privacy Policy and agree to its terms. <strong>Information we collect</strong></p>
 <p><br></p>
 <p>The personal information that you are asked to provide, and the reasons why you are asked to provide it, will be made clear to you at the point we ask you to provide your personal information.</p>
@@ -38,6 +34,7 @@ By using our application, you hereby consent to our Privacy Policy and agree to 
 <p><br></p>
 <p>Like any other website, My Website uses "cookies". These cookies are used to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.</p>
 <p><br></p>
+
 <p><strong>DoubleClick DART Cookie</strong></p>
 <p><br></p>
 <p>Google is one of a third-party vendor on our site. It also uses cookies, known as DART cookies, to serve ads to our site visitors based upon their visit to www.website.com and other sites on the internet. However, visitors may choose to decline the use of DART cookies by visiting the Google ad and content network Privacy Policy at the following URL – <a href="https://policies.google.com/technologies/ads"><span class="s1">https://policies.google.com/technologies/ads</span></a><span class="Apple-converted-space">&</span></p>
@@ -78,7 +75,7 @@ By using our application, you hereby consent to our Privacy Policy and agree to 
 <p>We would like to make sure you are fully aware of all of your data protection rights. Every user is entitled to the following:</p>
 <p><br></p>
 <ul>
-    <li>The right to access – You have the right to request copies of your personal data. We may charge you a small fee for this service.</li>
+    <li>The right to access – You have the right to request copies of your personal data. We will never charge you a fee for this service, its your personal data.</li>
     <li>The right to rectification – You have the right to request that we correct any information you believe is inaccurate. You also have the right to request that we complete the information you believe is incomplete.</li>
     <li>The right to erasure – You have the right to request that we erase your personal data, under certain conditions.</li>
     <li>The right to restrict processing – You have the right to request that we restrict the processing of your personal data, under certain conditions.</li>
@@ -97,3 +94,10 @@ By using our application, you hereby consent to our Privacy Policy and agree to 
 <p><strong>Questions</strong></p>
 <p><br></p>
 <p>If you have any questions about this Privacy Policy, please contact us.</p>
+
+
+Consent  :     _By using our application, you hereby consent to our Privacy Policy and agree to its terms._
+
+### _Kindly note: this policy is unstable and may keep changing everytime. Team Hiphe will always try to notify you about the changes._
+---
+
