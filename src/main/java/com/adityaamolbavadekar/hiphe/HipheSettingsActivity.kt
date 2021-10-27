@@ -17,7 +17,10 @@
 
 package com.adityaamolbavadekar.hiphe
 
+import android.content.ComponentName
 import android.content.Intent
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,6 +29,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsClient
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.browser.customtabs.CustomTabsServiceConnection
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -47,6 +54,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.settings_activity.*
 import java.io.File
+
 
 class HipheSettingsActivity : AppCompatActivity() {
 
@@ -215,6 +223,52 @@ class HipheSettingsActivity : AppCompatActivity() {
                     appUpdater.setButtonDismissClickListener { dialog, which ->
                         appUpdater.stop()
                     }
+                    return true
+                }
+                "hpp" -> {
+                    try {
+                        val client = CustomTabsClient.bindCustomTabsService(
+                            requireContext(),
+                            constants.packageName,
+                            object :
+                                CustomTabsServiceConnection() {
+                                override fun onServiceDisconnected(name: ComponentName?) {
+                                }
+
+                                override fun onCustomTabsServiceConnected(
+                                    name: ComponentName,
+                                    client: CustomTabsClient
+                                ) {
+                                    client.warmup(1000)
+                                }
+
+                            })
+                    } catch (e: Exception) {
+                    }
+                    val url =
+                        "https://github.com/AdityaBavadekar/Hiphe/blob/main/src/main/HiphePrivacyPolicy.md"
+                    val builder = CustomTabsIntent.Builder()
+                    val colorInt: Int = Color.parseColor("#FF0000") //red
+                    val defaultColors = CustomTabColorSchemeParams.Builder()
+                        .setToolbarColor(colorInt)
+                        .build()
+                    builder.setDefaultColorSchemeParams(defaultColors)
+                    val customTabsIntent = builder.build()
+                    customTabsIntent.launchUrl(requireActivity(), Uri.parse(url))
+                    return true
+                }
+                "hts" -> {
+                    val url =
+                        "https://github.com/AdityaBavadekar/Hiphe/blob/main/src/main/Terms%20%26%20Conditions.md"
+                    val builder = CustomTabsIntent.Builder()
+                    val colorInt: Int = Color.parseColor("#FF0000") //red
+                    val defaultColors = CustomTabColorSchemeParams.Builder()
+                        .setToolbarColor(colorInt)
+                        .build()
+
+                    builder.setDefaultColorSchemeParams(defaultColors)
+                    val customTabsIntent = builder.build()
+                    customTabsIntent.launchUrl(requireActivity(), Uri.parse(url))
                     return true
                 }
                 else -> return false

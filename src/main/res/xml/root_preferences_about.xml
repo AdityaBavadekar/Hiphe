@@ -26,21 +26,29 @@
         <Preference
             app:iconSpaceReserved="false"
             app:summary="Aditya Bavadekar"
+            app:shouldDisableView="true"
+            android:shouldDisableView="true"
             app:title="Developer" />
         <Preference
             app:iconSpaceReserved="false"
             app:summary="2.0"
+            app:shouldDisableView="true"
+            android:shouldDisableView="true"
             app:title="Version" />
         <Preference
             app:iconSpaceReserved="false"
             app:summary="v2.231.56"
+            app:shouldDisableView="true"
+            android:shouldDisableView="true"
             app:title="Build" />
         <Preference
             app:iconSpaceReserved="false"
-            app:summary="Read Hiphe's User Data Privacy Policy"
-            app:title="Privacy Policy" />
+            android:key="hpp"
+            app:summary="Read Hiphe's Privacy Policy"
+            app:title="Hiphe's Privacy Policy" />
         <Preference
             app:iconSpaceReserved="false"
+            android:key="hts"
             app:summary="Read Hiphe's Terms of Service"
             app:title="Hiphe Terms of Service" />
 
@@ -54,6 +62,7 @@
         <Preference
             app:icon="@drawable/ic_baseline_update_24"
             app:iconSpaceReserved="false"
+            android:key="hiphe_check_update"
             app:title="Check for updates" />
         <Preference
             app:allowDividerAbove="true"
