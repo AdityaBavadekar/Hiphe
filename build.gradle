@@ -25,23 +25,23 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-        getByName("debug") {
-            debuggable true
-        }
-        alpha {
-            minifyEnabled true
-            applicationIdSuffix ".alpha"
-            initWith(getByName("release"))
-        }
-        beta {
-            minifyEnabled true
-            applicationIdSuffix ".beta"
-            initWith(getByName("release"))
-
-        }
-        staging {
-            initWith(getByName("debug"))
-        }
+//        getByName("debug") {
+//            debuggable true
+//        }
+//        alpha {
+//            minifyEnabled true
+//            applicationIdSuffix ".alpha"
+//            initWith(getByName("release"))
+//        }
+//        beta {
+//            minifyEnabled true
+//            applicationIdSuffix ".beta"
+//            initWith(getByName("release"))
+//
+//        }
+//        staging {
+//            initWith(getByName("debug"))
+//        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -50,20 +50,20 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-    flavorDimensions 'version'
-    productFlavors {
-        community {
-            dimension 'version'
-            applicationIdSuffix '.community'
-            versionNameSuffix '-community'
-            proguardFiles
-        }
-        premium {
-            dimension 'version'
-            applicationIdSuffix '.premium'
-            versionNameSuffix '-premium'
-        }
-    }
+//    flavorDimensions 'version'
+//    productFlavors {
+//        community {
+//            dimension 'version'
+//            applicationIdSuffix '.community'
+//            versionNameSuffix '-community'
+//            proguardFiles
+//        }
+//        premium {
+//            dimension 'version'
+//            applicationIdSuffix '.premium'
+//            versionNameSuffix '-premium'
+//        }
+//    }
 
 
 }

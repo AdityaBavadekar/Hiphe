@@ -61,11 +61,24 @@
         android:id="@+id/nav_account"
         android:name="com.adityaamolbavadekar.hiphe.ui.account.AccountFragment"
         android:label="Account Info"
-        tools:layout="@layout/account_info_page_fragment" />
+        tools:layout="@layout/account_info_page_fragment">
+
+        <deepLink
+            android:id="@+id/deepLink"
+            android:autoVerify="true"
+            app:uri="https://hiphe.page.link/myaccount" />
+    </fragment>
     <fragment
         android:id="@+id/nav_about"
         android:name="com.adityaamolbavadekar.hiphe.ui.about.AboutFragment"
-        android:label="About Hiphe" />
+        android:label="About Hiphe">
+        <!--        <deepLink android:autoVerify="true" app:uri=""-->
+
+        <deepLink
+            android:id="@+id/deepLink"
+            android:autoVerify="true"
+            app:uri="https://hiphe.page.link/i" />
+    </fragment>
     <activity
         android:id="@+id/nav_settings"
         android:name="com.adityaamolbavadekar.hiphe.HipheSettingsActivity"

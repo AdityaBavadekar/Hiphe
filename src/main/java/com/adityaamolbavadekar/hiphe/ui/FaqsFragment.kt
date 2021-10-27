@@ -362,7 +362,7 @@ class FaqsFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_faqs, container, false)
         recyclerView = root.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        val adapter = FaqAdapter(sampleListFAQsClone)
+        val adapter = FaqAdapter(requireActivity(), sampleListFAQsClone)
         recyclerView.adapter = adapter
         try {
             searchView = root.findViewById(R.id.search_view)
