@@ -27,11 +27,46 @@
         android:layout_width="match_parent"
         android:layout_height="142dp">
 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/offlineNotifierCardMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:cardBackgroundColor="?colorPrimaryDark"
+            app:cardElevation="0dp"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:padding="2dp"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    tools:ignore="ContentDescription"
+                    tools:src="@drawable/ic_outline_link_off_24" />
+
+                <TextView
+                    android:id="@+id/offlineNotifierCardTextViewMain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="?android:textColorPrimary"
+                    android:textStyle="bold"
+                    tools:text="@string/title_offline_no_connection" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways|snap"
+            app:layout_scrollFlags="scroll|snap"
             app:title="Profile"
             app:toolbarId="@+id/toolbar">
 

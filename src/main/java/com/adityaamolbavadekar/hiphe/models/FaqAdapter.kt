@@ -17,14 +17,16 @@
 
 package com.adityaamolbavadekar.hiphe.models
 
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.adityaamolbavadekar.hiphe.R
 
-class FaqAdapter(private val itemIndexList: MutableList<FAQ>) :
+class FaqAdapter(private val activity: Activity, private val itemIndexList: MutableList<FAQ>) :
     RecyclerView.Adapter<FaqAdapter.ItemViewHolder>() {
 
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -57,10 +59,29 @@ class FaqAdapter(private val itemIndexList: MutableList<FAQ>) :
             subTitleTextView.text = currentItem.subTitleText
             var text = "TAGS : "
             currentItem.tags.forEach {
-                text += it.name+", "
+                text += it.name + ", "
             }
-            tagsTextView.text = text
+            val finalText = text.removeSuffix(", ")
+            tagsTextView.text = finalText
+
+            titleTextView.setOnClickListener {
+                defineFaqOnClickListener(currentItem.titleText, currentItem.subTitleText)
+            }
+
+            subTitleTextView.setOnClickListener {
+                defineFaqOnClickListener(currentItem.titleText, currentItem.subTitleText)
+            }
+            subTitleTextView.setOnClickListener {
+                defineFaqOnClickListener(currentItem.titleText, currentItem.subTitleText)
+            }
         }
+    }
+
+    private fun defineFaqOnClickListener(titleText: String, subTitleText: String) {
+        com.adityaamolbavadekar.hiphe.objects.FAQ.title = titleText
+        com.adityaamolbavadekar.hiphe.objects.FAQ.subtitle = subTitleText
+        Navigation.findNavController(activity, R.id.nav_host_fragment)
+            .navigate(R.id.action_settingsFragmentFaqs_to_faqInfoFragment)
     }
 
     override fun getItemCount(): Int {

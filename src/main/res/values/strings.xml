@@ -126,5 +126,7 @@
     <string name="ok_got_it">OK, GOT IT</string>
     <string name="visitor_welcome_to_hiphe">Welcome to Hiphe</string>
     <string name="no_thanks">NO, THANKS</string>
+    <string name="ok_update_hiphe">Ok Update Hiphe</string>
+    <string name="gitHub_developer_name">AdityaBavadekar</string>
 
 </resources>

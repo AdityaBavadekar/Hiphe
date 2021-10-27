@@ -56,10 +56,22 @@
     <fragment
         android:id="@+id/settingsFragmentFaqs"
         android:name="com.adityaamolbavadekar.hiphe.ui.FaqsFragment"
-        android:label="FaqsFragment"
+        android:label="Browse FAQs"
         tools:layout="@layout/fragment_faqs">
         <action
             android:id="@+id/action_faqsFragment_to_settingsFragmentMain"
             app:destination="@id/settingsFragmentMain" />
+        <action
+            android:id="@+id/action_settingsFragmentFaqs_to_faqInfoFragment"
+            app:destination="@id/faqInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/faqInfoFragment"
+        android:name="com.adityaamolbavadekar.hiphe.ui.FaqInfoFragment"
+        tools:layout="@layout/fragment_faq_info_layout"
+        android:label="FAQ" >
+        <action
+            android:id="@+id/action_faqInfoFragment_to_settingsFragmentFaqs"
+            app:destination="@id/settingsFragmentFaqs" />
     </fragment>
 </navigation>

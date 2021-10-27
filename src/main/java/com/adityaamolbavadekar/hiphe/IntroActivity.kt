@@ -23,18 +23,23 @@ import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.adityaamolbavadekar.hiphe.interaction.NetworkStateReceiver
 import com.adityaamolbavadekar.hiphe.interaction.NotifyNetworkInfo
 import com.adityaamolbavadekar.hiphe.network.ConnectionLiveData
 import com.adityaamolbavadekar.hiphe.ui.googlesign.GoogleSignInFragment
 import com.adityaamolbavadekar.hiphe.utils.ConfigureTheme
-import com.adityaamolbavadekar.hiphe.utils.NetworkConnection
 import com.adityaamolbavadekar.hiphe.utils.constants
+import kotlinx.android.synthetic.main.settings_activity.*
 
 class IntroActivity : AppCompatActivity() {
 
 
-    private val TAG = "IntroActivity"
+    companion object {
+        const val TAG = "IntroActivity"
+    }
+
     private lateinit var networkStateCardView: CardView
     private lateinit var networkStateTextView: TextView
     private lateinit var connectionLiveData: ConnectionLiveData
@@ -43,6 +48,12 @@ class IntroActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         ConfigureTheme().configureThemeOnCreate(this)
         setContentView(R.layout.activity_intro)
+
+        setSupportActionBar(toolbar)
+        val navController = findNavController(R.id.nav_host_fragment)
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top level destinations.
+        toolbar.setupWithNavController(navController)
 
         val receiver = NetworkStateReceiver()
         registerReceiver(receiver, IntentFilter(constants.networkStateKey))
@@ -74,5 +85,10 @@ class IntroActivity : AppCompatActivity() {
         }
     }
 
+
+    override fun onSupportNavigateUp(): Boolean {
+        val navController = findNavController(R.id.nav_host_fragment)
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
 
 }

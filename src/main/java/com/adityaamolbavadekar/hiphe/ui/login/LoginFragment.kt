@@ -63,6 +63,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.cardview.widget.CardView
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.preference.PreferenceManager
 import com.adityaamolbavadekar.hiphe.MainActivity
 import com.adityaamolbavadekar.hiphe.R
@@ -148,7 +149,7 @@ class LoginFragment : Fragment() {
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
-            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestIdToken(constants.defaultWebClientId)//getString(R.string.default_web_client_id))
             .build()
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
@@ -157,9 +158,15 @@ class LoginFragment : Fragment() {
         googleSignInButton.setOnClickListener { signInWithGoogle() }
 
         goToSignUpButton.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_intro, SignUpFragment())
-                .commit()
+            try {
+                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                    .navigate(R.id.action_loginFragment_to_signUpFragment)
+            } catch (e: Exception) {
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.nav_host_fragment_intro, SignUpFragment())
+                    .addToBackStack("SignUp")
+                    .commit()
+            }
         }
 
         forgotButton.setOnClickListener { view ->
@@ -220,9 +227,15 @@ class LoginFragment : Fragment() {
 
         }
         cancelButton.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_intro, GoogleSignInFragment())
-                .commit()
+            try {
+                Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                    .navigate(R.id.action_loginFragment_to_googleSignInFragment)
+            } catch (e: Exception) {
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.nav_host_fragment_intro, GoogleSignInFragment())
+                    .addToBackStack("")
+                    .commit()
+            }
         }
 
 
@@ -298,17 +311,20 @@ class LoginFragment : Fragment() {
                         // Invalid request
                         requireContext().showLongToast("Verification Failed : $e")
                         phoneE.showSnackbar("Verification Failed : $e")
-                        /*requireActivity().supportFragmentManager.beginTransaction()
-                                    .replace(R.id.nav_host_fragment_intro, GoogleSignInFragment())
-                                    .commit()*/
                     }
                     is FirebaseTooManyRequestsException -> {
                         // The SMS quota for the project has been exceeded
                         requireContext().showLongToast("Too many atempts, please try again tomorrow")
                         phoneE.showSnackbar("Verification Failed : $e")
-                        requireActivity().supportFragmentManager.beginTransaction()
-                            .replace(R.id.nav_host_fragment_intro, GoogleSignInFragment())
-                            .commit()
+                        try {
+                            Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                                .navigate(R.id.action_loginFragment_to_googleSignInFragment)
+                        } catch (e: Exception) {
+                            requireActivity().supportFragmentManager.beginTransaction()
+                                .replace(R.id.nav_host_fragment_intro, GoogleSignInFragment())
+                                .addToBackStack("")
+                                .commit()
+                        }
                     }
                     is FirebaseNetworkException -> {
                         progressBar.visibility = View.GONE
@@ -323,9 +339,6 @@ class LoginFragment : Fragment() {
 
                         phoneE.showSnackbar("Verification Failed : $e")
                         requireContext().showLongToast("Verification Failed : $e")
-                        /*requireActivity().supportFragmentManager.beginTransaction()
-                                    .replace(R.id.nav_host_fragment_intro, GoogleSignInFragment())
-                                    .commit()*/
                     }
                 }
 

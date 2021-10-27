@@ -37,7 +37,11 @@ import androidx.preference.PreferenceManager
 import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
 import com.adityaamolbavadekar.hiphe.interaction.getTheFinalLogs
 import com.adityaamolbavadekar.hiphe.ui.FaqsFragment
+import com.adityaamolbavadekar.hiphe.utils.constants
 import com.bumptech.glide.Glide
+import com.github.javiersantos.appupdater.AppUpdater
+import com.github.javiersantos.appupdater.enums.Display
+import com.github.javiersantos.appupdater.enums.UpdateFrom
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -183,7 +187,23 @@ class HipheSettingsActivity : AppCompatActivity() {
     class AboutSettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
             setPreferencesFromResource(R.xml.root_preferences_about, rootKey)
+        }
 
+        override fun onPreferenceTreeClick(preference: Preference?): Boolean {
+            when (preference?.key) {
+                "hiphe_check_update"->{
+                    val appUpdater = AppUpdater(requireActivity())
+                        .setButtonDismiss(getString(R.string.cancel))
+                        .setButtonUpdate(getString(R.string.ok_update_hiphe))
+                        .setDisplay(Display.DIALOG)
+                        .setUpdateFrom(UpdateFrom.GITHUB)
+                        .setGitHubUserAndRepo(getString(R.string.gitHub_developer_name),getString(R.string.app_name))
+                        .setUpdateXML(constants.UPDATE_FROM_XML_URL)
+                    appUpdater.start()
+                    return true
+                }
+                else -> return false
+            }
         }
     }
 

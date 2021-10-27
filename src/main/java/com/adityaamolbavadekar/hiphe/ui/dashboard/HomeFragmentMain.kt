@@ -75,6 +75,7 @@ class HomeFragmentMain : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_home_main, container, false)
 
+        changeFragment(MyNotesFragment())
         bottomNavigationView = root.findViewById<BottomNavigationView>(R.id.bottomNavigationView)
         bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
@@ -102,7 +103,6 @@ class HomeFragmentMain : Fragment() {
                     changeFragment(OfflineModeFragment())
                     true
                 }
-
                 else -> false
             }
         }

@@ -15,40 +15,6 @@
  *
  ******************************************************************************/
 
-/*******************************************************************************
- * Copyright (c) 2021. Aditya Bavadekar
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- *
- ******************************************************************************/
-
-/*******************************************************************************
- * Copyright (c) 2021. Aditya Bavadekar
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- *
- ******************************************************************************/
-
 package com.adityaamolbavadekar.hiphe
 
 import android.content.Intent
@@ -62,12 +28,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import com.adityaamolbavadekar.hiphe.interaction.HipheDebugLog
-import com.adityaamolbavadekar.hiphe.interaction.HipheErrorLog
-import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
-import com.adityaamolbavadekar.hiphe.interaction.showToast
+import com.adityaamolbavadekar.hiphe.interaction.*
+import com.adityaamolbavadekar.hiphe.network.ConnectionLiveData
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.about_hiphe_fragment.*
@@ -83,7 +48,10 @@ class HipheInformationActivity : AppCompatActivity() {
     private lateinit var photoImageView: ImageView
     private lateinit var mainCardView: CardView
     private lateinit var mainCardViewError: CardView
+    private lateinit var networkStateCardView: CardView
+    private lateinit var networkStateTextView: TextView
     private lateinit var hipheInformationViewModel: HipheInformationViewModel
+    private lateinit var connectionLiveData: ConnectionLiveData
 
     class HipheInformationViewModel : ViewModel() {
 
@@ -119,7 +87,7 @@ class HipheInformationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.about_hiphe_fragment)
         setSupportActionBar(toolbar)
-
+        connectionLiveData = ConnectionLiveData(this)
         hipheInformationViewModel =
             ViewModelProviders.of(this).get(HipheInformationViewModel::class.java)
         progressBar = findViewById(R.id.progressBar)
@@ -129,8 +97,18 @@ class HipheInformationActivity : AppCompatActivity() {
         photoImageView = findViewById(R.id.accountImageImageView)
         mainCardView = findViewById(R.id.mainCardView)
         mainCardViewError = findViewById(R.id.mainCardViewError)
-
         progressBar.visibility = View.VISIBLE
+        networkStateCardView = findViewById(R.id.offlineNotifierCardMain)
+        networkStateTextView = findViewById(R.id.offlineNotifierCardTextViewMain)
+
+        connectionLiveData.observeForever {isConnectedToNetwork->
+            NotifyNetworkInfo().notifyNetworkMode(
+                isConnectedToNetwork,
+                this,
+                networkStateCardView,
+                networkStateTextView
+            )
+        }
         handleIntentMain(intent)
 
         hipheInformationViewModel.emailAddress.observe(this, Observer {
@@ -200,33 +178,6 @@ class HipheInformationActivity : AppCompatActivity() {
                                         progressBar.visibility = View.GONE
                                         mainCardViewError.visibility = View.VISIBLE
                                     }
-/*
-                                    documents.forEach { document ->
-
-
-                                        val username = document.data["username"].toString()
-                                        HipheInfoLog(TAG,"DOCUMENT : $username")
-                                        val photoURL = document.data["photoURL"].toString()
-                                        val name = document.data["name"].toString()
-                                        HipheInfoLog(TAG,"DOCUMENT : $name")
-                                        val creationTimestamp =
-                                            document.data["createdOn"].toString()
-
-                                        if (username == fullEmailAddress) {
-                                            HipheInfoLog(TAG,"DOCUMENT FOUND : $document")
-                                            showUserInfo(
-                                                username,
-                                                photoURL,
-                                                name,
-                                                creationTimestamp
-                                            )
-                                        } else {
-                                            progressBar.visibility = View.GONE
-                                            mainCardViewError.visibility = View.VISIBLE
-                                        }
-                                    }
-*/
-
                                 }
                                 .addOnFailureListener { e ->
                                     HipheErrorLog(
@@ -234,7 +185,7 @@ class HipheInformationActivity : AppCompatActivity() {
                                         "firestore.collection(\"users\").get().addOnSuccessListener { documents ->.addOnFailureListener >>",
                                         e.toString()
                                     )
-                                    this.showToast("$e")
+                                    this.showToast("${e.message}")
                                     progressBar.visibility = View.GONE
                                     mainCardViewError.visibility = View.VISIBLE
                                 }

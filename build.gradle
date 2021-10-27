@@ -1,4 +1,4 @@
- vapply plugin: 'com.android.application'
+apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'androidx.navigation.safeargs'//Navigation
@@ -158,5 +158,19 @@ dependencies {
 
     //SAFETY-NET
     implementation 'com.google.android.gms:play-services-safetynet:17.0.1'
+
+    //DAGGER
+    def daggerVersion = "2.39.1"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion" // if you use the support libraries
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
+
+    implementation 'com.github.javiersantos:AppUpdater:2.7'
+
+    //CarouselView
+    implementation 'com.github.jama5262:CarouselView:1.2.2'
+
 
 }
