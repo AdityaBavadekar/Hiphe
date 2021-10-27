@@ -21,9 +21,5 @@
     <item
         android:drawable="@drawable/ic_round_verified_user_24"
         android:gravity="center" />
-    <item
-        android:drawable="@drawable/ic_outline_info_24"
-        android:gravity="bottom"
-        android:top="20dp" />
 
 </layer-list>

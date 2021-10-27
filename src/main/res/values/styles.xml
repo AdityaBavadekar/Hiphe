@@ -47,7 +47,9 @@
     </style>
 
     <style name="AppTheme.Launcher" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-
+        <item name="colorPrimary">@android:color/white</item>
+        <item name="colorPrimaryDark">@android:color/white</item>
+        <item name="android:navigationBarColor">@android:color/white</item>
     </style>
 
     <style name="AppTheme.NewUser" parent="Theme.MaterialComponents.DayNight.NoActionBar">
