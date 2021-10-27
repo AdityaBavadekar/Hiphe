@@ -364,37 +364,37 @@ class FaqsFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         val adapter = FaqAdapter(requireActivity(), sampleListFAQsClone)
         recyclerView.adapter = adapter
-        try {
-            searchView = root.findViewById(R.id.search_view)
-            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return true
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    if (newText != null) {
-                        val text = newText.toUpperCase(Locale.ROOT)
-                        sampleListFAQsClone.clear()
-                        adapter.notifyDataSetChanged()
-                        sampleListFAQs.forEach {
-                            if (it.titleText.contains(text) || it.subTitleText.contains(text)) {
-                                sampleListFAQsClone.add(it)
-                                adapter.notifyDataSetChanged()
-                            } else {
-                                val element = FaqAdapter.FAQ("No item was found", "", listOf())
-                                sampleListFAQsClone.add(element)
-                            }
-                        }
-
-                    } else {
-                        sampleListFAQsClone = sampleListFAQs
-                        adapter.notifyDataSetChanged()
-                    }
-                    return true
-                }
-            })
-        } catch (e: Exception) {
-        }
+//        try {
+//            searchView = root.findViewById(R.id.search_view)
+//            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//                override fun onQueryTextSubmit(query: String?): Boolean {
+//                    return true
+//                }
+//
+//                override fun onQueryTextChange(newText: String?): Boolean {
+//                    if (newText != null) {
+//                        val text = newText.toUpperCase(Locale.ROOT)
+//                        sampleListFAQsClone.clear()
+//                        adapter.notifyDataSetChanged()
+//                        sampleListFAQs.forEach {
+//                            if (it.titleText.contains(text) || it.subTitleText.contains(text)) {
+//                                sampleListFAQsClone.add(it)
+//                                adapter.notifyDataSetChanged()
+//                            } else {
+//                                val element = FaqAdapter.FAQ("No item was found", "", listOf())
+//                                sampleListFAQsClone.add(element)
+//                            }
+//                        }
+//
+//                    } else {
+//                        sampleListFAQsClone.add(sampleListFAQs)
+//                        adapter.notifyDataSetChanged()
+//                    }
+//                    return true
+//                }
+//            })
+//        } catch (e: Exception) {
+//        }
 
 
 

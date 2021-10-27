@@ -366,7 +366,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        ConfigureTheme().configureThemeOnStart(this)
         auth = Firebase.auth
         if (auth.currentUser == null) {
             PreferenceManager.getDefaultSharedPreferences(this).edit {
