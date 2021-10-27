@@ -24,8 +24,8 @@ import android.os.IBinder
 import com.adityaamolbavadekar.hiphe.createDynamicLink
 import com.adityaamolbavadekar.hiphe.interaction.HipheErrorLog
 import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
+import com.adityaamolbavadekar.hiphe.interaction.UserDeviceData
 import com.adityaamolbavadekar.hiphe.interaction.showLongToast
-import com.adityaamolbavadekar.hiphe.interaction.userDeviceDataHashmap
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -85,7 +85,7 @@ class UploaderService : Service() {
         }
         newLogcatRecorderThread.name = "newLogcatRecorderThread"*/
 
-        val data = userDeviceDataHashmap(this)
+        val data = UserDeviceData().userDeviceDataHashmap(this)
         firestore.collection("usersDeviceData")
             .document(userEmail)
             .set(data)

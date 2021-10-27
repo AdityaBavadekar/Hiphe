@@ -15,56 +15,6 @@
  *
  ******************************************************************************/
 
-/*******************************************************************************
- * Copyright (c) 2021. Aditya Bavadekar
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- *
- ******************************************************************************/
-
-/*******************************************************************************
- * Copyright (c) 2021. Aditya Bavadekar
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- *
- ******************************************************************************/
-
-/*******************************************************************************
- * Copyright (c) 2021. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
- ******************************************************************************/
-
-/*******************************************************************************
- * Copyright (c) 2021. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
- * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
- * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
- * Vestibulum commodo. Ut rhoncus gravida arcu.
- ******************************************************************************/
-
 package com.adityaamolbavadekar.hiphe
 
 import android.accounts.AccountManager
@@ -85,7 +35,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
@@ -97,12 +46,11 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
-import com.adityaamolbavadekar.hiphe.interaction.HipheErrorLog
 import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
-import com.adityaamolbavadekar.hiphe.interaction.notifyNetworkMode
+import com.adityaamolbavadekar.hiphe.interaction.NotifyNetworkInfo
 import com.adityaamolbavadekar.hiphe.network.ConnectionLiveData
 import com.adityaamolbavadekar.hiphe.services.UploaderService
-import com.adityaamolbavadekar.hiphe.utils.NetworkConnection
+import com.adityaamolbavadekar.hiphe.utils.ConfigureTheme
 import com.adityaamolbavadekar.hiphe.utils.constants
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -133,25 +81,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        try {
-            when (prefs.getString("theme", "3")) {
-                "1" -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    HipheInfoLog(LauncherActivity.TAG, "Initiating MODE_NIGHT_YES")
-                }
-                "2" -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    HipheInfoLog(LauncherActivity.TAG, "Initiating MODE_NIGHT_NO")
-                }
-                "3" -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                    HipheInfoLog(LauncherActivity.TAG, "Initiating MODE_NIGHT_FOLLOW_SYSTEM")
-                }
-            }
-        } catch (e: Exception) {
-            HipheErrorLog(LauncherActivity.TAG, "Error while Initiating Theme ", e.toString())
-        }
+        ConfigureTheme().configureThemeOnCreate(this)
 
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -163,24 +93,14 @@ class MainActivity : AppCompatActivity() {
 
         networkStateCardView = findViewById(R.id.offlineNotifierCardMain)
         networkStateTextView = findViewById(R.id.offlineNotifierCardTextViewMain)
-        val networkConnection = NetworkConnection(this)
-//        networkConnection.observe(this, { isConnectedToNetwork ->
-//            notifyNetworkMode(
-//                isConnectedToNetwork,
-//                this,
-//                networkStateCardView,
-//                networkStateTextView
-//            )
-//        })
-
-        connectionLiveData.observe(this, androidx.lifecycle.Observer { isConnectedToNetwork ->
-            notifyNetworkMode(
+        connectionLiveData.observeForever { isConnectedToNetwork ->
+            NotifyNetworkInfo().notifyNetworkMode(
                 isConnectedToNetwork,
                 this,
                 networkStateCardView,
                 networkStateTextView
             )
-        })
+        }
 
         val isVisitor = intent.getBooleanExtra(constants.isUserUnexplored, false)
 
@@ -446,6 +366,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        ConfigureTheme().configureThemeOnStart(this)
         auth = Firebase.auth
         if (auth.currentUser == null) {
             PreferenceManager.getDefaultSharedPreferences(this).edit {

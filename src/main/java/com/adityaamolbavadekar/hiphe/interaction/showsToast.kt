@@ -49,7 +49,7 @@ fun View.showSnackbarWithAction(text: String, action: String) {
     snack.show()
 }
 
-object showsToast {
+object ShowsToast {
 
     private fun Context.showToast(text: String) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
