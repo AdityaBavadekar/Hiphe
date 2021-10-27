@@ -103,17 +103,24 @@ Consent  :     _By using our application, you hereby consent to our Privacy Poli
 
  -->
  
- # PRIVACY NOTICE OF HIPHE
+ # PRIVACY NOTICE OF HIPHE[^1] [^2]
 
->Last updated October 27, 2021
+> Last updated October 27, 2021
+
 Thank you for choosing to be part of our community at Aditya Bavadekar Apps. ("Company," "we," "us," or "our"). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about this privacy notice or our practices with regard to your personal information, please contact us at teamhiphe@gmail.com.
-This privacy notice describes how we might use your information if you:Download and use our mobile application — Hiphe
-Engage with us in other related ways ― including any sales, marketing, or events
+This privacy notice describes how we might use your information if you:
+-Download and use our mobile application Hiphe
+- Engage with us in other related ways 
+    - including any sales, marketing, or events
+
+
 In this privacy notice, if we refer to:"App," we are referring to any application of ours that references or links to this policy, including any listed above
 "Services," we are referring to our App, and other related services, including any sales, marketing, or events
 The purpose of this privacy notice is to explain to you in the clearest way possible what information we collect, how we use it, and what rights you have in relation to it. If there are any terms in this privacy notice that you do not agree with, please discontinue use of our Services immediately.
 Please read this privacy notice carefully, as it will help you understand what we do with the information that we collect.
-### TABLE OF CONTENTS
+
+
+### TABLE OF CONTENTS [^2]
 1. WHAT INFORMATION DO WE COLLECT?
 2. HOW DO WE USE YOUR INFORMATION?
 3. WILL YOUR INFORMATION BE SHARED WITH ANYONE?
@@ -131,6 +138,8 @@ Please read this privacy notice carefully, as it will help you understand what w
 
 ### 15. WHAT INFORMATION DO WE COLLECT?
 Personal information you disclose to us
+
+
 In Short:  We collect personal information that you provide to us.
 We collect personal information that you voluntarily provide to us when you register on the App, express an interest in obtaining information about us or our products and Services, when you participate in activities on the App (such as by posting messages in our online forums or entering competitions, contests or giveaways) or otherwise when you contact us.
 The personal information that we collect depends on the context of your interactions with us and the App, the choices you make and the products and features you use. The personal information we collect may include the following:
@@ -181,25 +190,29 @@ Business Transfers. We may share or transfer your information in connection with
 Vendors, Consultants and Other Third-Party Service Providers. We may share your data with third-party vendors, service providers, contractors or agents who perform services for us or on our behalf and require access to such information to do that work. Examples include: payment processing, data analysis, email delivery, hosting services, customer service and marketing efforts. We may allow selected third parties to use tracking technology on the App, which will enable them to collect data on our behalf about how you interact with our App over time. This information may be used to, among other things, analyze and track data, determine the popularity of certain content, pages or features, and better understand online activity. Unless described in this notice, we do not share, sell, rent or trade any of your information with third parties for their promotional purposes.
 Business Partners. We may share your information with our business partners to offer you certain products, services or promotions.
 Other Users. When you share personal information (for example, by posting comments, contributions or other content to the App) or otherwise interact with public areas of the App, such personal information may be viewed by all users and may be publicly made available outside the App in perpetuity. If you interact with other users of our App and register for our App through a social network (such as Facebook), your contacts on the social network will see your name, profile photo, and descriptions of your activity. Similarly, other users will be able to view descriptions of your activity, communicate with you within our App, and view your profile.
-4. WHO WILL YOUR INFORMATION BE SHARED WITH?     
+
+### 4. WHO WILL YOUR INFORMATION BE SHARED WITH?     
 In Short:  We only share information with the following third parties.
 We only share and disclose your information with the following third parties. If we have processed your data based on your consent and you wish to revoke your consent, please contact us using the contact details provided in the section below titled "HOW CAN YOU CONTACT US ABOUT THIS NOTICE?".
-Allow Users to Connect to Their Third-Party Accounts
-Google account, Facebook account and Github account
-Cloud Computing Services
-Google Cloud Platform
-Communicate and Chat with Users
-Firebase Cloud Messaging
-Content Optimization
-YouTube video embed
-Data Backup and Security
-Google Drive Backup
-Functionality and Infrastructure Optimization
-Cloud Firestore and Firebase Realtime Database
-User Account Registration and Authentication
-GitHub OAuth, Firebase Authentication, Google Sign-In, Google OAuth 2.0, Google Smart Lock and Facebook Login
-Web and Mobile Analytics
-Google Analytics for Firebase and Google Analytics
+
+
+- Allow Users to Connect to Their Third-Party Accounts
+- Google account, Facebook account and Github account
+- Cloud Computing Services
+- Google Cloud Platform
+- Communicate and Chat with Users
+- Firebase Cloud Messaging
+- Content Optimization
+- YouTube video embed
+- Data Backup and Security
+- Google Drive Backup
+- Functionality and Infrastructure Optimization
+- Cloud Firestore and Firebase Realtime Database
+-User Account Registration and Authentication
+- GitHub OAuth, Firebase Authentication, Google Sign-In, Google OAuth 2.0, Google Smart Lock and Facebook Login
+- Web and Mobile Analytics
+- Google Analytics for Firebase and Google Analytics
+
 
 ### 5. HOW DO WE HANDLE YOUR SOCIAL LOGINS?     
 In Short:  If you choose to register or log in to our services using a social media account, we may have access to certain information about you.
@@ -222,14 +235,18 @@ Account Information
 If you would at any time like to review or change the information in your account or terminate your account, you can:
 Log in to your account settings and update your user account.
 Contact us using the contact information provided.
-teamhiphe@gmail.com
-sites.google.com/view/hiphe
+- teamhiphe@gmail.com
+- sites.google.com/view/hiphe
+
+
 Upon your request to terminate your account, we will deactivate or delete your account and information from our active databases. However, we may retain some information in our files to prevent fraud, troubleshoot problems, assist with any investigations, enforce our Terms of Use and/or comply with applicable legal requirements.
 Opting out of email marketing: You can unsubscribe from our marketing email list at any time by clicking on the unsubscribe link in the emails that we send or by contacting us using the details provided below. You will then be removed from the marketing email list — however, we may still communicate with you, for example to send you service-related emails that are necessary for the administration and use of your account, to respond to service requests, or for other non-marketing purposes. To otherwise opt-out, you may:
 Access your account settings and update your preferences.
 Contact us using the contact information provided.
-teamhiphe@gmail.com
-9. CONTROLS FOR DO-NOT-TRACK FEATURES
+- teamhiphe@gmail.com
+
+
+### 9. CONTROLS FOR DO-NOT-TRACK FEATURES
 Most web browsers and some mobile operating systems and mobile applications include a Do-Not-Track ("DNT") feature or setting you can activate to signal your privacy preference not to have data about your online browsing activities monitored and collected. At this stage no uniform technology standard for recognizing and implementing DNT signals has been finalized. As such, we do not currently respond to DNT browser signals or any other mechanism that automatically communicates your choice not to be tracked online. If a standard for online tracking is adopted that we must follow in the future, we will inform you about that practice in a revised version of this privacy notice. 
 10. DO CALIFORNIA RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?
 In Short:  Yes, if you are a resident of California, you are granted specific rights regarding access to your personal information.
@@ -315,10 +332,10 @@ you may request correction of your personal data if it is incorrect or no longer
 you can designate an authorized agent to make a request under the CCPA on your behalf. We may deny a request from an authorized agent that does not submit proof that they have been validly authorized to act on your behalf in accordance with the CCPA.
 you may request to opt-out from future selling of your personal information to third parties. Upon receiving a request to opt-out, we will act upon the request as soon as feasibly possible, but no later than 15 days from the date of the request submission.
 To exercise these rights, you can contact us by email at teamhiphe@gmail.com, or by referring to the contact details at the bottom of this document. If you have a complaint about how we handle your data, we would like to hear from you.  
-11. DO WE MAKE UPDATES TO THIS NOTICE?     
+### 11. DO WE MAKE UPDATES TO THIS NOTICE?     
 In Short:  Yes, we will update this notice as necessary to stay compliant with relevant laws.
 We may update this privacy notice from time to time. The updated version will be indicated by an updated "Revised" date and the updated version will be effective as soon as it is accessible. If we make material changes to this privacy notice, we may notify you either by prominently posting a notice of such changes or by directly sending you a notification. We encourage you to review this privacy notice frequently to be informed of how we are protecting your information.
-12. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?     
+### 12. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?     
 If you have questions or comments about this notice, you may email us at teamhiphe@gmail.com or by post to:
 Aditya Bavadekar Apps.
 Pune
@@ -330,6 +347,5 @@ India
 Based on the applicable laws of your country, you may have the right to request access to the personal information we collect from you, change that information, or delete it in some circumstances. To request to review, update, or delete your personal information, please visit: https://hiphe.page.ink/myaccount.
 
 
-Consent  :     _By using our application, you hereby consent to our Privacy Policy and agree to its terms._
-
-### _Kindly note: this policy is unstable and may keep changing everytime. Team Hiphe will always try to notify you about the changes._
+[^1]: Consent  :     _By using our application, you hereby consent to our Privacy Policy and agree to its terms._
+[^2]: _Kindly note: this policy is unstable and may keep changing everytime. Team Hiphe will always try to notify you about the changes._
