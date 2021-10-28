@@ -59,13 +59,13 @@ import java.util.*
 
 @Entity(tableName = "hiphe_logs_table")
 data class HipheLogDatabaseDataClass(
-        @PrimaryKey(autoGenerate = true)
-        @ColumnInfo(name = "Index") val index: Long,
-        @ColumnInfo(name = "Log") val Log: String,//HipheLog,
-        @ColumnInfo(name = "Timestamp") val timestamp: String = SimpleDateFormat(
-                "EEE, dd-mm-yy, HH:mm",
-                Locale.ENGLISH
-        ).format(Date())
-                .toString()
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "Index") val index: Long,
+    @ColumnInfo(name = "Log") val Log: String,//HipheLog,
+    @ColumnInfo(name = "Timestamp") val timestamp: String = SimpleDateFormat(
+        "EEE, dd-mm-yy, HH:mm",
+        Locale.ENGLISH
+    ).format(Date())
+        .toString()
 
 )

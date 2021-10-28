@@ -153,7 +153,7 @@ class SignUpFragment : Fragment() {
                     .navigate(R.id.action_signUpFragment_to_loginFragment)
             } catch (e: Exception) {
                 requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.nav_host_fragment_intro, LoginFragment())
+                    .replace(R.id.nav_host_fragment, LoginFragment())
                     .addToBackStack("Login")
                     .commit()
             }
@@ -236,7 +236,7 @@ class SignUpFragment : Fragment() {
                 if (!popBackStack) navController.navigate(R.id.action_signUpFragment_to_googleSignInFragment)
             } catch (e: Exception) {
                 requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.nav_host_fragment_intro, GoogleSignInFragment())
+                    .replace(R.id.nav_host_fragment, GoogleSignInFragment())
                     .addToBackStack("")
                     .commit()
             }
@@ -295,12 +295,6 @@ class SignUpFragment : Fragment() {
                         )
                         startPhoneAuthFlow(phone)
                     }
-/*
-                    PreferenceManager.getDefaultSharedPreferences(requireContext()).edit {
-                        putString(constants.signedInUserEmailPrefKey, user.email)
-                        this.putBoolean(constants.checkIsLoggedInPrefKey, true)
-                    }
-                    startActivity(Intent(requireActivity(), MainActivity::class.java))//TODO()*/
                     updateUI(user)
 
                 }

@@ -48,7 +48,6 @@ import com.adityaamolbavadekar.hiphe.interaction.*
 import com.adityaamolbavadekar.hiphe.models.ChangeLogInfo
 import com.adityaamolbavadekar.hiphe.models.GitRawApi
 import com.adityaamolbavadekar.hiphe.ui.FaqsFragment
-import com.adityaamolbavadekar.hiphe.ui.home.HomeFragment
 import com.adityaamolbavadekar.hiphe.utils.constants
 import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -222,7 +221,7 @@ class HipheSettingsActivity : AppCompatActivity() {
                     val buildVersionName = pckMangr.versionName
                     try {
                         val retrofit = Retrofit.Builder()
-                            .baseUrl(LauncherActivity.BASE_URL)
+                            .baseUrl(BASE_URL)
                             .addConverterFactory(GsonConverterFactory.create())
                             .build()
 
@@ -237,27 +236,27 @@ class HipheSettingsActivity : AppCompatActivity() {
                                 if (response.isSuccessful) {
                                     val changeLogInfo: ChangeLogInfo? = response.body()
                                     HipheInfoLog(
-                                        LauncherActivity.TAG,
+                                        TAG,
                                         "@GET request was Successful"
                                     )
                                     HipheInfoLog(
-                                        LauncherActivity.TAG,
+                                        TAG,
                                         "@GET returned $changeLogInfo"
                                     )
                                     HipheInfoLog(
-                                        LauncherActivity.TAG,
+                                        TAG,
                                         "@GET request Release Notes were ${changeLogInfo?.releaseNotes}"
                                     )
                                     HipheInfoLog(
-                                        LauncherActivity.TAG,
+                                        TAG,
                                         "@GET request LatestVersion was ${changeLogInfo?.versionName}"
                                     )
                                     HipheInfoLog(
-                                        LauncherActivity.TAG,
+                                        TAG,
                                         "@GET request LatestVersionCode was ${changeLogInfo?.versionCode}"
                                     )
                                     HipheInfoLog(
-                                        LauncherActivity.TAG,
+                                        TAG,
                                         "@GET request apkURL was ${changeLogInfo?.apkURL}"
                                     )
                                     HipheInfoLog(
@@ -265,7 +264,7 @@ class HipheSettingsActivity : AppCompatActivity() {
                                         "@GET request's headers ${response.headers()}"
                                     )
                                     HipheInfoLog(
-                                        LauncherActivity.TAG,
+                                        TAG,
                                         "@GET request's raw ${response.raw()}"
                                     )
 
@@ -334,7 +333,7 @@ class HipheSettingsActivity : AppCompatActivity() {
 
                                 } else {
                                     HipheErrorLog(
-                                        HomeFragment.TAG,
+                                        TAG,
                                         "onResponse: Unsuccessful: ",
                                         response.code().toString()
                                     )
@@ -345,18 +344,18 @@ class HipheSettingsActivity : AppCompatActivity() {
 
                             override fun onFailure(call: Call<ChangeLogInfo>, t: Throwable) {
                                 HipheErrorLog(
-                                    HomeFragment.TAG,
+                                    TAG,
                                     "onFailure: LOCALIZED MESSAGE: ",
                                     " ${t.localizedMessage}"
                                 )
                                 requireActivity().showLongToast("Please check that your Internet Connection is on")
                                 HipheErrorLog(
-                                    HomeFragment.TAG,
+                                    TAG,
                                     "onFailure: STACKTRACE: ",
                                     t.stackTraceToString()
                                 )
                                 HipheErrorLog(
-                                    HomeFragment.TAG,
+                                    TAG,
                                     "onFailure: DATA: ",
                                     t.cause.toString()
                                 )

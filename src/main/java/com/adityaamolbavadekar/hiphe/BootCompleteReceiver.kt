@@ -72,11 +72,11 @@ class BootCompleteReceiver : BroadcastReceiver() {
                 if (Firebase.auth.currentUser != null) {
                     val photoURL = Firebase.auth.currentUser!!.photoUrl
                     val acmngr2 =
-                            context?.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                        context?.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
                     val r1 = DownloadManager.Request(photoURL)
-                            .setTitle("Downloading...")
-                            .setMimeType("image/*")
-                            .setDescription("Your profile photo for Hiphe Profile")
+                        .setTitle("Downloading...")
+                        .setMimeType("image/*")
+                        .setDescription("Your profile photo for Hiphe Profile")
 
                     val r1Result = acmngr2.enqueue(r1)
                     val photoUri = acmngr2.getUriForDownloadedFile(r1Result)

@@ -53,14 +53,14 @@ package com.adityaamolbavadekar.hiphe
 
 data class HipheUserClass(
 
-        val username: String = "",
-        val emailAddress: String = "",
-        val name: String = "",
-        val createdOn: Long = 0,
-        val photoURL: String = ""
-        //TODO("ADD FEATURE OF BIO")
-        //TODO("ADD FEATURE OF IS VERIFIED")
-        //TODO("ADD FEATURE OF PHONE")
+    val username: String = "",
+    val emailAddress: String = "",
+    val name: String = "",
+    val createdOn: Long = 0,
+    val photoURL: String = ""
+    //TODO("ADD FEATURE OF BIO")
+    //TODO("ADD FEATURE OF IS VERIFIED")
+    //TODO("ADD FEATURE OF PHONE")
 ) {
 
 }

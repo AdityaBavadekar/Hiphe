@@ -68,8 +68,8 @@
     <fragment
         android:id="@+id/faqInfoFragment"
         android:name="com.adityaamolbavadekar.hiphe.ui.FaqInfoFragment"
-        tools:layout="@layout/fragment_faq_info_layout"
-        android:label="FAQ" >
+        android:label="FAQ"
+        tools:layout="@layout/fragment_faq_info_layout">
         <action
             android:id="@+id/action_faqInfoFragment_to_settingsFragmentFaqs"
             app:destination="@id/settingsFragmentFaqs" />

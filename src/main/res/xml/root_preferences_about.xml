@@ -75,9 +75,9 @@
             app:summary="Find answers to your Hiphe questions here"
             app:title="Help" />
         <Preference
+            android:key="send_feedback"
             app:allowDividerAbove="true"
             app:icon="@drawable/ic_outline_feedback_24"
-            android:key="send_feedback"
             app:iconSpaceReserved="false"
             app:summary="Help us make Hiphe a better place for everyone"
             app:title="Send feedback" />

@@ -18,6 +18,6 @@
 package com.adityaamolbavadekar.hiphe.objects
 
 object FAQ {
-    var title : String = ""
-    var subtitle : String = ""
+    var title: String = ""
+    var subtitle: String = ""
 }

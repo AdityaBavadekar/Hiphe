@@ -163,7 +163,7 @@ class LoginFragment : Fragment() {
                     .navigate(R.id.action_loginFragment_to_signUpFragment)
             } catch (e: Exception) {
                 requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.nav_host_fragment_intro, SignUpFragment())
+                    .replace(R.id.nav_host_fragment, SignUpFragment())
                     .addToBackStack("SignUp")
                     .commit()
             }
@@ -232,7 +232,7 @@ class LoginFragment : Fragment() {
                     .navigate(R.id.action_loginFragment_to_googleSignInFragment)
             } catch (e: Exception) {
                 requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.nav_host_fragment_intro, GoogleSignInFragment())
+                    .replace(R.id.nav_host_fragment, GoogleSignInFragment())
                     .addToBackStack("")
                     .commit()
             }
@@ -314,14 +314,14 @@ class LoginFragment : Fragment() {
                     }
                     is FirebaseTooManyRequestsException -> {
                         // The SMS quota for the project has been exceeded
-                        requireContext().showLongToast("Too many atempts, please try again tomorrow")
+                        requireContext().showLongToast("Too many attempts, please try again tomorrow")
                         phoneE.showSnackbar("Verification Failed : $e")
                         try {
                             Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
                                 .navigate(R.id.action_loginFragment_to_googleSignInFragment)
                         } catch (e: Exception) {
                             requireActivity().supportFragmentManager.beginTransaction()
-                                .replace(R.id.nav_host_fragment_intro, GoogleSignInFragment())
+                                .replace(R.id.nav_host_fragment, GoogleSignInFragment())
                                 .addToBackStack("")
                                 .commit()
                         }

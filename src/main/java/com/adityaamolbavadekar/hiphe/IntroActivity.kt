@@ -19,7 +19,6 @@ package com.adityaamolbavadekar.hiphe
 
 import android.content.IntentFilter
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
@@ -46,23 +45,28 @@ class IntroActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ConfigureTheme().configureThemeOnCreate(this,TAG)
+        ConfigureTheme().configureThemeOnCreate(this, TAG)
         setContentView(R.layout.activity_intro)
 
         setSupportActionBar(toolbar)
         val navController = findNavController(R.id.nav_host_fragment)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
-        toolbar.setupWithNavController(navController)
+
+        try {
+            toolbar.setupWithNavController(navController)
+        } catch (e: Exception) {
+            if (savedInstanceState == null) {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.nav_host_fragment, GoogleSignInFragment())
+                    .commit()
+            }
+        }
 
         val receiver = NetworkStateReceiver()
         registerReceiver(receiver, IntentFilter(constants.networkStateKey))
         connectionLiveData = ConnectionLiveData(this)
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_intro, GoogleSignInFragment())
-                .commit()
-        }
+
 
 
         networkStateCardView = findViewById(R.id.offlineNotifierCardIntro)

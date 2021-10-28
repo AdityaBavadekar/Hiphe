@@ -58,12 +58,12 @@
         android:paddingStart="35dp">
 
         <TextView
+            android:id="@+id/textTags"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:fontFamily="monospace"
             android:padding="2dp"
-            android:id="@+id/textTags"
             android:singleLine="true"
             android:text="TAGS : "
             android:textSize="11sp"

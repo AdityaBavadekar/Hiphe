@@ -54,9 +54,9 @@ package com.adityaamolbavadekar.hiphe.models
 import com.google.gson.annotations.SerializedName
 
 data class Post(
-        val userId: Int,
-        val id: Int,
-        val title: String,
-        @SerializedName(value = "body")
-        val text: String
+    val userId: Int,
+    val id: Int,
+    val title: String,
+    @SerializedName(value = "body")
+    val text: String
 )

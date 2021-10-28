@@ -160,6 +160,10 @@
     <string name="Triggering_Crash_Upload_and_then_SystemExit_due_to_disabled_share_crash_data_in_settings">Triggering Crash Upload and then SystemExit(404) due to disabled share crash data in settings!!!</string>
     <string name="have_feedback_we_d_love_to_hear_it_but_please_don_t_share_sensitive_information_have_questions_or_legal_concerns_visit_help_centre_or_contact_support_teamhiphe_gmail_com">Have feedback? We\'d love to hear it, but please don\'t share sensitive information. Have questions or legal concerns? Visit Help Centre or contact Support (teamhiphe@gmail.com)</string>
     <string name="go_to_the_legal_help_page_to_request_content_changes_for_legal_reasons_some_account_and_system_info_will_be_sent_to_google_we_ll_use_the_info_that_you_give_us_to_address_technical_issues_and_improve_our_services_subject_to_our_privacy_policy_and_terms_of_service">Go to the Legal Help page to request content changes for legal reasons. Some account and system info will be sent to Google. We\'ll use the info that you give us to address technical issues and improve our services, subject to our Privacy policy and Terms of service.</string>
+    <string name="acction_search">Search</string>
+    <string name="screenshots">Screenshots</string>
+    <string name="highlight_or_hide_info">Highlight or hide info</string>
+    <string name="view">View</string>
 
 
 </resources>

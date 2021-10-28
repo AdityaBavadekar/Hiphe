@@ -308,7 +308,7 @@ class GoogleSignInFragment : Fragment() {
                 .navigate(R.id.action_googleSignInFragment_to_signUpFragment)
         } catch (e: Exception) {
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_intro, SignUpFragment())
+                .replace(R.id.nav_host_fragment, SignUpFragment())
                 .addToBackStack("SignUp")
                 .commit()
         }
@@ -323,7 +323,7 @@ class GoogleSignInFragment : Fragment() {
                 .navigate(R.id.action_googleSignInFragment_to_loginFragment)
         } catch (e: Exception) {
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_host_fragment_intro, LoginFragment())
+                .replace(R.id.nav_host_fragment, LoginFragment())
                 .addToBackStack("Login")
                 .commit()
         }

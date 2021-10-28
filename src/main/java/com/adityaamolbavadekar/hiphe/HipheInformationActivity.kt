@@ -26,13 +26,15 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
-import androidx.lifecycle.*
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
 import com.adityaamolbavadekar.hiphe.interaction.*
 import com.adityaamolbavadekar.hiphe.network.ConnectionLiveData
 import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.about_hiphe_fragment.*
@@ -101,7 +103,7 @@ class HipheInformationActivity : AppCompatActivity() {
         networkStateCardView = findViewById(R.id.offlineNotifierCardMain)
         networkStateTextView = findViewById(R.id.offlineNotifierCardTextViewMain)
 
-        connectionLiveData.observeForever {isConnectedToNetwork->
+        connectionLiveData.observeForever { isConnectedToNetwork ->
             NotifyNetworkInfo().notifyNetworkMode(
                 isConnectedToNetwork,
                 this,

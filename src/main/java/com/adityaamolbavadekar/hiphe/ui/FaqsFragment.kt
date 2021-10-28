@@ -18,9 +18,7 @@
 package com.adityaamolbavadekar.hiphe.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -349,9 +347,10 @@ class FaqsFragment : Fragment() {
             )
         )
     )
-    private var sampleListFAQsClone: MutableList<FaqAdapter.FAQ> = sampleListFAQs
+    private lateinit var sampleListFAQsClone: MutableList<FaqAdapter.FAQ>
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchView: SearchView
+    private lateinit var recyclerViewAdapter: FaqAdapter
 
 
     override fun onCreateView(
@@ -360,44 +359,95 @@ class FaqsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_faqs, container, false)
+        sampleListFAQsClone.addAll(sampleListFAQs)
         recyclerView = root.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
-        val adapter = FaqAdapter(requireActivity(), sampleListFAQsClone)
-        recyclerView.adapter = adapter
-//        try {
-//            searchView = root.findViewById(R.id.search_view)
-//            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//                override fun onQueryTextSubmit(query: String?): Boolean {
-//                    return true
-//                }
-//
-//                override fun onQueryTextChange(newText: String?): Boolean {
-//                    if (newText != null) {
-//                        val text = newText.toUpperCase(Locale.ROOT)
-//                        sampleListFAQsClone.clear()
-//                        adapter.notifyDataSetChanged()
-//                        sampleListFAQs.forEach {
-//                            if (it.titleText.contains(text) || it.subTitleText.contains(text)) {
-//                                sampleListFAQsClone.add(it)
-//                                adapter.notifyDataSetChanged()
-//                            } else {
-//                                val element = FaqAdapter.FAQ("No item was found", "", listOf())
-//                                sampleListFAQsClone.add(element)
-//                            }
-//                        }
-//
-//                    } else {
-//                        sampleListFAQsClone.add(sampleListFAQs)
-//                        adapter.notifyDataSetChanged()
-//                    }
-//                    return true
-//                }
-//            })
-//        } catch (e: Exception) {
-//        }
-
+        recyclerViewAdapter = FaqAdapter(requireActivity(), sampleListFAQsClone)
+        recyclerView.adapter = recyclerViewAdapter
+        try {
+            searchView = root.findViewById(R.id.search_view)
+            searchView.setOnQueryTextListener(queryTextListener)
+        } catch (e: Exception) {
+        }
 
 
         return root
     }
+
+    private val queryTextListener = object : SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String?): Boolean {
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String?): Boolean {
+            //START
+
+            sampleListFAQsClone.clear()//CLEAR
+
+            if (newText != null) {
+
+                val text = newText.toLowerCase(Locale.getDefault())
+
+
+                if (text.isNotEmpty()) {
+
+                    sampleListFAQs.forEach { FAQ ->
+
+
+                        if (FAQ.titleText.toLowerCase(Locale.getDefault())
+                                .contains(text) || FAQ.subTitleText.toLowerCase(Locale.getDefault())
+                                .contains(text) || FAQ.tags.toString()
+                                .toLowerCase(Locale.getDefault()).contains(text)
+                        ) {
+
+                            sampleListFAQsClone.add(FAQ)
+
+                        } else {
+
+                            val element = FaqAdapter.FAQ("No item was found", "", listOf())
+                            sampleListFAQsClone.add(element)
+
+                        }
+
+                        recyclerViewAdapter.notifyDataSetChanged()
+
+
+                    }
+
+
+                } else {
+
+                    sampleListFAQsClone.clear()
+                    sampleListFAQsClone.addAll(sampleListFAQs)
+
+                }
+
+
+            } else {
+
+                sampleListFAQsClone.clear()
+                sampleListFAQsClone.addAll(sampleListFAQs)
+                recyclerViewAdapter.notifyDataSetChanged()
+
+            }
+
+
+            return false
+
+            //END
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+
+        inflater.inflate(R.menu.menu_faq_search, menu)
+
+        val searchView = menu.findItem(R.id.action_search).actionView as SearchView
+        searchView.setOnQueryTextListener(queryTextListener)
+
+        return super.onCreateOptionsMenu(menu, inflater)
+
+    }
+
+
 }

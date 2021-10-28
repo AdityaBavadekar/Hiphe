@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:liftOnScroll="true"
-        app:liftOnScrollTargetViewId="@id/nav_host_fragment">
+        app:liftOnScrollTargetViewId="@id/cardViewScroll">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/offlineNotifierCardMain"
@@ -72,7 +72,8 @@
             app:menu="@menu/send_feedback"
             app:navigationIcon="@drawable/ic_baseline_close_24"
             app:popupTheme="@style/Theme.MaterialComponents.DayNight"
-            app:title="Send Feedback" />
+            app:title="Send Feedback"
+            app:titleTextColor="?android:textColorPrimary" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -87,6 +88,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:id="@+id/cardViewScroll"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -126,7 +128,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
+                        android:gravity="top|start"
                         android:hint="@string/have_feedback_we_d_love_to_hear_it_but_please_don_t_share_sensitive_information_have_questions_or_legal_concerns_visit_help_centre_or_contact_support_teamhiphe_gmail_com"
+                        android:minHeight="300dp"
                         android:padding="25dp" />
 
 
@@ -172,20 +176,20 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_black"
-                                        android:text="Screenshots"
+                                        android:text="@string/screenshots"
                                         android:textColor="?android:textColorPrimary"
                                         android:textSize="20sp" />
 
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Highlight or hide info"
+                                        android:text="@string/highlight_or_hide_info"
                                         android:textColor="?android:textColorPrimary" />
                                 </LinearLayout>
 
                                 <ImageView
                                     android:id="@+id/imageView"
-                                    android:layout_width="50dp"
+                                    android:layout_width="60dp"
                                     android:layout_height="0dp"
                                     android:src="@drawable/clouds"
                                     app:layout_constraintBottom_toBottomOf="parent"
@@ -255,7 +259,7 @@
                                         <TextView
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:text="View"
+                                            android:text="@string/view"
                                             android:textColor="?android:textColorPrimary" />
                                     </LinearLayout>
 
@@ -265,7 +269,7 @@
 
                                 <androidx.constraintlayout.widget.ConstraintLayout
                                     android:id="@id/imageView2"
-                                    android:layout_width="50dp"
+                                    android:layout_width="60dp"
                                     android:layout_height="0dp"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -304,13 +308,5 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:fabSize="mini"
-        app:srcCompat="@android:drawable/ic_dialog_email" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

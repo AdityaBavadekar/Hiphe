@@ -59,14 +59,16 @@ class constants {
         const val APP_NAME = "Hiphe"
         const val REPO_NAME = "Hiphe"
         const val GITHUB_DEVELOPER_NAME = "AdityaBavadekar"
-        const val UPDATE_FROM_XML_URL = "https://raw.githubusercontent.com/AdityaBavadekar/Hiphe/main/changelog/latest-version-change-info.xml"
+        const val UPDATE_FROM_XML_URL =
+            "https://raw.githubusercontent.com/AdityaBavadekar/Hiphe/main/changelog/latest-version-change-info.xml"
         const val applicationVersioCode = "2.0"
         const val applicationVersionName = "2.231.56"
         const val DEVELOPER_NAME = "Aditya Bavadekar"
         const val DEVELOPER_EMAIL_ADDRESS = "adityarbavadekar@gmail.com"
         const val BOOL_TRUE = true
         const val BOOL_FALSE = false
-        const val defaultWebClientId = "371267192431-ks1egp1u1bfmsdm3eoemintsrdb0vs0n.apps.googleusercontent.com"
+        const val defaultWebClientId =
+            "371267192431-ks1egp1u1bfmsdm3eoemintsrdb0vs0n.apps.googleusercontent.com"
         const val checkIsLoggedInPrefKey = "IS_LOGGED_IN"
         const val signedInUserNamePrefKey = "USER_ACCOUNT_NAME"
         const val signedInUserPhonePrefKey = "USER_ACCOUNT_PHONE"

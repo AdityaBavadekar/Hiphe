@@ -128,43 +128,43 @@ class SharedActivity : AppCompatActivity() {
 
 
             val textExtensionMimeTypeMap =
-                    MimeTypeMap.getSingleton().getMimeTypeFromExtension("txt")
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("txt")
             val imagePngExtensionMimeTypeMap =
-                    MimeTypeMap.getSingleton().getMimeTypeFromExtension("png")
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("png")
             val imageJpgExtensionMimeTypeMap =
-                    MimeTypeMap.getSingleton().getMimeTypeFromExtension("jpg")
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("jpg")
             val imageJpegExtensionMimeTypeMap =
-                    MimeTypeMap.getSingleton().getMimeTypeFromExtension("jpeg")
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("jpeg")
             val imageGifExtensionMimeTypeMap =
-                    MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif")
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif")
             val imageWebpExtensionMimeTypeMap =
-                    MimeTypeMap.getSingleton().getMimeTypeFromExtension("webp")
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("webp")
             val imageSvgzExtensionMimeTypeMap =
-                    MimeTypeMap.getSingleton().getMimeTypeFromExtension("svgz")
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("svgz")
             val videoMp4ExtensionMimeTypeMap =
-                    MimeTypeMap.getSingleton().getMimeTypeFromExtension("mp4")
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("mp4")
             val videoWavExtensionMimeTypeMap =
-                    MimeTypeMap.getSingleton().getMimeTypeFromExtension("wav")
+                MimeTypeMap.getSingleton().getMimeTypeFromExtension("wav")
 
             val mimeTypeHashmap = hashMapOf(
-                    "txt" to "$textExtensionMimeTypeMap",
-                    "png" to "$imagePngExtensionMimeTypeMap",
-                    "jpg" to "$imageJpgExtensionMimeTypeMap",
-                    "jpeg" to "$imageJpegExtensionMimeTypeMap",
-                    "gif" to "$imageGifExtensionMimeTypeMap",
-                    "webp" to "$imageWebpExtensionMimeTypeMap",
-                    "svgz" to "$imageSvgzExtensionMimeTypeMap",
-                    "mp4" to "$videoMp4ExtensionMimeTypeMap",
-                    "mp4" to "$videoMp4ExtensionMimeTypeMap",
-                    "wav" to "$videoWavExtensionMimeTypeMap"
+                "txt" to "$textExtensionMimeTypeMap",
+                "png" to "$imagePngExtensionMimeTypeMap",
+                "jpg" to "$imageJpgExtensionMimeTypeMap",
+                "jpeg" to "$imageJpegExtensionMimeTypeMap",
+                "gif" to "$imageGifExtensionMimeTypeMap",
+                "webp" to "$imageWebpExtensionMimeTypeMap",
+                "svgz" to "$imageSvgzExtensionMimeTypeMap",
+                "mp4" to "$videoMp4ExtensionMimeTypeMap",
+                "mp4" to "$videoMp4ExtensionMimeTypeMap",
+                "wav" to "$videoWavExtensionMimeTypeMap"
             )
 
             val firestore: FirebaseFirestore = Firebase.firestore
             firestore.collection("MimeTypes")
-                    .document("MimeTypes")
-                    .set(mimeTypeHashmap)
-                    .addOnSuccessListener {
-                    }
+                .document("MimeTypes")
+                .set(mimeTypeHashmap)
+                .addOnSuccessListener {
+                }
 
 
         } catch (e: Exception) {
@@ -183,9 +183,9 @@ class SharedActivity : AppCompatActivity() {
             while (cursor.moveToNext()) {
 
                 val contactName =
-                        cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
+                    cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
                 val contactPhone =
-                        cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                    cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
             }
         }
     }

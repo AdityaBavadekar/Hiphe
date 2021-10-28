@@ -183,7 +183,9 @@ class SendFeedback() {
 //        val pendingIntent =
 //            PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_ONE_SHOT)
 //        alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, pendingIntent)
-        context.startActivity(Intent(context, LauncherActivity::class.java))
+        val intent = Intent(context, LauncherActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        context.startActivity(intent)
         exitProcess(404)
     }
 

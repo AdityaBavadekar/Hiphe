@@ -318,11 +318,11 @@ class MainActivity : AppCompatActivity() {
         val accountInfo = getAccounts()
         if (accountInfo != null) {
             val acSpeak =
-                "hey $accountInfo "+getString(
-                        R.string.first_guess_with_confidence_level_of,
-            firstGuess,
-            firstGuesssConfidence.toString()
-            )
+                "hey $accountInfo " + getString(
+                    R.string.first_guess_with_confidence_level_of,
+                    firstGuess,
+                    firstGuesssConfidence.toString()
+                )
             txt2Sp = TextToSpeech(this) { status ->
                 if (status == TextToSpeech.SUCCESS) {
                     TEXT_TO_SPEECH_INITIALISED = true

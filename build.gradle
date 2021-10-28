@@ -164,7 +164,8 @@ dependencies {
     implementation "com.google.dagger:dagger:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "com.google.dagger:dagger-android:$daggerVersion"
-    implementation "com.google.dagger:dagger-android-support:$daggerVersion" // if you use the support libraries
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
+    // if you use the support libraries
     annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     implementation 'com.github.javiersantos:AppUpdater:2.7'

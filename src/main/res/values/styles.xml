@@ -103,6 +103,10 @@
 
     <style name="Hiphe.SendFeedbackTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="colorPrimary">@android:color/white</item>
+        <item name="colorPrimaryDark">@android:color/white</item>
+        <item name="titleTextColor">@android:color/black</item>
+        <item name="toolbarStyle">@style/Theme.MaterialComponents.Light</item>
     </style>
 
 </resources>

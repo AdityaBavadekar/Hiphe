@@ -24,7 +24,7 @@
     <fragment
         android:id="@+id/googleSignInFragment"
         android:name="com.adityaamolbavadekar.hiphe.ui.googlesign.GoogleSignInFragment"
-        android:label="GoogleSignInFragment"
+        android:label=""
         tools:layout="@layout/fragment_googlesignin">
         <action
             android:id="@+id/action_googleSignInFragment_to_loginFragment"
@@ -36,7 +36,7 @@
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.adityaamolbavadekar.hiphe.ui.signup.SignUpFragment"
-        android:label="SignUpFragment"
+        android:label=""
         tools:layout="@layout/fragment_signup">
         <action
             android:id="@+id/action_signUpFragment_to_loginFragment"
@@ -48,7 +48,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.adityaamolbavadekar.hiphe.ui.login.LoginFragment"
-        android:label="LoginFragment"
+        android:label=""
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
