@@ -20,5 +20,6 @@ package com.adityaamolbavadekar.hiphe.models
 data class ChangeLogInfo(
     var versionName: String,
     var versionCode: String,
-    var releaseNotes: String
+    var releaseNotes: String,
+    var apkURL: String
 )

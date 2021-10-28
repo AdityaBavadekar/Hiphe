@@ -17,61 +17,41 @@
 
 package com.adityaamolbavadekar.hiphe.utils
 
-import android.app.Activity
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
-import com.adityaamolbavadekar.hiphe.LauncherActivity
+import com.adityaamolbavadekar.hiphe.R
 import com.adityaamolbavadekar.hiphe.interaction.HipheErrorLog
 import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
 
 class ConfigureTheme {
 
-    fun configureThemeOnCreate(context: Context) {
+    fun configureThemeOnCreate(context: Context, TAG: String) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         try {
             when (prefs.getString("theme", "3")) {
                 "1" -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    HipheInfoLog(LauncherActivity.TAG, "Initiating MODE_NIGHT_YES")
+                    HipheInfoLog(TAG, context.getString(R.string.Initiating_MODE_NIGHT_YES))
                 }
                 "2" -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    HipheInfoLog(LauncherActivity.TAG, "Initiating MODE_NIGHT_NO")
+                    HipheInfoLog(TAG, context.getString(R.string.Initiating_MODE_NIGHT_NO))
                 }
                 "3" -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                    HipheInfoLog(LauncherActivity.TAG, "Initiating MODE_NIGHT_FOLLOW_SYSTEM")
+                    HipheInfoLog(
+                        TAG,
+                        context.getString(R.string.Initiating_MODE_NIGHT_FOLLOW_SYSTEM)
+                    )
                 }
             }
         } catch (e: Exception) {
-            HipheErrorLog(LauncherActivity.TAG, "Error while Initiating Theme ", e.toString())
+            HipheErrorLog(
+                TAG,
+                context.getString(R.string.error_while_initiating_theme),
+                e.toString()
+            )
         }
     }
-
-    fun configureThemeOnStart(activity: Activity) {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(activity)
-        try {
-            when (prefs.getString("theme", "3")) {
-                "1" -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                    HipheInfoLog(LauncherActivity.TAG, "Initiating MODE_NIGHT_YES")
-                    activity.recreate()
-                }
-                "2" -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                    HipheInfoLog(LauncherActivity.TAG, "Initiating MODE_NIGHT_NO")
-                    activity.recreate()
-                }
-                "3" -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                    HipheInfoLog(LauncherActivity.TAG, "Initiating MODE_NIGHT_FOLLOW_SYSTEM")
-                    activity.recreate()
-                }
-            }
-        } catch (e: Exception) {
-            HipheErrorLog(LauncherActivity.TAG, "Error while Initiating Theme ", e.toString())
-        }
-    }
-
 }

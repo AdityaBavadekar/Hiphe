@@ -17,7 +17,9 @@
 
 package com.adityaamolbavadekar.hiphe
 
+import android.app.DownloadManager
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -33,6 +35,7 @@ import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsClient
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.browser.customtabs.CustomTabsServiceConnection
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -41,23 +44,30 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
+import com.adityaamolbavadekar.hiphe.interaction.HipheErrorLog
 import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
 import com.adityaamolbavadekar.hiphe.interaction.getTheFinalLogs
+import com.adityaamolbavadekar.hiphe.interaction.showLongToast
+import com.adityaamolbavadekar.hiphe.models.ChangeLogInfo
+import com.adityaamolbavadekar.hiphe.models.GitRawApi
 import com.adityaamolbavadekar.hiphe.ui.FaqsFragment
+import com.adityaamolbavadekar.hiphe.ui.home.HomeFragment
 import com.adityaamolbavadekar.hiphe.utils.constants
 import com.bumptech.glide.Glide
-import com.github.javiersantos.appupdater.AppUpdater
-import com.github.javiersantos.appupdater.enums.Display
-import com.github.javiersantos.appupdater.enums.UpdateFrom
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.settings_activity.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 
 
 class HipheSettingsActivity : AppCompatActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,15 +75,15 @@ class HipheSettingsActivity : AppCompatActivity() {
         when (prefs.getString("theme", "3")) {
             "1" -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                HipheInfoLog(LauncherActivity.TAG, "Initiating MODE_NIGHT_YES")
+                HipheInfoLog(TAG, "Initiating MODE_NIGHT_YES")
             }
             "2" -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                HipheInfoLog(LauncherActivity.TAG, "Initiating MODE_NIGHT_NO")
+                HipheInfoLog(TAG, "Initiating MODE_NIGHT_NO")
             }
             "3" -> {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                HipheInfoLog(LauncherActivity.TAG, "Initiating MODE_NIGHT_FOLLOW_SYSTEM")
+                HipheInfoLog(TAG, "Initiating MODE_NIGHT_FOLLOW_SYSTEM")
             }
         }
         setContentView(R.layout.settings_activity)
@@ -204,25 +214,155 @@ class HipheSettingsActivity : AppCompatActivity() {
                         requireActivity().packageName,
                         0
                     )
-                    val versionName = pckMangr.versionName
-                    val appUpdater = AppUpdater(requireActivity())
-                        .setButtonDismiss(getString(R.string.cancel))
-                        .setButtonUpdate(getString(R.string.ok_update_hiphe))
-                        .setDisplay(Display.DIALOG)
-                        .setUpdateFrom(UpdateFrom.GITHUB)
-                        .setGitHubUserAndRepo(
-                            getString(R.string.gitHub_developer_name),
-                            getString(R.string.app_name)
+                    val buildVersionName = pckMangr.versionName
+                    try {
+                        val retrofit = Retrofit.Builder()
+                            .baseUrl(LauncherActivity.BASE_URL)
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build()
+
+                        val gitRawApi: GitRawApi = retrofit.create(GitRawApi::class.java)
+
+                        val call = gitRawApi.getNewUpdatesCall()
+                        val callback = object : Callback<ChangeLogInfo> {
+                            override fun onResponse(
+                                call: Call<ChangeLogInfo>,
+                                response: Response<ChangeLogInfo>
+                            ) {
+                                if (response.isSuccessful) {
+                                    val changeLogInfo: ChangeLogInfo? = response.body()
+                                    HipheInfoLog(
+                                        LauncherActivity.TAG,
+                                        "@GET request was Successful"
+                                    )
+                                    HipheInfoLog(
+                                        LauncherActivity.TAG,
+                                        "@GET returned $changeLogInfo"
+                                    )
+                                    HipheInfoLog(
+                                        LauncherActivity.TAG,
+                                        "@GET request Release Notes were ${changeLogInfo?.releaseNotes}"
+                                    )
+                                    HipheInfoLog(
+                                        LauncherActivity.TAG,
+                                        "@GET request LatestVersion was ${changeLogInfo?.versionName}"
+                                    )
+                                    HipheInfoLog(
+                                        LauncherActivity.TAG,
+                                        "@GET request LatestVersionCode was ${changeLogInfo?.versionCode}"
+                                    )
+                                    HipheInfoLog(
+                                        LauncherActivity.TAG,
+                                        "@GET request apkURL was ${changeLogInfo?.apkURL}"
+                                    )
+                                    HipheInfoLog(
+                                        LauncherActivity.TAG,
+                                        "@GET request's headers ${response.headers()}"
+                                    )
+                                    HipheInfoLog(
+                                        LauncherActivity.TAG,
+                                        "@GET request's raw ${response.raw()}"
+                                    )
+
+                                    if (changeLogInfo != null) {
+                                        val versionNameResult = changeLogInfo.versionName
+                                        val versionCodeResult = changeLogInfo.versionCode
+                                        val releaseNotesResult = changeLogInfo.releaseNotes
+
+                                        if (buildVersionName != versionNameResult) {
+                                            requireActivity().showLongToast("You are on latest stable version of Hiphe i.e.$buildVersionName")
+
+
+                                            val b = MaterialAlertDialogBuilder(requireActivity())
+                                            b.setIcon(R.drawable.ic_baseline_system_update_24)
+                                            b.setTitle("Version $buildVersionName")
+                                            b.setMessage(
+                                                getString(
+                                                    R.string.updated_version_of_hiphe_is_available_formatted,
+                                                    versionNameResult,
+                                                    buildVersionName,
+                                                    versionNameResult,
+                                                    releaseNotesResult
+                                                )
+                                            )
+                                            b.setPositiveButton(getString(R.string.ok_update_hiphe)) { dialogInterface, _ ->
+                                                requireActivity().showLongToast("Updating in background, you can continue exploring app")
+                                                updateHipheWithChangeInfo(changeLogInfo)
+                                                dialogInterface.dismiss()
+                                            }
+                                            b.setPositiveButton(getString(R.string.ok_update_hiphe)) { dialogInterface, _ ->
+                                                preference.summary = getString(
+                                                    R.string.updated_version_of_hiphe_is_available_preference_formatted,
+                                                    versionNameResult
+                                                )
+                                                dialogInterface.dismiss()
+                                            }
+                                            b.setCancelable(false)
+                                            b.create()
+                                            b.show()
+
+                                        } else if (buildVersionName == versionNameResult) {
+                                            requireActivity().showLongToast("You are on latest stable version of Hiphe i.e.$buildVersionName")
+
+                                            val b = MaterialAlertDialogBuilder(requireActivity())
+                                            b.setIcon(R.drawable.ic_baseline_system_update_24)
+                                            b.setTitle("Version $buildVersionName")
+                                            b.setMessage(
+                                                getString(
+                                                    R.string.your_are_on_latest_version_of_hiphe_formatted,
+                                                    buildVersionName,
+                                                    releaseNotesResult
+                                                )
+                                            )
+                                            b.setPositiveButton(getString(R.string.ok_got_it)) { dialogInterface, _ ->
+                                                dialogInterface.dismiss()
+                                            }
+                                            b.setCancelable(false)
+                                            b.create()
+                                            b.show()
+
+                                        }
+                                    }
+
+                                } else {
+                                    HipheErrorLog(
+                                        HomeFragment.TAG,
+                                        "onResponse: Unsuccessful: ",
+                                        response.code().toString()
+                                    )
+                                    requireActivity().showLongToast("Something went wrong...")
+                                    return
+                                }
+                            }
+
+                            override fun onFailure(call: Call<ChangeLogInfo>, t: Throwable) {
+                                HipheErrorLog(
+                                    HomeFragment.TAG,
+                                    "onFailure: LOCALIZED MESSAGE: ",
+                                    " ${t.localizedMessage}"
+                                )
+                                requireActivity().showLongToast("Please check that your Internet Connection is on")
+                                HipheErrorLog(
+                                    HomeFragment.TAG,
+                                    "onFailure: STACKTRACE: ",
+                                    t.stackTraceToString()
+                                )
+                                HipheErrorLog(
+                                    HomeFragment.TAG,
+                                    "onFailure: DATA: ",
+                                    t.cause.toString()
+                                )
+                            }
+                        }
+                        call.enqueue(callback)
+                    } catch (e: Exception) {
+                        HipheErrorLog(
+                            LauncherActivity.TAG,
+                            getString(R.string.error_making_call_to_changelog_json_url, BASE_URL),
+                            e.toString()
                         )
-                        .setUpdateXML(constants.UPDATE_FROM_XML_URL)
-                        .setIcon(R.drawable.ic_baseline_update_24)
-                        .setTitleOnUpdateNotAvailable(getString(R.string.no_update_required))
-                        .setCancelable(false)
-                        .setContentOnUpdateNotAvailable("You are on latest version of Hiphe i.e. $versionName . \nTune in receive update of Hiphe.")
-                    appUpdater.start()
-                    appUpdater.setButtonDismissClickListener { dialog, which ->
-                        appUpdater.stop()
                     }
+
                     return true
                 }
                 "hpp" -> {
@@ -246,7 +386,7 @@ class HipheSettingsActivity : AppCompatActivity() {
                     } catch (e: Exception) {
                     }
                     val url =
-                        "https://github.com/AdityaBavadekar/Hiphe/blob/main/src/main/HiphePrivacyPolicy.md"
+                        getString(R.string.hiphe_github_privacy_policy_url)
                     val builder = CustomTabsIntent.Builder()
                     val colorInt: Int = Color.parseColor("#FF0000") //red
                     val defaultColors = CustomTabColorSchemeParams.Builder()
@@ -259,7 +399,7 @@ class HipheSettingsActivity : AppCompatActivity() {
                 }
                 "hts" -> {
                     val url =
-                        "https://github.com/AdityaBavadekar/Hiphe/blob/main/src/main/Terms%20%26%20Conditions.md"
+                        getString(R.string.hiphe_github_terms_and_conditions_url)
                     val builder = CustomTabsIntent.Builder()
                     val colorInt: Int = Color.parseColor("#FF0000") //red
                     val defaultColors = CustomTabColorSchemeParams.Builder()
@@ -273,6 +413,36 @@ class HipheSettingsActivity : AppCompatActivity() {
                 }
                 else -> return false
             }
+        }
+
+        private fun updateHipheWithChangeInfo(changeLogInfo: ChangeLogInfo) {
+            val versionName = changeLogInfo.versionName
+            val versionCode = changeLogInfo.versionCode
+            val releaseNotes = changeLogInfo.releaseNotes
+            val apkURL = changeLogInfo.apkURL
+            val apkUri = Uri.parse(apkURL)
+
+            //Download APK
+            val downloadManager =
+                requireActivity().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            val request = DownloadManager.Request(apkUri)
+            request.setTitle(getString(R.string.updating_hiphe))
+            request.setDescription(getString(R.string.we_will_download_apk_in_background))
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+            request.setDestinationUri(requireActivity().filesDir.toUri())
+            request.allowScanningByMediaScanner()
+
+            val completion = downloadManager.enqueue(request)
+
+            requireActivity().showLongToast(
+                downloadManager.getUriForDownloadedFile(completion).toString()
+            )
+            try {
+                downloadManager.openDownloadedFile(completion)
+            } catch (e: Exception) {
+                HipheErrorLog(TAG, getString(R.string.error_opening_downloaded_file), e.toString())
+            }
+
         }
     }
 
@@ -322,6 +492,8 @@ class HipheSettingsActivity : AppCompatActivity() {
 
     companion object {
         const val TAG = "HipheSettingsActivity"
+        const val BASE_URL =
+            "https://raw.githubusercontent.com/AdityaBavadekar/Hiphe/main/changelog/"
     }
 
 }

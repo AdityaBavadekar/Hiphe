@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ConfigureTheme().configureThemeOnCreate(this)
+        ConfigureTheme().configureThemeOnCreate(this, TAG)
 
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
@@ -144,19 +144,22 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         if (isVisitor) {
-            HipheInfoLog(TAG, "User is a newcomer, asking him if he wants to be guided")
+            HipheInfoLog(
+                TAG,
+                getString(R.string.user_is_a_newcomer_asking_him_if_he_wants_to_be_guided)
+            )
             val b = MaterialAlertDialogBuilder(this)
             b.setIcon(R.drawable.ic_twotone_important_devices_24)
             b.setTitle(getString(R.string.visitor_welcome_to_hiphe))
-            b.setMessage("Welcome\nIt is our pleasure to see you, here are some quick thing you can do :\n*View about Hiphe\n*Explore list of plants\n*Do your customisations in settings\n\nOr do you want to take a quik tour to our app? If yes, click \"OK\",else click \"NO, THANKS\"")
+            b.setMessage(getString(R.string.welcome_it_is_our_pleasure_to_see_you_dialog_message))
             b.setPositiveButton(getString(R.string.ok)) { dialogInterface, _ ->
-                HipheInfoLog(TAG, "User AGREED to take a tour")
+                HipheInfoLog(TAG, getString(R.string.User_AGREED_to_take_a_tour))
                 dialogInterface.dismiss()
                 takeHipheTour()
                 //TODO("GUIDE USER TO USE APPLICATION")
             }
             b.setNegativeButton(getString(R.string.no_thanks)) { dialogInterface, _ ->
-                HipheInfoLog(TAG, "User DISAGREED to take a tour")
+                HipheInfoLog(TAG, getString(R.string.User_DISAGREED_to_take_a_tour))
                 dialogInterface.dismiss()
             }
             b.setCancelable(false)
@@ -198,7 +201,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     HipheInfoLog(
                         TAG,
-                        "User is logging out without remembrance, googleSignInClient.revokeAccess() auth.signOut()"
+                        getString(R.string.User_is_logging_out_without_remembrance__signuot)
                     )
                     startActivity(Intent(this, LauncherActivity::class.java))
                     ba.dismiss()
@@ -217,7 +220,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     HipheInfoLog(
                         TAG,
-                        "User is logging out with remembrance, googleSignInClient.revokeAccess() auth.signOut()"
+                        getString(R.string.User_is_logging_out_with_remembrance__signuot)
                     )
                     startActivity(Intent(this, LauncherActivity::class.java))
                     ba.dismiss()
@@ -307,12 +310,19 @@ class MainActivity : AppCompatActivity() {
         d.window!!.attributes = lp
 
 
-        val speak =
-            "$firstGuess is first guess with confidence level of ${firstGuesssConfidence}percent FROM ARTIFICIAL INTELLIGENCE "
+        val speak = getString(
+            R.string.first_guess_with_confidence_level_of,
+            firstGuess,
+            firstGuesssConfidence.toString()
+        )
         val accountInfo = getAccounts()
         if (accountInfo != null) {
             val acSpeak =
-                "hey $accountInfo $firstGuess is first guess with confidence level of ${firstGuesssConfidence}percent FROM ARTIFICIAL INTELLIGENCE "
+                "hey $accountInfo "+getString(
+                        R.string.first_guess_with_confidence_level_of,
+            firstGuess,
+            firstGuesssConfidence.toString()
+            )
             txt2Sp = TextToSpeech(this) { status ->
                 if (status == TextToSpeech.SUCCESS) {
                     TEXT_TO_SPEECH_INITIALISED = true

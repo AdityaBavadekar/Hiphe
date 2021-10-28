@@ -74,16 +74,16 @@ class HomeFragment : Fragment() {
                     var text: String = ""
                     postList?.forEach { post: Post ->
                         text += "\n\nPost : ${post.id}\n" +
-                                "       Title : ${post.title.toUpperCase(Locale.ROOT)}\n"
-                        "       Body : ${post.text}"
-                        "               By UserId : ${
-                            post.userId.toString().toUpperCase(Locale.ROOT)
-                        }\n\n"
+                                "Title : ${post.title.toUpperCase(Locale.ROOT)}\n" +
+                                "Body : ${post.text}\n" +
+                                "By UserId : ${
+                                    post.userId.toString().toUpperCase(Locale.ROOT)
+                                }\n\n"
                     }
                     homeViewModel.setText(text)
 
                 } else {
-                    HipheErrorLog(TAG, "onResponse: Unseccessful: ", response.code().toString())
+                    HipheErrorLog(TAG, "onResponse: Unsuccessful: ", response.code().toString())
                     homeViewModel.setText(getString(R.string.oops_something_went_wrong))
                     return
                 }

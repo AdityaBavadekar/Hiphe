@@ -49,12 +49,12 @@ class LauncherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         connectionLiveData = ConnectionLiveData(this)
-        if (intent.getStringExtra("LOGS") != null) {
-            HipheDebugLog(TAG, intent.getStringExtra("LOGS").toString())
+        if (intent.getStringExtra(getString(R.string.logs)) != null) {
+            HipheDebugLog(TAG, intent.getStringExtra(getString(R.string.logs)).toString())
         }
 
         connectionLiveData.observe(this, Observer {
-            if (!it) this.showToast("You are offline!")
+            if (!it) this.showToast(getString(R.string.you_are_offline))
         })
 
         try {
@@ -124,15 +124,15 @@ class LauncherActivity : AppCompatActivity() {
 
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val loggedIn = prefs.getBoolean(constants.checkIsLoggedInPrefKey, false)
-        ConfigureTheme().configureThemeOnCreate(this)
+        ConfigureTheme().configureThemeOnCreate(this, TAG)
 
         setContentView(R.layout.activity_launcher)
         if (loggedIn) {
             loggedInUserNormalBehaviour()
-            HipheInfoLog(TAG, "User is logged in, initiating normal call")
+            HipheInfoLog(TAG, getString(R.string.user_is_logged_in_initiating_normal_call))
         } else {
             loggedOutUserClassicBehaviour()
-            HipheInfoLog(TAG, "User is not logged in, initiating classic call")
+            HipheInfoLog(TAG, getString(R.string.User_is_not_logged_in_initiating_classic_call))
         }
 
 

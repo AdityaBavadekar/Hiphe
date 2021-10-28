@@ -126,8 +126,33 @@
     <string name="ok_got_it">OK, GOT IT</string>
     <string name="visitor_welcome_to_hiphe">Welcome to Hiphe</string>
     <string name="no_thanks">NO, THANKS</string>
-    <string name="ok_update_hiphe">Ok Update Hiphe</string>
+    <string name="ok_update_hiphe">OK Update Hiphe</string>
     <string name="gitHub_developer_name">AdityaBavadekar</string>
     <string name="no_update_required">No Update Required</string>
+    <string name="your_are_on_latest_version_of_hiphe_formatted">You are on latest stable version of Hiphe i.e.%1$s \nRelease Notes :\n%2$s\n</string>
+    <string name="updated_version_of_hiphe_is_available_formatted">Hiphe Update Version %1$s is the latest version available to download.\nYou are on Version %2$s of Hiphe. \n\nRelease Notes of %3$s:\n%4$s</string>
+    <string name="updated_version_of_hiphe_is_available_preference_formatted">Hiphe Update Version %1$s is available.</string>
+    <string name="error_opening_downloaded_file">Error opening downloaded file</string>
+    <string name="we_will_download_apk_in_background">We will download APK in background</string>
+    <string name="updating_hiphe">Updating Hiphe…</string>
+    <string name="hiphe_github_terms_and_conditions_url">https://github.com/AdityaBavadekar/Hiphe/blob/main/src/main/Terms%20%26%20Conditions.md</string>
+    <string name="hiphe_github_privacy_policy_url">https://github.com/AdityaBavadekar/Hiphe/blob/main/src/main/HiphePrivacyPolicy.md</string>
+    <string name="error_making_call_to_changelog_json_url">\"Error making call to %1$s/changelog.json: \"</string>
+    <string name="user_is_logged_in_initiating_normal_call">User is logged in, initiating normal call</string>
+    <string name="User_is_not_logged_in_initiating_classic_call">User is not logged in, initiating classic call</string>
+    <string name="you_are_offline">You are offline!</string>
+    <string name="logs">LOGS</string>
+    <string name="Initiating_MODE_NIGHT_YES">Initiating MODE_NIGHT_YES</string>
+    <string name="Initiating_MODE_NIGHT_NO">Initiating MODE_NIGHT_NO</string>
+    <string name="Initiating_MODE_NIGHT_FOLLOW_SYSTEM">Initiating MODE_NIGHT_FOLLOW_SYSTEM</string>
+    <string name="error_while_initiating_theme">\"Error while Initiating Theme \"</string>
+    <string name="user_is_a_newcomer_asking_him_if_he_wants_to_be_guided">User is a newcomer, asking him if he wants to be guided</string>
+    <string name="welcome_it_is_our_pleasure_to_see_you_dialog_message">Welcome\nIt is our pleasure to see you, here are some quick thing you can do :\n*View about Hiphe\n*Explore list of plants\n*Do your customisations in settings\n\nOr do you want to take a quik tour to our app? If yes, click \"OK\",else click \"NO, THANKS\"</string>
+    <string name="User_AGREED_to_take_a_tour">User AGREED to take a tour</string>
+    <string name="User_DISAGREED_to_take_a_tour">User DISAGREED to take a tour</string>
+    <string name="User_is_logging_out_without_remembrance__signuot">User is logging out without remembrance, googleSignInClient.revokeAccess() auth.signOut()</string>
+    <string name="User_is_logging_out_with_remembrance__signuot">User is logging out with remembrance, googleSignInClient.revokeAccess() auth.signOut()</string>
+    <string name="first_guess_with_confidence_level_of">%1$s is first guess with confidence level of %2$s percent FROM ARTIFICIAL INTELLIGENCE </string>
+
 
 </resources>

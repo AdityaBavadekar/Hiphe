@@ -46,7 +46,7 @@ class IntroActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ConfigureTheme().configureThemeOnCreate(this)
+        ConfigureTheme().configureThemeOnCreate(this,TAG)
         setContentView(R.layout.activity_intro)
 
         setSupportActionBar(toolbar)
@@ -63,14 +63,6 @@ class IntroActivity : AppCompatActivity() {
                 .replace(R.id.nav_host_fragment_intro, GoogleSignInFragment())
                 .commit()
         }
-        Log.i(TAG, "Custom INFO LOG1 IntroActivity\$onCreate")
-        Log.i(TAG, "Custom INFO LOG2 IntroActivity\$onCreate")
-        Log.i(TAG, "Custom INFO LOG3 IntroActivity\$onCreate")
-        Log.i(TAG, "Custom INFO LOG4 IntroActivity\$onCreate")
-        Log.d(TAG, "Custom DEBUG LOG1 IntroActivity\$onCreate")
-        Log.d(TAG, "Custom DEBUG LOG2 IntroActivity\$onCreate")
-        Log.d(TAG, "Custom DEBUG LOG3 IntroActivity\$onCreate")
-        Log.d(TAG, "Custom DEBUG LOG4 IntroActivity\$onCreate")
 
 
         networkStateCardView = findViewById(R.id.offlineNotifierCardIntro)

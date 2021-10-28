@@ -42,6 +42,7 @@ val HipheLogger = mutableListOf<HipheLog>(
     HipheLog("HipheLogger", "Default Verbose Log by HipheLogger", HipheLog.LogType.Verbose)
 )
 
+
 data class HipheLog(
     val TAG: String,
     val LogBody: String,
@@ -53,94 +54,50 @@ data class HipheLog(
 }
 
 fun HipheInfoLog(TAG: String, LogBody: String) {
-    HipheLogger.add(
-        HipheLog(
-            TAG,
-            "----------------------------------START-TIMESTAMP----------------------------------",
-            HipheLog.LogType.Timestamp
-        )
-    )
-    HipheLogger.add(
-        HipheLog(
-            TAG,
-            SimpleDateFormat("E, dd m yyyy HH:mm aaa Z", Locale.ENGLISH).format(Date()).toString(),
-            HipheLog.LogType.Timestamp
-        )
-    )
-    HipheLogger.add(
-        HipheLog(
-            TAG,
-            "----------------------------------END-TIMESTAMP----------------------------------",
-            HipheLog.LogType.Timestamp
-        )
-    )
-
-    HipheLogger.add(HipheLog(TAG, LogBody, HipheLog.LogType.Info))
+    val timestamp =
+        SimpleDateFormat("E, dd m yyyy HH:mm aaa Z", Locale.ENGLISH).format(Date()).toString()
+    HipheLogger.add(HipheLog(TAG, "ON $timestamp >>> $LogBody", HipheLog.LogType.Info))
 }
 
 fun HipheDebugLog(TAG: String, LogBody: String) {
-    HipheLogger.add(HipheLog(TAG, LogBody, HipheLog.LogType.Debug))
+    val timestamp =
+        SimpleDateFormat("E, dd m yyyy HH:mm aaa Z", Locale.ENGLISH).format(Date()).toString()
+
+    HipheLogger.add(HipheLog(TAG, "ON $timestamp >>> $LogBody", HipheLog.LogType.Debug))
 }
 
 fun HipheUserInfoInfoLog(TAG: String, LogBody: String) {
-    HipheLogger.add(
-        HipheLog(
-            TAG,
-            "----------------------------------START-TIMESTAMP----------------------------------",
-            HipheLog.LogType.Timestamp
-        )
-    )
-    HipheLogger.add(
-        HipheLog(
-            TAG,
-            SimpleDateFormat("E, dd m yyyy HH:mm aaa Z", Locale.ENGLISH).format(Date()).toString(),
-            HipheLog.LogType.Timestamp
-        )
-    )
-    HipheLogger.add(
-        HipheLog(
-            TAG,
-            "----------------------------------END-TIMESTAMP----------------------------------",
-            HipheLog.LogType.Timestamp
-        )
-    )
+    val timestamp =
+        SimpleDateFormat("E, dd m yyyy HH:mm aaa Z", Locale.ENGLISH).format(Date()).toString()
 
-    HipheLogger.add(HipheLog(TAG, LogBody, HipheLog.LogType.UserInfo))
+    HipheLogger.add(HipheLog(TAG, "ON $timestamp >>> $LogBody", HipheLog.LogType.UserInfo))
+
 }
 
 fun HipheWarningLog(TAG: String, LogBody: String) {
-    HipheLogger.add(HipheLog(TAG, LogBody, HipheLog.LogType.Warning))
+    val timestamp =
+        SimpleDateFormat("E, dd m yyyy HH:mm aaa Z", Locale.ENGLISH).format(Date()).toString()
+
+    HipheLogger.add(HipheLog(TAG, "ON $timestamp >>> $LogBody", HipheLog.LogType.Warning))
 }
 
 fun HipheErrorLog(TAG: String, LogBody: String, Error: String) {
+    val timestamp =
+        SimpleDateFormat("E, dd m yyyy HH:mm aaa Z", Locale.ENGLISH).format(Date()).toString()
 
     HipheLogger.add(
         HipheLog(
             TAG,
-            "----------------------------------START-TIMESTAMP----------------------------------",
-            HipheLog.LogType.Timestamp
+            "ON $timestamp >>> $LogBody    ERROR!! : $Error",
+            HipheLog.LogType.Error
         )
     )
-    HipheLogger.add(
-        HipheLog(
-            TAG,
-            SimpleDateFormat("E, dd m yyyy HH:mm aaa Z", Locale.ENGLISH).format(Date()).toString(),
-            HipheLog.LogType.Timestamp
-        )
-    )
-    HipheLogger.add(
-        HipheLog(
-            TAG,
-            "----------------------------------END-TIMESTAMP----------------------------------",
-            HipheLog.LogType.Timestamp
-        )
-    )
-
-    HipheLogger.add(HipheLog(TAG, LogBody + "ERROR!! : $Error", HipheLog.LogType.Error))
 }
 
 fun HipheVerboseLog(TAG: String, LogBody: String) {
-    HipheLogger.add(HipheLog(TAG, LogBody, HipheLog.LogType.Verbose))
+    val timestamp =
+        SimpleDateFormat("E, dd m yyyy HH:mm aaa Z", Locale.ENGLISH).format(Date()).toString()
+    HipheLogger.add(HipheLog(TAG, "ON $timestamp >>> $LogBody", HipheLog.LogType.Verbose))
 }
 
 fun getTheFinalLogs(): MutableList<HipheLog> {
