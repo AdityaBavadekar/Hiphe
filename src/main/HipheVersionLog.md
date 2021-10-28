@@ -1,6 +1,16 @@
 Hiphe Version Log :
 ---
-# v2.0 (2.231.56) 🔒
+# v2.0 (2.231.57)-BETA🔒
+- Minor bug fixes
+- Performance improvements
+- New features
+
+## v2.0 (2.231.57)-ALPHA🔒
+- Minor bug fixes
+- Performance improvements
+- New features
+
+## v2.0 (2.231.56) 🔒
 - Minor bug fixes
 - Performance improvements
 - New features
