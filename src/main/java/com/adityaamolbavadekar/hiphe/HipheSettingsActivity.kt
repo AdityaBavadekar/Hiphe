@@ -228,13 +228,19 @@ class HipheSettingsActivity : AppCompatActivity() {
                         val gitRawApi: GitRawApi = retrofit.create(GitRawApi::class.java)
 
                         val call = gitRawApi.getNewUpdatesCall()
-                        val callback = object : Callback<ChangeLogInfo> {
+
+
+                        val callback = object : Callback<List<ChangeLogInfo>> {
+
                             override fun onResponse(
-                                call: Call<ChangeLogInfo>,
-                                response: Response<ChangeLogInfo>
+                                call: Call<List<ChangeLogInfo>>,
+                                responseResult: Response<List<ChangeLogInfo>>
                             ) {
-                                if (response.isSuccessful) {
-                                    val changeLogInfo: ChangeLogInfo? = response.body()
+
+                                if (responseResult.isSuccessful) {
+
+                                    val response = responseResult.body()?.get(1)
+                                    val changeLogInfo: ChangeLogInfo? = response
                                     HipheInfoLog(
                                         TAG,
                                         "@GET request was Successful"
@@ -261,11 +267,11 @@ class HipheSettingsActivity : AppCompatActivity() {
                                     )
                                     HipheInfoLog(
                                         LauncherActivity.TAG,
-                                        "@GET request's headers ${response.headers()}"
+                                        "@GET request's headers ${responseResult.headers()}"
                                     )
                                     HipheInfoLog(
                                         TAG,
-                                        "@GET request's raw ${response.raw()}"
+                                        "@GET request's raw ${responseResult.raw()}"
                                     )
 
                                     if (changeLogInfo != null) {
@@ -335,14 +341,15 @@ class HipheSettingsActivity : AppCompatActivity() {
                                     HipheErrorLog(
                                         TAG,
                                         "onResponse: Unsuccessful: ",
-                                        response.code().toString()
+                                        responseResult.code().toString()
                                     )
                                     requireActivity().showLongToast("Something went wrong...")
                                     return
                                 }
+
                             }
 
-                            override fun onFailure(call: Call<ChangeLogInfo>, t: Throwable) {
+                            override fun onFailure(call: Call<List<ChangeLogInfo>>, t: Throwable) {
                                 HipheErrorLog(
                                     TAG,
                                     "onFailure: LOCALIZED MESSAGE: ",
@@ -360,7 +367,10 @@ class HipheSettingsActivity : AppCompatActivity() {
                                     t.cause.toString()
                                 )
                             }
+
                         }
+
+
                         call.enqueue(callback)
                     } catch (e: Exception) {
                         HipheErrorLog(

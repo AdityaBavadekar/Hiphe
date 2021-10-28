@@ -85,4 +85,13 @@
 
     </style>
 
+
+    <style name="Hiphe.MainActivityTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="colorOnPrimarySurface">@android:color/white</item>
+
+    </style>
+
+
+
 </resources>

@@ -109,4 +109,12 @@
         <item name="toolbarStyle">@style/Theme.MaterialComponents.Light</item>
     </style>
 
+
+
+    <style name="Hiphe.MainActivityTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:textColorPrimary">@android:color/black</item>
+        <item name="colorOnPrimarySurface">@android:color/white</item>
+
+    </style>
+
 </resources>

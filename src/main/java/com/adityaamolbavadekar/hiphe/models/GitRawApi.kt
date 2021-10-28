@@ -23,7 +23,7 @@ import retrofit2.http.GET
 interface GitRawApi {
 
     @GET(value = "hiphe-changelog-info.json")
-    fun getNewUpdatesCall(): Call<ChangeLogInfo>
+    fun getNewUpdatesCall(): Call<List<ChangeLogInfo>>
 //    fun getNewUpdatesCall(): Call<List<ChangeLogInfo>>
 
 }
