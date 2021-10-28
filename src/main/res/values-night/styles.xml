@@ -80,4 +80,9 @@
     <style name="CustomMaterialDayNightNoActionBarTheme.switch" parent="Theme.MaterialComponents" />
 
 
+    <style name="Hiphe.SendFeedbackTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:textColorPrimary">@android:color/white</item>
+
+    </style>
+
 </resources>

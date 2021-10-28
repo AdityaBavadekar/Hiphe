@@ -44,10 +44,7 @@ import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
-import com.adityaamolbavadekar.hiphe.interaction.HipheErrorLog
-import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
-import com.adityaamolbavadekar.hiphe.interaction.getTheFinalLogs
-import com.adityaamolbavadekar.hiphe.interaction.showLongToast
+import com.adityaamolbavadekar.hiphe.interaction.*
 import com.adityaamolbavadekar.hiphe.models.ChangeLogInfo
 import com.adityaamolbavadekar.hiphe.models.GitRawApi
 import com.adityaamolbavadekar.hiphe.ui.FaqsFragment
@@ -57,6 +54,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.settings_activity.*
 import retrofit2.Call
@@ -204,7 +202,14 @@ class HipheSettingsActivity : AppCompatActivity() {
 
     class AboutSettingsFragment : PreferenceFragmentCompat() {
         override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+            val pckMangr = requireActivity().packageManager.getPackageInfo(
+                requireActivity().packageName,
+                0
+            )
             setPreferencesFromResource(R.xml.root_preferences_about, rootKey)
+            findPreference<Preference>("build_version")?.summary = pckMangr.versionName
+            findPreference<Preference>("build_version_code")?.summary =
+                pckMangr.versionCode.toString()
         }
 
         override fun onPreferenceTreeClick(preference: Preference?): Boolean {
@@ -287,8 +292,11 @@ class HipheSettingsActivity : AppCompatActivity() {
                                             )
                                             b.setPositiveButton(getString(R.string.ok_update_hiphe)) { dialogInterface, _ ->
                                                 requireActivity().showLongToast("Updating in background, you can continue exploring app")
-                                                updateHipheWithChangeInfo(changeLogInfo)
                                                 dialogInterface.dismiss()
+                                                try {
+                                                    updateHipheWithChangeInfo(changeLogInfo)
+                                                } catch (e: Exception) {
+                                                }
                                             }
                                             b.setPositiveButton(getString(R.string.ok_update_hiphe)) { dialogInterface, _ ->
                                                 preference.summary = getString(
@@ -409,6 +417,20 @@ class HipheSettingsActivity : AppCompatActivity() {
                     builder.setDefaultColorSchemeParams(defaultColors)
                     val customTabsIntent = builder.build()
                     customTabsIntent.launchUrl(requireActivity(), Uri.parse(url))
+                    return true
+                }
+                "send_feedback" -> {
+                    val firestore = Firebase.firestore
+                    firestore.collection("HIPHE_REMOTE_USER_SENT_FEEDBACKS")
+                        .document("TEST_${System.currentTimeMillis()}")
+                        .set(hashMapOf("FEEDBACK" to true))
+                        .addOnSuccessListener {
+                            requireActivity().showToast("Feedback sent")
+                        }
+                        .addOnFailureListener {
+                            requireActivity().showToast("Feedback not sent, ${it.cause}")
+                        }
+
                     return true
                 }
                 else -> return false

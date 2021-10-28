@@ -19,17 +19,21 @@ package com.adityaamolbavadekar.hiphe.ui.signup
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.ProgressBar
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.browser.customtabs.CustomTabColorSchemeParams
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.cardview.widget.CardView
 import androidx.core.content.edit
 import androidx.fragment.app.Fragment
@@ -63,6 +67,7 @@ class SignUpFragment : Fragment() {
     private lateinit var phoneE: EditText
     private lateinit var nameE: EditText
     private lateinit var cPasswordE: EditText
+    private lateinit var byClickingYouAcceptTextView: TextView
     private lateinit var signUpButton: MaterialButton
     private lateinit var cancelButton: MaterialButton
     private lateinit var goToLoginButton: MaterialButton
@@ -89,6 +94,7 @@ class SignUpFragment : Fragment() {
         phoneE = root.findViewById(R.id.phone)
         nameE = root.findViewById(R.id.name)
         cPasswordE = root.findViewById(R.id.confirm_password)
+        byClickingYouAcceptTextView = root.findViewById(R.id.you_agree_to_text_view)
         signUpButton = root.findViewById(R.id.signUpButton)
         cancelButton = root.findViewById(R.id.cancelButton)
         goToLoginButton = root.findViewById(R.id.go_to_login_button)
@@ -99,6 +105,34 @@ class SignUpFragment : Fragment() {
         googleSignInButton = root.findViewById(R.id.signup_with_google_btn)
 
 
+        val clickableLongText = getString(R.string.disclaimer_signup)
+        val spannableString = SpannableString(clickableLongText)
+        val clickableSpanPrivacyPolicy = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                startCustomChromeTabsWithUrl(getString(R.string.hiphe_github_privacy_policy_url))
+            }
+        }
+
+        val clickableSpanTermsOfService = object : ClickableSpan() {
+            override fun onClick(widget: View) {
+                startCustomChromeTabsWithUrl(getString(R.string.hiphe_github_terms_and_conditions_url))
+            }
+        }
+
+        spannableString.setSpan(
+            clickableSpanPrivacyPolicy,
+            76,
+            89,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        spannableString.setSpan(
+            clickableSpanTermsOfService,
+            108,
+            123,
+            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        byClickingYouAcceptTextView.text = spannableString
+        byClickingYouAcceptTextView.movementMethod = LinkMovementMethod.getInstance()
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         // Configure sign-in to request the user's ID, email address, and basic
@@ -208,6 +242,18 @@ class SignUpFragment : Fragment() {
             }
         }
         return root
+    }
+
+    private fun startCustomChromeTabsWithUrl(string: String) {
+        val url = Uri.parse(string)
+        val builder = CustomTabsIntent.Builder()
+        val colorInt: Int = Color.parseColor("#FF0000") //red
+        val defaultColors = CustomTabColorSchemeParams.Builder()
+            .setToolbarColor(colorInt)
+            .build()
+        builder.setDefaultColorSchemeParams(defaultColors)
+        val customTabsIntent = builder.build()
+        customTabsIntent.launchUrl(requireActivity(), url)
     }
 
     private fun signUpWithEmailPasswords(

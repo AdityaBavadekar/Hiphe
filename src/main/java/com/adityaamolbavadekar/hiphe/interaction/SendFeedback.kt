@@ -80,14 +80,14 @@ class SendFeedback() {
         }
         context.fileList()
         context.showLongToast("Crash File saved to " + file.toURI().toString() + " ")
-        context.showLongToastWithGravity("The application crashed due to an unknown error. Please send this report to developers.")
+        context.showLongToastWithGravity("The application crashed due to an unknown error.")
 
         val user = Firebase.auth.currentUser
         if (user != null) {
             if (user.email == constants.DEVELOPER_EMAIL_ADDRESS) createChooser(context, value)
             else {
                 if (prefs.getBoolean("disable_crash_data_sending", true)) {
-                    sendCrashData(context, value, fileName, user.email)
+                    sendCrashData(context, value, fileName, mainData, user.email)
                 } else {
                     restartApplication(context)
                 }
@@ -99,7 +99,14 @@ class SendFeedback() {
 
     }
 
-    private fun sendCrashData(context: Context, value: String, fileName: String, email: String?) {
+    private fun sendCrashData(
+        context: Context,
+        value: String,
+        mainData: String,
+        fileName: String,
+        email: String?
+    ) {
+        context.showLongToastWithGravity("The crash data is being sent")
         val TAG = "sendFeedback\$sendCrashData"
         HipheWarningLog(TAG, "Sending crash data to Firestore and restarting application!!!")
         HipheWarningLog(TAG, "Sending crash data to Firestore and restarting application!!!")
@@ -109,6 +116,7 @@ class SendFeedback() {
         HipheWarningLog(TAG, "Sending crash data to Firestore and restarting application!!!")
         val dataToSend = hashMapOf(
             "USER_EMAIL_ID" to "$email",
+            "CRASH_DEVICE_DATA" to "$mainData",
             "CRASH_MAIN_DATA" to "$value",
             "CRASH_PATH_TO_SAVED_DATA" to "${context.filesDir.path}",
             "CRASH_FILES_IN_PATH_PARENT" to "${context.fileList()}",
@@ -124,12 +132,12 @@ class SendFeedback() {
             .document("$fileName")
             .set(dataToSend)
             .addOnSuccessListener {
-                val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                val intent = Intent(context, LauncherActivity::class.java)
-                intent.putExtra("LOGS", HipheLogger.toString())
-                val pendingIntent =
-                    PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_ONE_SHOT)
-                alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, pendingIntent)
+//                val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//                val intent = Intent(context, LauncherActivity::class.java)
+//                intent.putExtra("LOGS", HipheLogger.toString())
+//                val pendingIntent =
+//                    PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_ONE_SHOT)
+//                alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, pendingIntent)
                 exitProcess(404)
             }
             .addOnFailureListener {
@@ -142,39 +150,40 @@ class SendFeedback() {
         val TAG = "sendFeedback\$restartApplication"
         HipheWarningLog(
             TAG,
-            "Triggering Crash Upload and then SystemExit(404) due to disabled share crash data in settings!!!"
+            context.getString(R.string.Triggering_Crash_Upload_and_then_SystemExit_due_to_disabled_share_crash_data_in_settings)
         )
         HipheWarningLog(
             TAG,
-            "Triggering Crash Upload and then SystemExit(404) due to disabled share crash data in settings!!!"
+            context.getString(R.string.Triggering_Crash_Upload_and_then_SystemExit_due_to_disabled_share_crash_data_in_settings)
         )
         HipheWarningLog(
             TAG,
-            "Triggering Crash Upload and then SystemExit(404) due to disabled share crash data in settings!!!"
+            context.getString(R.string.Triggering_Crash_Upload_and_then_SystemExit_due_to_disabled_share_crash_data_in_settings)
         )
         HipheWarningLog(
             TAG,
-            "Triggering Crash Upload and then SystemExit(404) due to disabled share crash data in settings!!!"
+            context.getString(R.string.Triggering_Crash_Upload_and_then_SystemExit_due_to_disabled_share_crash_data_in_settings)
         )
         HipheWarningLog(
             TAG,
-            "Triggering Crash Upload and then SystemExit(404) due to disabled share crash data in settings!!!"
+            context.getString(R.string.Triggering_Crash_Upload_and_then_SystemExit_due_to_disabled_share_crash_data_in_settings)
         )
         HipheWarningLog(
             TAG,
-            "Triggering Crash Upload and then SystemExit(404) due to disabled share crash data in settings!!!"
+            context.getString(R.string.Triggering_Crash_Upload_and_then_SystemExit_due_to_disabled_share_crash_data_in_settings)
         )
         HipheWarningLog(
             TAG,
-            "Triggering Crash Upload and then SystemExit(404) due to disabled share crash data in settings!!!"
+            context.getString(R.string.Triggering_Crash_Upload_and_then_SystemExit_due_to_disabled_share_crash_data_in_settings)
         )
-
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val intent = Intent(context, LauncherActivity::class.java)
-        intent.putExtra("LOGS", HipheLogger.toString())
-        val pendingIntent =
-            PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_ONE_SHOT)
-        alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, pendingIntent)
+//
+//        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//        val intent = Intent(context, LauncherActivity::class.java)
+//        intent.putExtra("LOGS", HipheLogger.toString())
+//        val pendingIntent =
+//            PendingIntent.getActivity(context, 100, intent, PendingIntent.FLAG_ONE_SHOT)
+//        alarmManager.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, pendingIntent)
+        context.startActivity(Intent(context, LauncherActivity::class.java))
         exitProcess(404)
     }
 
@@ -202,24 +211,47 @@ class SendFeedback() {
     }
 
     private fun createChooser(context: Context, value: String) {
+        context.showLongToastWithGravity(context.getString(R.string.please_send_this_crash_data_to_developer))
 
         Thread {
             val TAG = "sendFeedback\$createAchooser"
-            HipheWarningLog(TAG, "Triggering createAchooser due to a Crash!!!")
-            HipheWarningLog(TAG, "Triggering createAchooser due to a Crash!!!")
-            HipheWarningLog(TAG, "Triggering createAchooser due to a Crash!!!")
-            HipheWarningLog(TAG, "Triggering createAchooser due to a Crash!!!")
-            HipheWarningLog(TAG, "Triggering createAchooser due to a Crash!!!")
-            HipheWarningLog(TAG, "Triggering createAchooser due to a Crash!!!")
-            HipheWarningLog(TAG, "Triggering createAchooser due to a Crash!!!")
+            HipheWarningLog(
+                TAG,
+                context.getString(R.string.Triggering_createAchooser_due_to_a_Crash)
+            )
+            HipheWarningLog(
+                TAG,
+                context.getString(R.string.Triggering_createAchooser_due_to_a_Crash)
+            )
+            HipheWarningLog(
+                TAG,
+                context.getString(R.string.Triggering_createAchooser_due_to_a_Crash)
+            )
+            HipheWarningLog(
+                TAG,
+                context.getString(R.string.Triggering_createAchooser_due_to_a_Crash)
+            )
+            HipheWarningLog(
+                TAG,
+                context.getString(R.string.Triggering_createAchooser_due_to_a_Crash)
+            )
+            HipheWarningLog(
+                TAG,
+                context.getString(R.string.Triggering_createAchooser_due_to_a_Crash)
+            )
+            HipheWarningLog(
+                TAG,
+                context.getString(R.string.Triggering_createAchooser_due_to_a_Crash)
+            )
 
             val sendIntent: Intent = Intent().apply {
                 action = Intent.ACTION_SEND
                 type = "text/plain"
                 putExtra(Intent.EXTRA_TEXT, value)
-                putExtra(Intent.EXTRA_TITLE, "Hiphe Crash")
+                putExtra(Intent.EXTRA_TITLE, context.getString(R.string.hiphe_crash))
             }
-            val shareIntent = Intent.createChooser(sendIntent, "Report a crash")
+            val shareIntent =
+                Intent.createChooser(sendIntent, context.getString(R.string.report_a_crash))
             shareIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(shareIntent)
 

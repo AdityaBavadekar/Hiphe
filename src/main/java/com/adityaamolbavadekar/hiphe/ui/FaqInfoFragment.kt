@@ -21,7 +21,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.adityaamolbavadekar.hiphe.R
@@ -31,7 +31,7 @@ class FaqInfoFragment : Fragment() {
 
     private lateinit var titleTextView: TextView
     private lateinit var subjectTextView: TextView
-    private lateinit var likeButton: ImageView
+    private lateinit var likeButton: ImageButton
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,8 +47,7 @@ class FaqInfoFragment : Fragment() {
         titleTextView.text = title
         subjectTextView.text = subtitle
         likeButton.setOnClickListener {
-            likeButton.setImageResource(R.drawable.ic_outline_thumb_up_24)
-
+            likeButton.setImageResource(R.drawable.ic_baseline_thumb_up_24)
         }
         return root
     }

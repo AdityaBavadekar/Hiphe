@@ -129,6 +129,7 @@
                 android:linksClickable="true"
                 android:paddingVertical="5dp"
                 android:paddingStart="30dp"
+                android:id="@+id/you_agree_to_text_view"
                 android:text="@string/disclaimer_signup"
                 android:textColorLink="?android:textColorLink" />
 

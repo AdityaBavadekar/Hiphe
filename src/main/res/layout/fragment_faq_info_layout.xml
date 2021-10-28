@@ -80,15 +80,18 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center_vertical"
                         android:paddingHorizontal="15dp"
+                        android:text="By Hiphe Team"
                         android:textStyle="bold"
-                        tools:text="By Hiphe on 27 Oct 2021" />
+                        tools:text="By Hiphe Team on 27 Oct 2021" />
 
-                    <ImageView
+                    <ImageButton
+                        android:id="@+id/like_button"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:id="@+id/like_button"
-                        android:padding="5dp"
                         android:layout_gravity="end"
+                        android:background="@android:color/transparent"
+                        android:clickable="true"
+                        android:padding="5dp"
                         android:src="@drawable/ic_outline_thumb_up_24" />
 
                 </LinearLayout>

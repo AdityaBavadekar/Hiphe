@@ -40,7 +40,7 @@
     <string name="data">"\"           DETAILS\nMODEL : $model\nMANUFACTURER : $manufacturer\nUSER : $user\nID : $id\nDEVICE : $device\nBRAND : $brand\nPRODUCT : $product \nAndroid SDK Version : $androidOs\nAndroid Version : $androidOs\nAndroid Version : $androidOs\nAndroid Version : $androidOs\nAndroid Release Version : $androidVersion\nFree Space: $freeSpace\nTotal Space : $totalSpace\n\n        ***APP***\nPackage Name : $packageName\nVersion Name : $versionName\nVersion Code : $versionCode\nBuild Time : $time\nBuild Time : $time\nInstall Location : $installLoacation\nPermissions: $permissionsGranted\""\n\n</string>
     <string name="accept_sign_up"><![CDATA[Accept & Sign up]]></string>
     <string name="cancel">Cancel</string>
-    <string name="disclaimer_signup">By tapping \"Accept &amp; Sign up\", you acknowledge that you have read the <a href="policies.google.com/privacy">Privacy Policy</a> and agree to the <a href="policies.google.com/terms">Terms of Service</a></string>
+    <string name="disclaimer_signup">By tapping \"Accept &amp; Sign up\", you acknowledge that you have read the Privacy Policy and agree to the Terms of Service</string>
     <string name="crash_has_occurred">Crash has occurred</string>
     <string name="welcome_sub_note">Join over 300 million people who use Hiphe to talk with societies, communities and friends.</string>
     <string name="try_otp_authentication">Try OTP authentication</string>
@@ -153,6 +153,13 @@
     <string name="User_is_logging_out_without_remembrance__signuot">User is logging out without remembrance, googleSignInClient.revokeAccess() auth.signOut()</string>
     <string name="User_is_logging_out_with_remembrance__signuot">User is logging out with remembrance, googleSignInClient.revokeAccess() auth.signOut()</string>
     <string name="first_guess_with_confidence_level_of">%1$s is first guess with confidence level of %2$s percent FROM ARTIFICIAL INTELLIGENCE </string>
+    <string name="report_a_crash">Report a crash</string>
+    <string name="hiphe_crash">Hiphe Crash</string>
+    <string name="Triggering_createAchooser_due_to_a_Crash">Triggering createAchooser due to a Crash!!!</string>
+    <string name="please_send_this_crash_data_to_developer">Please send this crash data to developer</string>
+    <string name="Triggering_Crash_Upload_and_then_SystemExit_due_to_disabled_share_crash_data_in_settings">Triggering Crash Upload and then SystemExit(404) due to disabled share crash data in settings!!!</string>
+    <string name="have_feedback_we_d_love_to_hear_it_but_please_don_t_share_sensitive_information_have_questions_or_legal_concerns_visit_help_centre_or_contact_support_teamhiphe_gmail_com">Have feedback? We\'d love to hear it, but please don\'t share sensitive information. Have questions or legal concerns? Visit Help Centre or contact Support (teamhiphe@gmail.com)</string>
+    <string name="go_to_the_legal_help_page_to_request_content_changes_for_legal_reasons_some_account_and_system_info_will_be_sent_to_google_we_ll_use_the_info_that_you_give_us_to_address_technical_issues_and_improve_our_services_subject_to_our_privacy_policy_and_terms_of_service">Go to the Legal Help page to request content changes for legal reasons. Some account and system info will be sent to Google. We\'ll use the info that you give us to address technical issues and improve our services, subject to our Privacy policy and Terms of service.</string>
 
 
 </resources>

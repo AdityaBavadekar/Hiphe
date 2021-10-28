@@ -24,34 +24,38 @@
         app:title="@string/about_hiphe">
 
         <Preference
-            app:iconSpaceReserved="false"
-            app:summary="Aditya Bavadekar"
-            app:shouldDisableView="true"
             android:shouldDisableView="true"
+            app:enableCopying="false"
+            app:iconSpaceReserved="false"
+            app:shouldDisableView="true"
+            app:summary="Aditya Bavadekar"
             app:title="Developer" />
         <Preference
-            app:iconSpaceReserved="false"
-            app:summary="2.0"
-            app:shouldDisableView="true"
+            android:key="build_version_code"
             android:shouldDisableView="true"
+            app:enableCopying="false"
+            app:iconSpaceReserved="false"
+            app:shouldDisableView="true"
+            app:summary="2.0"
             app:title="Version" />
         <Preference
-            app:iconSpaceReserved="false"
-            app:summary="v2.231.56"
-            app:shouldDisableView="true"
+            android:key="build_version"
             android:shouldDisableView="true"
+            app:enableCopying="false"
+            app:iconSpaceReserved="false"
+            app:shouldDisableView="true"
+            app:summary="v2.231.57"
             app:title="Build" />
         <Preference
-            app:iconSpaceReserved="false"
             android:key="hpp"
+            app:iconSpaceReserved="false"
             app:summary="Read Hiphe's Privacy Policy"
             app:title="Hiphe's Privacy Policy" />
         <Preference
-            app:iconSpaceReserved="false"
             android:key="hts"
+            app:iconSpaceReserved="false"
             app:summary="Read Hiphe's Terms of Service"
             app:title="Hiphe Terms of Service" />
-
 
     </PreferenceCategory>
 
@@ -60,9 +64,9 @@
         app:iconSpaceReserved="false">
 
         <Preference
+            android:key="hiphe_check_update"
             app:icon="@drawable/ic_baseline_update_24"
             app:iconSpaceReserved="false"
-            android:key="hiphe_check_update"
             app:title="Check for updates" />
         <Preference
             app:allowDividerAbove="true"
@@ -73,6 +77,7 @@
         <Preference
             app:allowDividerAbove="true"
             app:icon="@drawable/ic_outline_feedback_24"
+            android:key="send_feedback"
             app:iconSpaceReserved="false"
             app:summary="Help us make Hiphe a better place for everyone"
             app:title="Send feedback" />
