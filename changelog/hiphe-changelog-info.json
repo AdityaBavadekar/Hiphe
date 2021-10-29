@@ -2,20 +2,7 @@
   {
     "versionName": "2.231.58",
     "versionCode": "2.0",
-    "releaseNotes": "Bug Fixes, Performance Improvements, issue fixed for subset of users.If you are a new user and you signed up recently you get an option to take a Hiphe tour
-you can now view other profile only by a deeplink
-users can see their Profile photos
-user can now see Hiphe Privacy Policy
-users can now see Hiphe Terms of Service
-users can now search FAQs as well as click on them for more information
-Now you can enable or disable sending crash reports and data
-users can check for update (very stable)
-in account info catageory now users can view their userid as well as profile link, which they can share or click it to view their Hiphe Public Profile
-now another feature is users will get a notification from Hiphe Team if an update is available or if we want to communicate something to or with Users
-now shortly we would be Screenshots of Hiphe application at our github main page
-users can now go to send feedback from but the bug here is they can't submit it. WE ARE LOOKING A FIX ON THAT.
-You can browse through Hiphe FAQs from settings
-Hiphe app can now update (bit unstable) ",
+    "releaseNotes": "Bug Fixes, Performance Improvements, issue fixed for subset of users.If you are a new user and you signed up recently you get an option to take a Hiphe tour"
     "apkURL": "https://github.com/AdityaBavadekar/Hiphe/releases/download/v2.231.56/Hiphe-v2.231.56.apk"
   }
 ]
