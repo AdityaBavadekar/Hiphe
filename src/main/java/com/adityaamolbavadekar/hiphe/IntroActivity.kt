@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.adityaamolbavadekar.hiphe.interaction.CreateChannels
 import com.adityaamolbavadekar.hiphe.interaction.NetworkStateReceiver
 import com.adityaamolbavadekar.hiphe.interaction.NotifyNetworkInfo
 import com.adityaamolbavadekar.hiphe.network.ConnectionLiveData
@@ -67,7 +68,19 @@ class IntroActivity : AppCompatActivity() {
         registerReceiver(receiver, IntentFilter(constants.networkStateKey))
         connectionLiveData = ConnectionLiveData(this)
 
-
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            CreateChannels.Builder(this)
+                .createChannels(
+                listOf(
+                    CreateChannels.Channel(
+                        "Miscellaneous",
+                        "",
+                        CreateChannels.Channel.Importance.Medium,
+                        null
+                    )
+                )
+            )
+        }
 
         networkStateCardView = findViewById(R.id.offlineNotifierCardIntro)
         networkStateTextView = findViewById(R.id.offlineNotifierCardTextViewIntro)

@@ -49,7 +49,10 @@ class AccountFragment : Fragment() {
     private lateinit var userIdTextView: TextView
     private lateinit var userNameTextView: TextView
     private lateinit var userNameTextView2: TextView
+    private lateinit var phoneTextView: TextView
     private lateinit var createdDateTextView: TextView
+    private lateinit var deepLinkTextView: TextView
+    private lateinit var userIsEmailIdVerifiedTextView: TextView
     private lateinit var userPhotoImageView: ImageView
     private lateinit var userIsEmailIdVerifiedImageView: ImageButton
     private lateinit var logoutButton: MaterialButton
@@ -72,8 +75,11 @@ class AccountFragment : Fragment() {
         userNameTextView = root.findViewById(R.id.userNameTextView)
         userNameTextView2 = root.findViewById(R.id.userNameTextView2)
         createdDateTextView = root.findViewById(R.id.creationDateTextView)
+        phoneTextView = root.findViewById(R.id.phoneTextView)
+        deepLinkTextView = root.findViewById(R.id.deepLinkTextView)
         userPhotoImageView = root.findViewById(R.id.imageView2)
         userIsEmailIdVerifiedImageView = root.findViewById(R.id.isemailverified)
+        userIsEmailIdVerifiedTextView = root.findViewById(R.id.isemailverifiedt)
         logoutButton = root.findViewById(R.id.logout_button)
 
         // Configure sign-in to request the user's ID, email address, and basic
@@ -112,8 +118,13 @@ class AccountFragment : Fragment() {
         val userName = user?.displayName
         val userPhotoURL = user?.photoUrl
         val emailIdVerified = user?.isEmailVerified
-        user?.phoneNumber
+        val phoneNumber = user?.phoneNumber
 
+        val deepLink = getString(
+            R.string.to_share_your_profile_with_other_hiphe_users_use_this_link_nhttps_hiphe_page_link_user_1_s,
+            userId?.removeSuffix("gmail.com")
+        )
+        deepLinkTextView.text = deepLink
         userNameTextView.text = userName
         userNameTextView2.text =
             getString(R.string.user_name_formatted, userName)//"USER NAME : $userName"
@@ -130,9 +141,16 @@ class AccountFragment : Fragment() {
                 .load(userPhotoURL)
                 .into(userPhotoImageView)
         }
+
+        if (phoneNumber != null) {
+            phoneTextView.text = phoneNumber
+            phoneTextView.visibility = View.VISIBLE
+        }
+
         if (emailIdVerified == true) {
-            userIsEmailIdVerifiedImageView.visibility = View.VISIBLE
-            userIsEmailIdVerifiedImageView.setOnClickListener {
+//            userIsEmailIdVerifiedImageView.visibility = View.VISIBLE
+            userIsEmailIdVerifiedTextView.visibility = View.VISIBLE
+            userIsEmailIdVerifiedTextView.setOnClickListener {
                 val b = MaterialAlertDialogBuilder(requireActivity())
                 b.setTitle("iVR Verification truth")
                 b.setMessage("This is iVR (isVerified) check mark, it helps users denote if the profile or user is verified. You can this this on your profile only if you have Verified your Email Address. This helps maintaining Privacy and Security.")

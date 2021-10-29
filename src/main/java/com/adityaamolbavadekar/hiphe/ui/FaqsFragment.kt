@@ -18,7 +18,9 @@
 package com.adityaamolbavadekar.hiphe.ui
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -347,7 +349,7 @@ class FaqsFragment : Fragment() {
             )
         )
     )
-    private lateinit var sampleListFAQsClone: MutableList<FaqAdapter.FAQ>
+    private var sampleListFAQsClone: MutableList<FaqAdapter.FAQ> = sampleListFAQs
     private lateinit var recyclerView: RecyclerView
     private lateinit var searchView: SearchView
     private lateinit var recyclerViewAdapter: FaqAdapter
@@ -359,58 +361,64 @@ class FaqsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_faqs, container, false)
-        sampleListFAQsClone.addAll(sampleListFAQs)
         recyclerView = root.findViewById(R.id.recycler_view)
         recyclerView.layoutManager = LinearLayoutManager(requireActivity())
         recyclerViewAdapter = FaqAdapter(requireActivity(), sampleListFAQsClone)
         recyclerView.adapter = recyclerViewAdapter
         try {
             searchView = root.findViewById(R.id.search_view)
-            searchView.setOnQueryTextListener(queryTextListener)
+            searchViewSetOnQueryTextListener()
         } catch (e: Exception) {
         }
-
-
         return root
     }
 
-    private val queryTextListener = object : SearchView.OnQueryTextListener {
-        override fun onQueryTextSubmit(query: String?): Boolean {
-            return true
-        }
+    private fun searchViewSetOnQueryTextListener() {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
 
-        override fun onQueryTextChange(newText: String?): Boolean {
-            //START
+            override fun onQueryTextChange(newText: String?): Boolean {
+                //START
 
-            sampleListFAQsClone.clear()//CLEAR
+                sampleListFAQsClone.clear()//CLEAR
 
-            if (newText != null) {
+                if (newText != null) {
 
-                val text = newText.toLowerCase(Locale.getDefault())
-
-
-                if (text.isNotEmpty()) {
-
-                    sampleListFAQs.forEach { FAQ ->
+                    val text = newText.toLowerCase(Locale.getDefault())
 
 
-                        if (FAQ.titleText.toLowerCase(Locale.getDefault())
-                                .contains(text) || FAQ.subTitleText.toLowerCase(Locale.getDefault())
-                                .contains(text) || FAQ.tags.toString()
-                                .toLowerCase(Locale.getDefault()).contains(text)
-                        ) {
+                    if (text.isNotEmpty()) {
 
-                            sampleListFAQsClone.add(FAQ)
+                        sampleListFAQs.forEach { FAQ ->
 
-                        } else {
 
-                            val element = FaqAdapter.FAQ("No item was found", "", listOf())
-                            sampleListFAQsClone.add(element)
+                            if (FAQ.titleText.toLowerCase(Locale.getDefault())
+                                    .contains(text) || FAQ.subTitleText.toLowerCase(Locale.getDefault())
+                                    .contains(text) || FAQ.tags.toString()
+                                    .toLowerCase(Locale.getDefault()).contains(text)
+                            ) {
+
+                                sampleListFAQsClone.add(FAQ)
+
+                            } else {
+
+                                val element = FaqAdapter.FAQ("No item was found", "", listOf())
+                                sampleListFAQsClone.add(element)
+
+                            }
+
+                            recyclerViewAdapter.notifyDataSetChanged()
+
 
                         }
 
-                        recyclerViewAdapter.notifyDataSetChanged()
 
+                    } else {
+
+                        sampleListFAQsClone.clear()
+                        sampleListFAQsClone.addAll(sampleListFAQs)
 
                     }
 
@@ -419,34 +427,17 @@ class FaqsFragment : Fragment() {
 
                     sampleListFAQsClone.clear()
                     sampleListFAQsClone.addAll(sampleListFAQs)
+                    recyclerViewAdapter.notifyDataSetChanged()
 
                 }
 
 
-            } else {
+                return false
 
-                sampleListFAQsClone.clear()
-                sampleListFAQsClone.addAll(sampleListFAQs)
-                recyclerViewAdapter.notifyDataSetChanged()
-
+                //END
             }
-
-
-            return false
-
-            //END
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-
-        inflater.inflate(R.menu.menu_faq_search, menu)
-
-        val searchView = menu.findItem(R.id.action_search).actionView as SearchView
-        searchView.setOnQueryTextListener(queryTextListener)
-
-        return super.onCreateOptionsMenu(menu, inflater)
-
+        )
     }
 
 

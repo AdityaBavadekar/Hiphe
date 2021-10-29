@@ -17,25 +17,31 @@
 
 package com.adityaamolbavadekar.hiphe
 
+import android.app.AlertDialog
 import android.app.DownloadManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsClient
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.browser.customtabs.CustomTabsServiceConnection
-import androidx.core.net.toUri
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -48,9 +54,9 @@ import com.adityaamolbavadekar.hiphe.interaction.*
 import com.adityaamolbavadekar.hiphe.models.ChangeLogInfo
 import com.adityaamolbavadekar.hiphe.models.GitRawApi
 import com.adityaamolbavadekar.hiphe.ui.FaqsFragment
+import com.adityaamolbavadekar.hiphe.ui.feedback.SendFeedbackFragment
 import com.adityaamolbavadekar.hiphe.utils.constants
 import com.bumptech.glide.Glide
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -65,6 +71,8 @@ import java.io.File
 
 
 class HipheSettingsActivity : AppCompatActivity() {
+
+    private lateinit var coordinatorLayout: CoordinatorLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +94,7 @@ class HipheSettingsActivity : AppCompatActivity() {
         setContentView(R.layout.settings_activity)
         setSupportActionBar(toolbar)
 
+        coordinatorLayout = findViewById(R.id.coordinator)
 
         try {
             val navController = findNavController(R.id.nav_host_fragment)
@@ -209,6 +218,7 @@ class HipheSettingsActivity : AppCompatActivity() {
             findPreference<Preference>("build_version")?.summary = pckMangr.versionName
             findPreference<Preference>("build_version_code")?.summary =
                 pckMangr.versionCode.toString()
+            findPreference<Preference>("hiphe_check_update")?.summary = preferenceManager.sharedPreferences.getString(constants.HIPHE_VERSION_UPDATE_KEY,"")
         }
 
         override fun onPreferenceTreeClick(preference: Preference?): Boolean {
@@ -239,7 +249,7 @@ class HipheSettingsActivity : AppCompatActivity() {
 
                                 if (responseResult.isSuccessful) {
 
-                                    val response = responseResult.body()?.get(1)
+                                    val response = responseResult.body()?.get(0)
                                     val changeLogInfo: ChangeLogInfo? = response
                                     HipheInfoLog(
                                         TAG,
@@ -266,7 +276,7 @@ class HipheSettingsActivity : AppCompatActivity() {
                                         "@GET request apkURL was ${changeLogInfo?.apkURL}"
                                     )
                                     HipheInfoLog(
-                                        LauncherActivity.TAG,
+                                        TAG,
                                         "@GET request's headers ${responseResult.headers()}"
                                     )
                                     HipheInfoLog(
@@ -280,12 +290,10 @@ class HipheSettingsActivity : AppCompatActivity() {
                                         val releaseNotesResult = changeLogInfo.releaseNotes
 
                                         if (buildVersionName != versionNameResult) {
-                                            requireActivity().showLongToast("You are on latest stable version of Hiphe i.e.$buildVersionName")
 
-
-                                            val b = MaterialAlertDialogBuilder(requireActivity())
+                                            val b = AlertDialog.Builder(requireActivity())
                                             b.setIcon(R.drawable.ic_baseline_system_update_24)
-                                            b.setTitle("Version $buildVersionName")
+                                            b.setTitle("New Version $versionNameResult")
                                             b.setMessage(
                                                 getString(
                                                     R.string.updated_version_of_hiphe_is_available_formatted,
@@ -303,7 +311,13 @@ class HipheSettingsActivity : AppCompatActivity() {
                                                 } catch (e: Exception) {
                                                 }
                                             }
-                                            b.setPositiveButton(getString(R.string.ok_update_hiphe)) { dialogInterface, _ ->
+                                            b.setNegativeButton(getString(R.string.cancel)) { dialogInterface, _ ->
+                                                preferenceManager.sharedPreferences.edit {
+                                                    putString(constants.HIPHE_VERSION_UPDATE_KEY,getString(
+                                                        R.string.updated_version_of_hiphe_is_available_preference_formatted,
+                                                        versionNameResult
+                                                    ))
+                                                }
                                                 preference.summary = getString(
                                                     R.string.updated_version_of_hiphe_is_available_preference_formatted,
                                                     versionNameResult
@@ -317,7 +331,7 @@ class HipheSettingsActivity : AppCompatActivity() {
                                         } else if (buildVersionName == versionNameResult) {
                                             requireActivity().showLongToast("You are on latest stable version of Hiphe i.e.$buildVersionName")
 
-                                            val b = MaterialAlertDialogBuilder(requireActivity())
+                                            val b = AlertDialog.Builder(requireActivity())
                                             b.setIcon(R.drawable.ic_baseline_system_update_24)
                                             b.setTitle("Version $buildVersionName")
                                             b.setMessage(
@@ -369,7 +383,6 @@ class HipheSettingsActivity : AppCompatActivity() {
                             }
 
                         }
-
 
                         call.enqueue(callback)
                     } catch (e: Exception) {
@@ -439,6 +452,11 @@ class HipheSettingsActivity : AppCompatActivity() {
                         .addOnFailureListener {
                             requireActivity().showToast("Feedback not sent, ${it.cause}")
                         }
+                    try {
+                        ScreenShot.bitmap = CaptureScreenShot(requireActivity().findViewById(R.id.coordinator)).capture()
+                    } catch (e: Exception) {
+                    }
+                    startActivity(Intent(requireActivity(), SendFeedbackFragment::class.java))
 
                     return true
                 }
@@ -452,7 +470,11 @@ class HipheSettingsActivity : AppCompatActivity() {
             val releaseNotes = changeLogInfo.releaseNotes
             val apkURL = changeLogInfo.apkURL
             val apkUri = Uri.parse(apkURL)
+            val fileName = "Hiphe-$versionName"
+            requestPermissionForWrite(apkUri, fileName)
+        }
 
+        private fun download(apkUri: Uri, fileName: String) {
             //Download APK
             val downloadManager =
                 requireActivity().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
@@ -460,20 +482,60 @@ class HipheSettingsActivity : AppCompatActivity() {
             request.setTitle(getString(R.string.updating_hiphe))
             request.setDescription(getString(R.string.we_will_download_apk_in_background))
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            request.setDestinationUri(requireActivity().filesDir.toUri())
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
             request.allowScanningByMediaScanner()
 
             val completion = downloadManager.enqueue(request)
 
+            //requestPermissionForWrite()
             requireActivity().showLongToast(
                 downloadManager.getUriForDownloadedFile(completion).toString()
             )
             try {
                 downloadManager.openDownloadedFile(completion)
+                requireActivity().showToast("After downloading click Install")
             } catch (e: Exception) {
                 HipheErrorLog(TAG, getString(R.string.error_opening_downloaded_file), e.toString())
             }
+        }
 
+        private fun requestPermissionForWrite(apkUri: Uri, fileName: String) {
+
+            when (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )) {
+                PackageManager.PERMISSION_DENIED -> {
+//                    when (requireActivity().shouldShowRequestPermissionRationale(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+//                        true ->{
+//
+//                        }
+//                        false ->{
+//
+//                        }
+
+//                    }
+                    launchPermissionGrantRequest(apkUri, fileName)
+                }
+                PackageManager.PERMISSION_GRANTED -> {
+                    download(apkUri = apkUri, fileName)
+                }
+            }
+        }
+
+
+        private fun launchPermissionGrantRequest(apkUri: Uri, fileName: String) {
+            val permissionLauncher =
+                requireActivity().registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+                    if (isGranted) {
+                        download(apkUri, fileName)
+                    } else {
+                        requireActivity().showLongToast("Permission for write is required to update Hiphe, You can disable it afterwards from settingd")
+                    }
+
+                }
+
+            permissionLauncher.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
     }
 

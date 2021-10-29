@@ -44,6 +44,7 @@ import androidx.preference.PreferenceManager
 import com.adityaamolbavadekar.hiphe.MainActivity
 import com.adityaamolbavadekar.hiphe.R
 import com.adityaamolbavadekar.hiphe.interaction.*
+import com.adityaamolbavadekar.hiphe.mail.SendMailTo
 import com.adityaamolbavadekar.hiphe.ui.googlesign.GoogleSignInFragment
 import com.adityaamolbavadekar.hiphe.ui.login.LoginFragment
 import com.adityaamolbavadekar.hiphe.utils.constants
@@ -58,6 +59,9 @@ import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class SignUpFragment : Fragment() {
 
@@ -105,34 +109,42 @@ class SignUpFragment : Fragment() {
         googleSignInButton = root.findViewById(R.id.signup_with_google_btn)
 
 
-        val clickableLongText = getString(R.string.disclaimer_signup)
-        val spannableString = SpannableString(clickableLongText)
-        val clickableSpanPrivacyPolicy = object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                startCustomChromeTabsWithUrl(getString(R.string.hiphe_github_privacy_policy_url))
+        try {
+            val clickableLongText = getString(R.string.disclaimer_signup)
+            val spannableString = SpannableString(clickableLongText)
+            val clickableSpanPrivacyPolicy = object : ClickableSpan() {
+                override fun onClick(widget: View) {
+                    startCustomChromeTabsWithUrl(getString(R.string.hiphe_github_privacy_policy_url))
+                }
             }
-        }
-
-        val clickableSpanTermsOfService = object : ClickableSpan() {
-            override fun onClick(widget: View) {
-                startCustomChromeTabsWithUrl(getString(R.string.hiphe_github_terms_and_conditions_url))
+            val clickableSpanTermsOfService = object : ClickableSpan() {
+                override fun onClick(widget: View) {
+                    startCustomChromeTabsWithUrl(getString(R.string.hiphe_github_terms_and_conditions_url))
+                }
             }
-        }
 
-        spannableString.setSpan(
-            clickableSpanPrivacyPolicy,
-            76,
-            89,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        spannableString.setSpan(
-            clickableSpanTermsOfService,
-            108,
-            123,
-            Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        byClickingYouAcceptTextView.text = spannableString
-        byClickingYouAcceptTextView.movementMethod = LinkMovementMethod.getInstance()
+            spannableString.setSpan(
+                clickableSpanPrivacyPolicy,
+                76,
+                89,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            spannableString.setSpan(
+                clickableSpanTermsOfService,
+                108,
+                123,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            byClickingYouAcceptTextView.text = spannableString
+            byClickingYouAcceptTextView.movementMethod = LinkMovementMethod.getInstance()
+
+        } catch (e: Exception) {
+            HipheErrorLog(
+                TAG,
+                "Error adding Links behaviour to SignUp accept text.. ",
+                e.toString()
+            )
+        }
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         // Configure sign-in to request the user's ID, email address, and basic
@@ -561,7 +573,21 @@ class SignUpFragment : Fragment() {
     /////////////GOOGLE SIGN IN CODE START
     private fun updateUI(account: FirebaseUser?) {
         if (account != null) {
+            //SendMailTo(account.email!!,account.displayName!!).send()
             makeToast("Logged in successfully : ${account.email}")
+
+            try {
+                CoroutineScope(Dispatchers.IO).launch {
+                    SendMailTo(requireActivity(), account.email!!, account.displayName!!)
+                }
+            } catch (e: Exception) {
+                HipheErrorLog(
+                    TAG,
+                    "ErrorCoroutineScope(Dispatchers.IO).launch >> SendMailTo ",
+                    e.toString()
+                )
+            }
+
             HipheInfoLog(
                 TAG,
                 "ACTION INITIATED : >> signin_with_google_btn >> setOnClickListener >> signIn >> Activity.RESULT_OK >> GoogleSignIn.getSignedInAccountFromIntent(data) >> .addOnCompleteListener >> handleSignInResult >> try... >> updateUI >> makeToast(${account.email}) >> [ACTION_GOOGLE_SIGN_IN_COMPLETE]"
@@ -582,11 +608,33 @@ class SignUpFragment : Fragment() {
                 putString("USER_ACCOUNT", account.toString())
                 putString(constants.signedInUserEmailPrefKey, account.email)
                 this.putBoolean(constants.checkIsLoggedInPrefKey, true)
+                putBoolean(constants.isUserUnexplored, true)
+            }
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                val builder = CreateChannels.Builder(requireActivity())
+                builder.createChannels(
+                    listOf(
+                        CreateChannels.Channel(
+                            "Mentions",
+                            "When people mention you you will be notified",
+                            CreateChannels.Channel.Importance.High,
+                            account.email!!
+                        )
+                    )
+                )
+                builder.createChannelGroups(
+                    listOf(
+                        CreateChannels.ChannelGroup(
+                            account.email!!,
+                            account.email!!
+                        )
+                    )
+                )
+
             }
             val intent = Intent(requireActivity(), MainActivity::class.java)
             intent.putExtra(constants.isUserUnexplored, true)
             startActivity(intent)
-
             requireActivity().finish()
 /*//            val timestamp = SimpleDateFormat(
 //                getString(R.string.signin_hasmap_timestamp),

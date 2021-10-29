@@ -37,6 +37,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.drawerlayout.widget.DrawerLayout
@@ -46,6 +47,8 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
+import com.adityaamolbavadekar.hiphe.interaction.CreateChannels
+import com.adityaamolbavadekar.hiphe.interaction.DeleteChannels
 import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
 import com.adityaamolbavadekar.hiphe.interaction.NotifyNetworkInfo
 import com.adityaamolbavadekar.hiphe.network.ConnectionLiveData
@@ -83,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         ConfigureTheme().configureThemeOnCreate(this, TAG)
 
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -102,8 +106,7 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
-        val isVisitor = intent.getBooleanExtra(constants.isUserUnexplored, false)
-
+        val isVisitor = prefs.getBoolean(constants.isUserUnexplored, false)
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
@@ -143,6 +146,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+
         if (isVisitor) {
             HipheInfoLog(
                 TAG,
@@ -156,11 +160,18 @@ class MainActivity : AppCompatActivity() {
                 HipheInfoLog(TAG, getString(R.string.User_AGREED_to_take_a_tour))
                 dialogInterface.dismiss()
                 takeHipheTour()
+                prefs.edit {
+                    putBoolean(constants.isUserUnexplored, false)
+                }
                 //TODO("GUIDE USER TO USE APPLICATION")
             }
             b.setNegativeButton(getString(R.string.no_thanks)) { dialogInterface, _ ->
                 HipheInfoLog(TAG, getString(R.string.User_DISAGREED_to_take_a_tour))
+                prefs.edit {
+                    putBoolean(constants.isUserUnexplored, false)
+                }
                 dialogInterface.dismiss()
+
             }
             b.setCancelable(false)
             b.create()
@@ -189,6 +200,12 @@ class MainActivity : AppCompatActivity() {
                 b.setTitle("Are you sure?")
                 b.setMessage(getString(R.string.are_you_sure_logout_message))
                 b.setPositiveButton(getString(R.string.logout)) { ba, _ ->
+                    DeleteChannels.Builder(this).deleteChannelGroup(
+                        CreateChannels.ChannelGroup(
+                            auth.currentUser!!.email!!,
+                            auth.currentUser!!.email!!
+                        )
+                    )
                     auth.signOut()
                     try {
                         googleSignInClient.revokeAccess()

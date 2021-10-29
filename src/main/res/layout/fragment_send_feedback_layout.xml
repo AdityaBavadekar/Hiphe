@@ -19,7 +19,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/Hiphe.SendFeedbackTheme"
     tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -69,11 +68,12 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimaryDark"
             app:contentInsetStartWithNavigation="10dp"
+            app:layout_scrollFlags="enterAlways"
             app:menu="@menu/send_feedback"
-            app:navigationIcon="@drawable/ic_baseline_close_24"
+            app:navigationIcon="@drawable/ic_baseline_close_24_custom"
             app:popupTheme="@style/Theme.MaterialComponents.DayNight"
             app:title="Send Feedback"
-            app:titleTextColor="?android:textColorPrimary" />
+            app:titleTextColor="?attr/colorPrimary" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -86,9 +86,10 @@
         <!--        <include layout="@layout/fragment_feedback" android:layout_width="match_parent" android:layout_height="match_parent"/>-->
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewScroll"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:id="@+id/cardViewScroll"
+            app:cardBackgroundColor="?colorPrimaryDark"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -110,28 +111,79 @@
                         android:layout_height="1dp"
                         android:background="?android:textColorPrimary" />
 
-                    <TextView
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:paddingHorizontal="25dp"-->
+                    <!--                        android:paddingVertical="15dp"-->
+                    <!--                        android:text="From: Hiphe User"-->
+                    <!--                        android:textColor="?android:textColorPrimary"-->
+                    <!--                        android:textSize="20sp" />-->
+
+                    <!--                    <LinearLayout-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:orientation="horizontal">-->
+
+                    <!--                        <TextView-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:paddingHorizontal="25dp"-->
+                    <!--                            android:paddingVertical="15dp"-->
+                    <!--                            android:text="@string/from"-->
+                    <!--                            android:textColor="?android:textColorPrimary"-->
+                    <!--                            android:textSize="20sp" />-->
+
+                    <!--                        <EditText-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:background="@android:color/transparent"-->
+                    <!--                            android:paddingVertical="15dp"-->
+                    <!--                            android:paddingEnd="25dp"-->
+                    <!--                            android:text=" Hiphe User"-->
+                    <!--                            android:textColor="?android:textColorPrimary"-->
+                    <!--                            android:textSize="20sp" />-->
+                    <!--                    </LinearLayout>-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingHorizontal="25dp"
-                        android:paddingVertical="15dp"
-                        android:textColor="?android:textColorPrimary"
-                        android:textSize="20sp"
-                        tools:text="From: Hiphe User" />
+                        app:boxCornerRadiusBottomEnd="0dp"
+                        app:boxCornerRadiusBottomStart="0dp"
+                        app:boxCornerRadiusTopEnd="0dp"
+                        app:boxCornerRadiusTopStart="0dp"
+                        app:prefixText="From : "
+                        app:prefixTextColor="?android:textColorPrimary">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/autoCompleteTextView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:inputType="none"
+                            android:paddingVertical="15dp"
+                            android:text="@string/hiphe_user"
+                            android:textColor="?android:textColorPrimary" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="?android:textColorPrimary" />
 
+
                     <EditText
+                        android:id="@+id/editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:gravity="top|start"
+                        android:longClickable="false"
                         android:hint="@string/have_feedback_we_d_love_to_hear_it_but_please_don_t_share_sensitive_information_have_questions_or_legal_concerns_visit_help_centre_or_contact_support_teamhiphe_gmail_com"
                         android:minHeight="300dp"
-                        android:padding="25dp" />
+                        android:padding="25dp"
+                        android:textSize="14sp" />
 
 
                     <LinearLayout
@@ -144,7 +196,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="20dp"
                             android:layout_marginVertical="5dp"
-                            app:cardCornerRadius="10dp">
+                            android:clickable="true"
+                            app:cardBackgroundColor="?colorPrimaryDark"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp">
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
@@ -164,7 +219,7 @@
 
                                 <LinearLayout
                                     android:layout_width="0dp"
-                                    android:layout_height="0dp"
+                                    android:layout_height="wrap_content"
                                     android:layout_marginHorizontal="10dp"
                                     android:orientation="vertical"
                                     app:layout_constraintBottom_toBottomOf="parent"
@@ -201,6 +256,7 @@
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:id="@+id/ScreenshotCardClick"
                                 android:src="@drawable/curve" />
 
                         </androidx.cardview.widget.CardView>
@@ -210,7 +266,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginHorizontal="20dp"
                             android:layout_marginVertical="5dp"
-                            app:cardCornerRadius="10dp">
+                            android:clickable="true"
+                            app:cardBackgroundColor="?colorPrimaryDark"
+                            app:cardCornerRadius="10dp"
+                            app:cardElevation="0dp">
 
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
@@ -240,7 +299,7 @@
 
                                     <LinearLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_marginHorizontal="10dp"
                                         android:orientation="vertical"
                                         app:layout_constraintBottom_toBottomOf="parent"
@@ -286,6 +345,7 @@
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:id="@+id/SytemLogsCardClick"
                                 android:src="@drawable/curve" />
 
                         </androidx.cardview.widget.CardView>
@@ -294,8 +354,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:linksClickable="true"
-                            android:padding="25dp"
-                            android:text="@string/go_to_the_legal_help_page_to_request_content_changes_for_legal_reasons_some_account_and_system_info_will_be_sent_to_google_we_ll_use_the_info_that_you_give_us_to_address_technical_issues_and_improve_our_services_subject_to_our_privacy_policy_and_terms_of_service" />
+                            android:paddingHorizontal="25dp"
+                            android:paddingVertical="10dp"
+                            android:text="@string/go_to_the_legal_help_page_to_request_content_changes_for_legal_reasons_some_account_and_system_info_will_be_sent_to_google_we_ll_use_the_info_that_you_give_us_to_address_technical_issues_and_improve_our_services_subject_to_our_privacy_policy_and_terms_of_service"
+                            android:textSize="12sp" />
 
                     </LinearLayout>
 
@@ -308,5 +370,18 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:indeterminate="true"
+        android:indeterminateTint="?android:textColorPrimary"
+        android:progressTint="@android:color/black"
+        android:tooltipText="Working"
+        android:visibility="gone" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

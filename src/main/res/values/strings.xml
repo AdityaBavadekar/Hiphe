@@ -119,7 +119,7 @@
     <string name="oops_something_went_wrong"><b><big>0ops! something went wrong</big></b>\n\n<i><small>THAT\'S ALL WE KNOW</small></i>\n\n\n</string>
     <string name="error_nrequested_user_was_not_found_nplease_recheck_the_url">Error! \nRequested User was not found\nPlease recheck the Link</string>
     <string name="email_address_formatted">EMAIL ADDRESS : %1$s</string>
-    <string name="user_id_formatted">USER ID : %1$s</string>
+    <string name="user_id_formatted">USER ID : %1$s \nThis parameter is generated for cases where you loose password or when you want to delete your account, you will be asked for you USERID</string>
     <string name="user_name_formatted">USER NAME : %1$s</string>
     <string name="created_on_formatted">CREATED ON : %1$s</string>
     <string name="send_logs_and_data_summary_click_here_to_send">You can share these directly to the developer team : teamhiphe@gmail.com. Click here to get logs and data</string>
@@ -147,7 +147,7 @@
     <string name="Initiating_MODE_NIGHT_FOLLOW_SYSTEM">Initiating MODE_NIGHT_FOLLOW_SYSTEM</string>
     <string name="error_while_initiating_theme">\"Error while Initiating Theme \"</string>
     <string name="user_is_a_newcomer_asking_him_if_he_wants_to_be_guided">User is a newcomer, asking him if he wants to be guided</string>
-    <string name="welcome_it_is_our_pleasure_to_see_you_dialog_message">Welcome\nIt is our pleasure to see you, here are some quick thing you can do :\n*View about Hiphe\n*Explore list of plants\n*Do your customisations in settings\n\nOr do you want to take a quik tour to our app? If yes, click \"OK\",else click \"NO, THANKS\"</string>
+    <string name="welcome_it_is_our_pleasure_to_see_you_dialog_message">Welcome\n\nIt is our pleasure to see you. \nHere are some quick thing you can do :\n\n*View About Hiphe\n*Explore list of posts\n*Do your customisations in settings\n*Now, you can even send us feedback from settings\n*You can browse FAQs from settings\n\nOr do you want to take a quick tour to our app? \nIf yes, click \"OK\"</string>
     <string name="User_AGREED_to_take_a_tour">User AGREED to take a tour</string>
     <string name="User_DISAGREED_to_take_a_tour">User DISAGREED to take a tour</string>
     <string name="User_is_logging_out_without_remembrance__signuot">User is logging out without remembrance, googleSignInClient.revokeAccess() auth.signOut()</string>
@@ -164,6 +164,16 @@
     <string name="screenshots">Screenshots</string>
     <string name="highlight_or_hide_info">Highlight or hide info</string>
     <string name="view">View</string>
+    <string name="from">"From: "</string>
+    <string name="hiphe_user">Hiphe User</string>
+    <string name="to_share_your_profile_with_other_hiphe_users_use_this_link_nhttps_hiphe_page_link_user_1_s">To share your profile with other Hiphe Users, use this link : \nhttps://hiphe.page.link/user/%1$s</string>
+    <string name="verified">VERIFIED</string>
+    <string name="support_emailaddress">teamhiphe@gmail.com</string>
+
+    <string-array name="select_user">
+        <item>Hiphe User</item>
+        <item>adityarbavadekar@gmail.com</item>
+    </string-array>
 
 
 </resources>

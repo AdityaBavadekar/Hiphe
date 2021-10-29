@@ -58,6 +58,7 @@ class constants {
         const val packageName: String = "com.adityaamolbavadekar.hiphe"
         const val APP_NAME = "Hiphe"
         const val REPO_NAME = "Hiphe"
+        const val HIPHE_VERSION_UPDATE_KEY = "HIPHE_VERSION_UPDATE"
         const val GITHUB_DEVELOPER_NAME = "AdityaBavadekar"
         const val UPDATE_FROM_XML_URL =
             "https://raw.githubusercontent.com/AdityaBavadekar/Hiphe/main/changelog/latest-version-change-info.xml"

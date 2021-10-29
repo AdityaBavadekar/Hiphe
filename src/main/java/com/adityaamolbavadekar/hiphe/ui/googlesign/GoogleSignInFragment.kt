@@ -91,209 +91,209 @@ class GoogleSignInFragment : Fragment() {
         root.findViewById<MaterialButton>(R.id.signin_btn).setOnClickListener {
             signUp()
         }
-        root.findViewById<CardView>(R.id.signin_with_google_btn).setOnClickListener {
-            requireContext().showToast("Google Sign In")
-            Log.i(TAG, "ACTION INITIATED : >> signin_with_google_btn >> setOnClickListener")
-            val emailID = try {
-                getAccounts()
-            } catch (e: Exception) {
-                "Error : $e"
-            }
-
-            val d = AlertDialog.Builder(requireActivity())
-            d.setTitle("Accounts")
-            d.setMessage("$emailID")
-            d.setIcon(R.drawable.ic_baseline_account_box_24)
-            d.setPositiveButton("OK") { _, _ ->
-                startActivity(Intent(requireActivity(), MainActivity::class.java))
-                requireActivity().finish()
-            }
-            d.setNegativeButton("TRY SIGN IN") { _, _ ->
-                val b = AccountPicker.AccountChooserOptions.Builder()
-                signIn(it)
-            }
-            d.create()
-            d.show()
-        }
+//        root.findViewById<CardView>(R.id.signin_with_google_btn).setOnClickListener {
+//            requireContext().showToast("Google Sign In")
+//            Log.i(TAG, "ACTION INITIATED : >> signin_with_google_btn >> setOnClickListener")
+//            val emailID = try {
+//                getAccounts()
+//            } catch (e: Exception) {
+//                "Error : $e"
+//            }
+//
+//            val d = AlertDialog.Builder(requireActivity())
+//            d.setTitle("Accounts")
+//            d.setMessage("$emailID")
+//            d.setIcon(R.drawable.ic_baseline_account_box_24)
+//            d.setPositiveButton("OK") { _, _ ->
+//                startActivity(Intent(requireActivity(), MainActivity::class.java))
+//                requireActivity().finish()
+//            }
+//            d.setNegativeButton("TRY SIGN IN") { _, _ ->
+//                val b = AccountPicker.AccountChooserOptions.Builder()
+//                signIn(it)
+//            }
+//            d.create()
+//            d.show()
+//        }
         return root
     }
-
-    private fun checkIfUserHasGooglePasswordLock(): Boolean {
-        val credentialRequest = CredentialRequest.Builder()
-            .setPasswordLoginSupported(true)
-            .setAccountTypes(IdentityProviders.GOOGLE, IdentityProviders.FACEBOOK)
-            .build()
-
-        val boolResult = mCredentialsClient.request(credentialRequest)
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-
-                    onCredentialRetrieved(task.result.credential!!)
-                }
-            }
-        return boolResult.isComplete
-    }
-
-    private fun onCredentialRetrieved(credential: Credential): Boolean {
-
-        val accountType = credential.accountType
-        return when {
-            accountType != null -> {
-                //            signInWithPassword(credential.id, credential.password)
-                true
-            }
-            else -> {
-                false
-            }
-        }
-
-
-    }
-
-    private fun getAccounts(): String {
-        return if (ContextCompat.checkSelfPermission(
-                requireActivity(),
-                android.Manifest.permission.GET_ACCOUNTS
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            val accountManager =
-                requireContext().getSystemService(Context.ACCOUNT_SERVICE) as AccountManager
-            val accounts = accountManager.accounts
-            var emailID = ""
-            for (account in accounts) {
-                emailID += "\n" + account.name
-            }
-            emailID
-        } else ""
-    }
-
-
-    private fun signIn(view: View) {
-        Log.i(TAG, "ACTION INITIATED : >> signin_with_google_btn >> setOnClickListener >> signIn")
-        val signInIntent: Intent = mGoogleSignInClient.signInIntent
-        //view.isEnabled = false
-        r.launch(signInIntent)
-    }
-
-    private fun updateUI(account: GoogleSignInAccount?) {
-        if (account != null) {
-            makeToast("Logged in successfully : ${account.email}")
-            PreferenceManager.getDefaultSharedPreferences(requireContext()).edit {
-                this.putBoolean(constants.checkIsLoggedInPrefKey, true)
-            }
-
-            Log.i(
-                TAG,
-                "ACTION INITIATED : >> signin_with_google_btn >> setOnClickListener >> signIn >> Activity.RESULT_OK >> GoogleSignIn.getSignedInAccountFromIntent(data) >> .addOnCompleteListener >> handleSignInResult >> try... >> updateUI >> makeToast(${account.email}) >> [ACTION_GOOGLE_SIGN_IN_COMPLETE]"
-            )
-            val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
-            val timestamp = SimpleDateFormat(
-                getString(R.string.signin_hasmap_timestamp),
-                Locale.ENGLISH
-            ).format(Date())
-            val user = hashMapOf(
-                "name" to account.displayName,
-                "email" to account.email,
-                "givenName" to " ${account.givenName}",
-                "idToken" to " ${account.idToken}",
-                "familyName" to " ${account.familyName}",
-                "id" to account.id,
-                "photoURL" to "${account.photoUrl}",
-                "signUp" to timestamp,
-                "isVerified" to "Verified User : true"
-            )
-            prefs.edit {
-                putString("USER_ACCOUNT", user.toString())
-            }
-            startActivity(Intent(requireActivity(), MainActivity::class.java))
-        }
-
-
-    }
-
-    private fun updateHasUI(account: GoogleSignInAccount) {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
-        val timestamp = SimpleDateFormat(
-            getString(R.string.signin_hasmap_timestamp),
-            Locale.ENGLISH
-        ).format(Date())
-        val user = hashMapOf(
-            "name" to account.displayName,
-            "email" to account.email,
-            "givenName" to " ${account.givenName}",
-            "idToken" to " ${account.idToken}",
-            "familyName" to " ${account.familyName}",
-            "id" to account.id,
-            "photoURL" to "${account.photoUrl}",
-            "signUp" to timestamp,
-            "isVerified" to "Verified User : true"
-        )
-        prefs.edit {
-            putString("USER_ACCOUNT", user.toString())
-        }
-    }
-
-    private var r =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
-            if (activityResult.resultCode == Activity.RESULT_OK) {
-                Log.i(
-                    TAG,
-                    "ACTION INITIATED : >> signin_with_google_btn >> setOnClickListener >> signIn >> Activity.RESULT_OK"
-                )
-                val data = activityResult.data
-                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-                    .addOnCompleteListener {
-                        Log.i(
-                            TAG,
-                            "ACTION INITIATED : >> signin_with_google_btn >> setOnClickListener >> signIn >> Activity.RESULT_OK >> GoogleSignIn.getSignedInAccountFromIntent(data) >> .addOnCompleteListener"
-                        )
-                        handleSignInResult(it)
-                    }
-                    .addOnFailureListener {
-                        makeToast("0ops! Something went wrong! : Failure")
-                        updateUI(null)
-                    }
-                    .addOnCanceledListener {
-                        makeToast("0ops! Something went wrong! : You Canceled")
-                        updateUI(null)
-                    }
-                when {
-                    task.isComplete -> {
-                        handleSignInResult(task)
-                    }
-                    task.isCanceled -> {
-                        makeToast("0ops! Something went wrong! : ${task.exception}")
-                        updateUI(null)
-                    }
-                    else -> {
-                        makeToast("0ops! Something went wrong! : ${task.exception}")
-                        updateUI(null)
-                    }
-                }
-            }
-        }
-
-    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
-        try {
-            val account = completedTask.getResult(ApiException::class.java)
-            Log.i(
-                TAG,
-                "ACTION INITIATED : >> signin_with_google_btn >> setOnClickListener >> signIn >> Activity.RESULT_OK >> GoogleSignIn.getSignedInAccountFromIntent(data) >> .addOnCompleteListener >> handleSignInResult >> try..."
-            )
-
-            // Signed in successfully, show authenticated UI.
-            updateUI(account)
-        } catch (e: ApiException) {
-            // The ApiException status code indicates the detailed failure reason.
-            // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            //Log.w(TAG, "signInResult:failed code=" + e.statusCode)
-            Log.e(
-                TAG,
-                "ACTION INITIATED : >> signin_with_google_btn >> setOnClickListener >> signIn >> Activity.RESULT_OK >> GoogleSignIn.getSignedInAccountFromIntent(data) >> .addOnCompleteListener >> handleSignInResult >> try... !>> catch !>> error : $e"
-            )
-            makeToast("0ops! Something went wrong! : ${e.message}")
-        }
-    }
+//
+//    private fun checkIfUserHasGooglePasswordLock(): Boolean {
+//        val credentialRequest = CredentialRequest.Builder()
+//            .setPasswordLoginSupported(true)
+//            .setAccountTypes(IdentityProviders.GOOGLE, IdentityProviders.FACEBOOK)
+//            .build()
+//
+//        val boolResult = mCredentialsClient.request(credentialRequest)
+//            .addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//
+//                    onCredentialRetrieved(task.result.credential!!)
+//                }
+//            }
+//        return boolResult.isComplete
+//    }
+//
+//    private fun onCredentialRetrieved(credential: Credential): Boolean {
+//
+//        val accountType = credential.accountType
+//        return when {
+//            accountType != null -> {
+//                //            signInWithPassword(credential.id, credential.password)
+//                true
+//            }
+//            else -> {
+//                false
+//            }
+//        }
+//
+//
+//    }
+//
+//    private fun getAccounts(): String {
+//        return if (ContextCompat.checkSelfPermission(
+//                requireActivity(),
+//                android.Manifest.permission.GET_ACCOUNTS
+//            ) == PackageManager.PERMISSION_GRANTED
+//        ) {
+//            val accountManager =
+//                requireContext().getSystemService(Context.ACCOUNT_SERVICE) as AccountManager
+//            val accounts = accountManager.accounts
+//            var emailID = ""
+//            for (account in accounts) {
+//                emailID += "\n" + account.name
+//            }
+//            emailID
+//        } else ""
+//    }
+//
+//
+//    private fun signIn(view: View) {
+//        Log.i(TAG, "ACTION INITIATED : >> signin_with_google_btn >> setOnClickListener >> signIn")
+//        val signInIntent: Intent = mGoogleSignInClient.signInIntent
+//        //view.isEnabled = false
+//        r.launch(signInIntent)
+//    }
+//
+//    private fun updateUI(account: GoogleSignInAccount?) {
+//        if (account != null) {
+//            makeToast("Logged in successfully : ${account.email}")
+//            PreferenceManager.getDefaultSharedPreferences(requireContext()).edit {
+//                this.putBoolean(constants.checkIsLoggedInPrefKey, true)
+//            }
+//
+//            Log.i(
+//                TAG,
+//                "ACTION INITIATED : >> signin_with_google_btn >> setOnClickListener >> signIn >> Activity.RESULT_OK >> GoogleSignIn.getSignedInAccountFromIntent(data) >> .addOnCompleteListener >> handleSignInResult >> try... >> updateUI >> makeToast(${account.email}) >> [ACTION_GOOGLE_SIGN_IN_COMPLETE]"
+//            )
+//            val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+//            val timestamp = SimpleDateFormat(
+//                getString(R.string.signin_hasmap_timestamp),
+//                Locale.ENGLISH
+//            ).format(Date())
+//            val user = hashMapOf(
+//                "name" to account.displayName,
+//                "email" to account.email,
+//                "givenName" to " ${account.givenName}",
+//                "idToken" to " ${account.idToken}",
+//                "familyName" to " ${account.familyName}",
+//                "id" to account.id,
+//                "photoURL" to "${account.photoUrl}",
+//                "signUp" to timestamp,
+//                "isVerified" to "Verified User : true"
+//            )
+//            prefs.edit {
+//                putString("USER_ACCOUNT", user.toString())
+//            }
+//            startActivity(Intent(requireActivity(), MainActivity::class.java))
+//        }
+//
+//
+//    }
+//
+//    private fun updateHasUI(account: GoogleSignInAccount) {
+//        val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
+//        val timestamp = SimpleDateFormat(
+//            getString(R.string.signin_hasmap_timestamp),
+//            Locale.ENGLISH
+//        ).format(Date())
+//        val user = hashMapOf(
+//            "name" to account.displayName,
+//            "email" to account.email,
+//            "givenName" to " ${account.givenName}",
+//            "idToken" to " ${account.idToken}",
+//            "familyName" to " ${account.familyName}",
+//            "id" to account.id,
+//            "photoURL" to "${account.photoUrl}",
+//            "signUp" to timestamp,
+//            "isVerified" to "Verified User : true"
+//        )
+//        prefs.edit {
+//            putString("USER_ACCOUNT", user.toString())
+//        }
+//    }
+//
+//    private var r =
+//        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
+//            if (activityResult.resultCode == Activity.RESULT_OK) {
+//                Log.i(
+//                    TAG,
+//                    "ACTION INITIATED : >> signin_with_google_btn >> setOnClickListener >> signIn >> Activity.RESULT_OK"
+//                )
+//                val data = activityResult.data
+//                val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+//                    .addOnCompleteListener {
+//                        Log.i(
+//                            TAG,
+//                            "ACTION INITIATED : >> signin_with_google_btn >> setOnClickListener >> signIn >> Activity.RESULT_OK >> GoogleSignIn.getSignedInAccountFromIntent(data) >> .addOnCompleteListener"
+//                        )
+//                        handleSignInResult(it)
+//                    }
+//                    .addOnFailureListener {
+//                        makeToast("0ops! Something went wrong! : Failure")
+//                        updateUI(null)
+//                    }
+//                    .addOnCanceledListener {
+//                        makeToast("0ops! Something went wrong! : You Canceled")
+//                        updateUI(null)
+//                    }
+//                when {
+//                    task.isComplete -> {
+//                        handleSignInResult(task)
+//                    }
+//                    task.isCanceled -> {
+//                        makeToast("0ops! Something went wrong! : ${task.exception}")
+//                        updateUI(null)
+//                    }
+//                    else -> {
+//                        makeToast("0ops! Something went wrong! : ${task.exception}")
+//                        updateUI(null)
+//                    }
+//                }
+//            }
+//        }
+//
+//    private fun handleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+//        try {
+//            val account = completedTask.getResult(ApiException::class.java)
+//            Log.i(
+//                TAG,
+//                "ACTION INITIATED : >> signin_with_google_btn >> setOnClickListener >> signIn >> Activity.RESULT_OK >> GoogleSignIn.getSignedInAccountFromIntent(data) >> .addOnCompleteListener >> handleSignInResult >> try..."
+//            )
+//
+//            // Signed in successfully, show authenticated UI.
+//            updateUI(account)
+//        } catch (e: ApiException) {
+//            // The ApiException status code indicates the detailed failure reason.
+//            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+//            //Log.w(TAG, "signInResult:failed code=" + e.statusCode)
+//            Log.e(
+//                TAG,
+//                "ACTION INITIATED : >> signin_with_google_btn >> setOnClickListener >> signIn >> Activity.RESULT_OK >> GoogleSignIn.getSignedInAccountFromIntent(data) >> .addOnCompleteListener >> handleSignInResult >> try... !>> catch !>> error : $e"
+//            )
+//            makeToast("0ops! Something went wrong! : ${e.message}")
+//        }
+//    }
 
 
     private fun makeToast(text: String) {
