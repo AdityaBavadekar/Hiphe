@@ -122,7 +122,7 @@ class AccountFragment : Fragment() {
 
         val deepLink = getString(
             R.string.to_share_your_profile_with_other_hiphe_users_use_this_link_nhttps_hiphe_page_link_user_1_s,
-            emailId.removeSuffix("gmail.com")
+            emailId.removeSuffix("@gmail.com")
         )
         deepLinkTextView.text = deepLink
         userNameTextView.text = userName
