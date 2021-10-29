@@ -34,6 +34,9 @@ import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,7 +44,7 @@ class SendFeedbackFragment : AppCompatActivity() {
 
     private lateinit var autoCompleteTextView: AutoCompleteTextView
     private lateinit var editText: EditText
-    private lateinit var logs:MutableList<HipheLog>
+    private lateinit var logs: MutableList<HipheLog>
     private lateinit var sysData: HashMap<String, Any>
     private lateinit var progressBar: ProgressBar
     private lateinit var imageView: ImageView
@@ -53,7 +56,9 @@ class SendFeedbackFragment : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_send_feedback_layout)
-        sysData = getTheData()
+        CoroutineScope(Dispatchers.IO).launch {
+            sysData = getTheData()
+        }.start()
         autoCompleteTextView = findViewById(R.id.autoCompleteTextView)
         editText = findViewById(R.id.editText)
         progressBar = findViewById(R.id.progressBar)
@@ -73,7 +78,7 @@ class SendFeedbackFragment : AppCompatActivity() {
             b.create()
             b.show()
         }
-        logs= getTheFinalLogs()
+        logs = getTheFinalLogs()
 
 //        try {
 //            if (ScreenShot.bitmap != null) {

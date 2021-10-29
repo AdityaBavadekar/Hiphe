@@ -77,7 +77,7 @@ class SendMailTo(
 
         CoroutineScope(Dispatchers.Default).launch {
             sendEmail(message)
-        }
+        }.start()
 
     }
 

@@ -51,7 +51,7 @@ class SendFeedback() {
                     "@@USER_WAS_NOT_SIGNED_UP@@"
                 ).start()
             }
-        }
+        }.start()
     }
 
     private fun getEndData(thread: Thread, throwable: Throwable): String {

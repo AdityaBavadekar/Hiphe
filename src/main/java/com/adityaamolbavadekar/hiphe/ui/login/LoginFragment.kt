@@ -150,7 +150,7 @@ class LoginFragment : Fragment() {
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
-            .requestIdToken(constants.defaultWebClientId)//getString(R.string.default_web_client_id))
+            .requestIdToken(getString(R.string.default_web_client_id))
             .build()
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)

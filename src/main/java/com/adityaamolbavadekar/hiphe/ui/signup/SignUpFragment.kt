@@ -123,14 +123,14 @@ class SignUpFragment : Fragment() {
 
             spannableString.setSpan(
                 clickableSpanPrivacyPolicy,
-                76,
-                89,
+                74,
+                87,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             spannableString.setSpan(
                 clickableSpanTermsOfService,
-                108,
-                123,
+                103,
+                121,
                 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             byClickingYouAcceptTextView.text = spannableString
@@ -149,7 +149,7 @@ class SignUpFragment : Fragment() {
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestEmail()
-            .requestIdToken(constants.defaultWebClientId)//getString(R.string.default_web_client_id))
+            .requestIdToken(getString(R.string.default_web_client_id))
             .build()
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
@@ -598,57 +598,40 @@ class SignUpFragment : Fragment() {
             HipheInfoLog(TAG, "USER EMAIL : ${account.email}")
             HipheInfoLog(TAG, "USER NAME : ${account.displayName}")
             HipheInfoLog(TAG, "USER UID : ${account.uid}")
-
-
             val prefs = PreferenceManager.getDefaultSharedPreferences(requireContext())
             prefs.edit {
                 putString("USER_ACCOUNT", account.toString())
                 putString(constants.signedInUserEmailPrefKey, account.email)
-                this.putBoolean(constants.checkIsLoggedInPrefKey, true)
+                putBoolean(constants.checkIsLoggedInPrefKey, true)
                 putBoolean(constants.isUserUnexplored, true)
                 putBoolean("SENT", true)
             }
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                val builder = CreateChannels.Builder(requireActivity())
-                builder.createChannels(
-                    listOf(
-                        CreateChannels.Channel(
-                            "Mentions",
-                            "When people mention you you will be notified",
-                            CreateChannels.Channel.Importance.High,
-                            account.email!!
-                        )
-                    )
-                )
-                builder.createChannelGroups(
-                    listOf(
-                        CreateChannels.ChannelGroup(
-                            account.email!!,
-                            account.email!!
-                        )
-                    )
-                )
-
-            }
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//                val builder = CreateChannels.Builder(requireActivity())
+//                builder.createChannels(
+//                    listOf(
+//                        CreateChannels.Channel(
+//                            "Mentions",
+//                            "When people mention you you will be notified",
+//                            CreateChannels.Channel.Importance.High,
+//                            account.email!!
+//                        )
+//                    )
+//                )
+//                builder.createChannelGroups(
+//                    listOf(
+//                        CreateChannels.ChannelGroup(
+//                            account.email!!,
+//                            account.email!!
+//                        )
+//                    )
+//                )
+//
+//            }
             val intent = Intent(requireActivity(), MainActivity::class.java)
             intent.putExtra(constants.isUserUnexplored, true)
             startActivity(intent)
             requireActivity().finish()
-/*//            val timestamp = SimpleDateFormat(
-//                getString(R.string.signin_hasmap_timestamp),
-//                Locale.ENGLISH
-//            ).format(Date())
-//            val user = hashMapOf(
-//                "name" to account.displayName,
-//                "email" to account.email,
-//                "givenName" to " ${account.givenName}",
-//                "idToken" to " ${account.idToken}",
-//                "familyName" to " ${account.familyName}",
-//                "id" to account.id,
-//                "photoURL" to "${account.photoUrl}",
-//                "signUp" to timestamp,
-//                "isVerified" to "Verified User : true"
-//            )*/
         }
     }
 
@@ -721,6 +704,7 @@ class SignUpFragment : Fragment() {
                     updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
+                        requireActivity().showLongToast("Error : ${task.exception}")
                     HipheErrorLog(TAG, "signInWithCredential:failure", task.exception.toString())
                     updateUI(null)
                 }
@@ -736,7 +720,7 @@ class SignUpFragment : Fragment() {
     /////////////GOOGLE SIGN IN CODE END
 
     companion object {
-        const val TAG = "SignUpFragemtn"
+        const val TAG = "SignUpFragement"
     }
 
 }

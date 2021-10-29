@@ -62,7 +62,7 @@ class SendDataToFirestore(
                             "$mainData\n\nUSER : $email\n\n", timestamp
                         )
                     )
-                }
+                }.start()
             } catch (e: Exception) {
             }
             val isConnected = DoesNetworkHaveInternet.execute()
