@@ -27,6 +27,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.adityaamolbavadekar.hiphe.R
+import com.adityaamolbavadekar.hiphe.interaction.HipheLog
 import com.adityaamolbavadekar.hiphe.interaction.getTheFinalLogs
 import com.adityaamolbavadekar.hiphe.interaction.showToast
 import com.google.android.material.checkbox.MaterialCheckBox
@@ -40,7 +41,7 @@ class SendFeedbackFragment : AppCompatActivity() {
 
     private lateinit var autoCompleteTextView: AutoCompleteTextView
     private lateinit var editText: EditText
-    private val logs = getTheFinalLogs()
+    private lateinit var logs:MutableList<HipheLog>
     private lateinit var sysData: HashMap<String, Any>
     private lateinit var progressBar: ProgressBar
     private lateinit var imageView: ImageView
@@ -72,6 +73,7 @@ class SendFeedbackFragment : AppCompatActivity() {
             b.create()
             b.show()
         }
+        logs= getTheFinalLogs()
 
 //        try {
 //            if (ScreenShot.bitmap != null) {

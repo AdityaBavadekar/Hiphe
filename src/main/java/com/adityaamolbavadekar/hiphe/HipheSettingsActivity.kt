@@ -73,6 +73,59 @@ import java.io.File
 class HipheSettingsActivity : AppCompatActivity() {
 
     private lateinit var coordinatorLayout: CoordinatorLayout
+    val permissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            dojsfgfdsi(isGranted)
+        }
+
+    fun dojsfgfdsi(isGranted: Boolean) {
+        if (isGranted) {
+            val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+
+            HipheSettingsActivity.AboutSettingsFragment().download(
+                Uri.parse(prefs.getString("update_uri", "").toString()),
+                prefs.getString("fileName", "HipheUpdate").toString()
+            )
+        } else {
+            showLongToast("Permission for write is required to update Hiphe, You can disable it afterwards from settingd")
+        }
+    }
+
+    fun updateHipheWithChangeInfo(changeLogInfo: ChangeLogInfo) {
+        val versionName = changeLogInfo.versionName
+        val versionCode = changeLogInfo.versionCode
+        val releaseNotes = changeLogInfo.releaseNotes
+        val fileName = "Hiphe-$versionName"
+        PreferenceManager.getDefaultSharedPreferences(this)
+            .edit {
+                putString("update_uri", changeLogInfo.apkURL)
+                putString("fileName", fileName)
+            }
+        val apkURL = changeLogInfo.apkURL
+        val apkUri = Uri.parse(apkURL)
+        requestPermissionForWrite(apkUri, fileName)
+    }
+
+
+    fun requestPermissionForWrite(apkUri: Uri, fileName: String) {
+
+        when (ContextCompat.checkSelfPermission(
+            this,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )) {
+            PackageManager.PERMISSION_DENIED -> {
+                launchPermissionGrantRequest(apkUri, fileName)
+            }
+            PackageManager.PERMISSION_GRANTED -> {
+                HipheSettingsActivity.AboutSettingsFragment().download(apkUri = apkUri, fileName)
+            }
+        }
+    }
+
+
+    fun launchPermissionGrantRequest(apkUri: Uri, fileName: String) {
+        permissionLauncher.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -218,7 +271,11 @@ class HipheSettingsActivity : AppCompatActivity() {
             findPreference<Preference>("build_version")?.summary = pckMangr.versionName
             findPreference<Preference>("build_version_code")?.summary =
                 pckMangr.versionCode.toString()
-            findPreference<Preference>("hiphe_check_update")?.summary = preferenceManager.sharedPreferences.getString(constants.HIPHE_VERSION_UPDATE_KEY,"")
+            findPreference<Preference>("hiphe_check_update")?.summary =
+                preferenceManager.sharedPreferences.getString(
+                    constants.HIPHE_VERSION_UPDATE_KEY,
+                    ""
+                )
         }
 
         override fun onPreferenceTreeClick(preference: Preference?): Boolean {
@@ -306,19 +363,28 @@ class HipheSettingsActivity : AppCompatActivity() {
                                             b.setPositiveButton(getString(R.string.ok_update_hiphe)) { dialogInterface, _ ->
                                                 requireActivity().showLongToast("Updating in background, you can continue exploring app")
                                                 try {
-                                                    updateHipheWithChangeInfo(changeLogInfo)
+                                                    HipheSettingsActivity().updateHipheWithChangeInfo(
+                                                        changeLogInfo
+                                                    )
                                                 } catch (e: Exception) {
-                                                    HipheErrorLog(TAG,"Error updating",e.toString())
+                                                    HipheErrorLog(
+                                                        TAG,
+                                                        "Error updating",
+                                                        e.toString()
+                                                    )
                                                 }
                                                 dialogInterface.dismiss()
 
                                             }
                                             b.setNegativeButton(getString(R.string.cancel)) { dialogInterface, _ ->
                                                 preferenceManager.sharedPreferences.edit {
-                                                    putString(constants.HIPHE_VERSION_UPDATE_KEY,getString(
-                                                        R.string.updated_version_of_hiphe_is_available_preference_formatted,
-                                                        versionNameResult
-                                                    ))
+                                                    putString(
+                                                        constants.HIPHE_VERSION_UPDATE_KEY,
+                                                        getString(
+                                                            R.string.updated_version_of_hiphe_is_available_preference_formatted,
+                                                            versionNameResult
+                                                        )
+                                                    )
                                                 }
                                                 preference.summary = getString(
                                                     R.string.updated_version_of_hiphe_is_available_preference_formatted,
@@ -466,17 +532,8 @@ class HipheSettingsActivity : AppCompatActivity() {
             }
         }
 
-        private fun updateHipheWithChangeInfo(changeLogInfo: ChangeLogInfo) {
-            val versionName = changeLogInfo.versionName
-            val versionCode = changeLogInfo.versionCode
-            val releaseNotes = changeLogInfo.releaseNotes
-            val apkURL = changeLogInfo.apkURL
-            val apkUri = Uri.parse(apkURL)
-            val fileName = "Hiphe-$versionName"
-            requestPermissionForWrite(apkUri, fileName)
-        }
 
-        private fun download(apkUri: Uri, fileName: String) {
+        fun download(apkUri: Uri, fileName: String) {
             //Download APK
             val downloadManager =
                 requireActivity().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
@@ -501,44 +558,6 @@ class HipheSettingsActivity : AppCompatActivity() {
             }
         }
 
-        private fun requestPermissionForWrite(apkUri: Uri, fileName: String) {
-
-            when (ContextCompat.checkSelfPermission(
-                requireActivity(),
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-            )) {
-                PackageManager.PERMISSION_DENIED -> {
-//                    when (requireActivity().shouldShowRequestPermissionRationale(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-//                        true ->{
-//
-//                        }
-//                        false ->{
-//
-//                        }
-
-//                    }
-                    launchPermissionGrantRequest(apkUri, fileName)
-                }
-                PackageManager.PERMISSION_GRANTED -> {
-                    download(apkUri = apkUri, fileName)
-                }
-            }
-        }
-
-
-        private fun launchPermissionGrantRequest(apkUri: Uri, fileName: String) {
-            val permissionLauncher =
-                requireActivity().registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-                    if (isGranted) {
-                        download(apkUri, fileName)
-                    } else {
-                        requireActivity().showLongToast("Permission for write is required to update Hiphe, You can disable it afterwards from settingd")
-                    }
-
-                }
-
-            permissionLauncher.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        }
     }
 
     class NotificationsSettingsFragment : PreferenceFragmentCompat() {
