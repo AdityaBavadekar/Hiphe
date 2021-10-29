@@ -16,13 +16,10 @@
  ******************************************************************************/
 package com.adityaamolbavadekar.hiphe.services
 
-import android.app.ActivityManager
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import com.adityaamolbavadekar.hiphe.createDynamicLink
-import com.adityaamolbavadekar.hiphe.interaction.HipheErrorLog
 import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
 import com.adityaamolbavadekar.hiphe.interaction.UserDeviceData
 import com.adityaamolbavadekar.hiphe.interaction.showLongToast
@@ -119,29 +116,6 @@ class UploaderService : Service() {
                                     TAG,
                                     "firestore.collection(\"deepLinks\").addOnSuccessListener"
                                 )
-
-
-//                                acmngr2.
-                                try {
-                                    val acmngr =
-                                        this.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-
-                                    val listOfProcesses: List<ActivityManager.RunningAppProcessInfo>? =
-                                        acmngr.runningAppProcesses
-                                    if (listOfProcesses != null) {
-                                        for (process in listOfProcesses) {
-                                            HipheInfoLog(TAG, "Process : $process")
-                                            HipheInfoLog(TAG, "Process : $process")
-                                        }
-                                    }
-                                } catch (e: Exception) {
-                                    HipheErrorLog(
-                                        TAG,
-                                        "Error in using ActivityManager>>",
-                                        e.toString()
-                                    )
-                                }
-
                             }
 
                     }

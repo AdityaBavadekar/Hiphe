@@ -22,6 +22,9 @@ import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.File
 import java.nio.charset.Charset
 import java.text.SimpleDateFormat
@@ -30,22 +33,24 @@ import java.util.*
 class SendFeedback() {
 
     fun sendFeedback(context: Context, thread: Thread, throwable: Throwable) {
-        val mainData = UserDeviceData().userDeviceData(context)
-        val endData = getEndData(thread, throwable)
-        val value = "CRASH REPORT\n\n" + mainData + endData + "CRASH REPORT\n"
-        val fileName = writeToFile(context, value)
+        CoroutineScope(Dispatchers.IO).launch {
+            val mainData = UserDeviceData().userDeviceData(context)
+            val endData = getEndData(thread, throwable)
+            val value = "CRASH REPORT\n\n" + mainData + endData + "CRASH REPORT\n"
+            val fileName = writeToFile(context, value)
 
-        val user = Firebase.auth.currentUser
-        if (user != null) {
-            SendDataToFirestore(context, value, fileName, mainData, user.email).start()
-        } else {
-            SendDataToFirestore(
-                context,
-                value,
-                fileName,
-                mainData,
-                "@@USER_WAS_NOT_SIGNED_UP@@"
-            ).start()
+            val user = Firebase.auth.currentUser
+            if (user != null) {
+                SendDataToFirestore(context, value, fileName, mainData, user.email).start()
+            } else {
+                SendDataToFirestore(
+                    context,
+                    value,
+                    fileName,
+                    mainData,
+                    "@@USER_WAS_NOT_SIGNED_UP@@"
+                ).start()
+            }
         }
     }
 

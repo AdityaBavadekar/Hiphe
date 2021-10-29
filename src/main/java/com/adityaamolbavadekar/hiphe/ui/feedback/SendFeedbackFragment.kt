@@ -27,7 +27,6 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.adityaamolbavadekar.hiphe.R
-import com.adityaamolbavadekar.hiphe.interaction.ScreenShot
 import com.adityaamolbavadekar.hiphe.interaction.getTheFinalLogs
 import com.adityaamolbavadekar.hiphe.interaction.showToast
 import com.google.android.material.checkbox.MaterialCheckBox
@@ -74,12 +73,12 @@ class SendFeedbackFragment : AppCompatActivity() {
             b.show()
         }
 
-        try {
-            if (ScreenShot.bitmap != null) {
-                imageView.setImageBitmap(ScreenShot.bitmap)
-            }
-        } catch (e: Exception) {
-        }
+//        try {
+//            if (ScreenShot.bitmap != null) {
+//                imageView.setImageBitmap(ScreenShot.bitmap)
+//            }
+//        } catch (e: Exception) {
+//        }
 
         val userEmail = Firebase.auth.currentUser?.email
 

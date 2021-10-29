@@ -52,12 +52,14 @@
 package com.adityaamolbavadekar.hiphe
 
 import android.app.Activity
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.OpenableColumns
 import android.util.Log
 import android.webkit.MimeTypeMap
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.adityaamolbavadekar.hiphe.interaction.showToast
 import com.google.firebase.firestore.FirebaseFirestore
@@ -68,11 +70,13 @@ import kotlinx.android.synthetic.main.activity_shared.*
 class SharedActivity : AppCompatActivity() {
 
     private val TAG = "SharedActivity"
+    private lateinit var textView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shared)
 
+        textView = findViewById(R.id.resultTetxView)
 
         val data: Uri? = intent?.data
 
@@ -102,6 +106,10 @@ class SharedActivity : AppCompatActivity() {
                 this.showToast("Text")
                 if (data != null) {
                     this.showToast("${contentResolver.getType(data)}")
+                    val text = intent.getStringExtra(Intent.EXTRA_TEXT)
+                    if (intent.getStringExtra(Intent.EXTRA_TITLE) != null) {
+                        textView.text = text + intent.getStringExtra(Intent.EXTRA_TITLE).toString()
+                    }
                 }
             }
             intent?.type?.startsWith("video/wav") == true -> {

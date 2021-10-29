@@ -37,7 +37,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
-import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.drawerlayout.widget.DrawerLayout
@@ -47,11 +46,10 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.preference.PreferenceManager
-import com.adityaamolbavadekar.hiphe.interaction.CreateChannels
-import com.adityaamolbavadekar.hiphe.interaction.DeleteChannels
-import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
-import com.adityaamolbavadekar.hiphe.interaction.NotifyNetworkInfo
+import androidx.room.Room
+import com.adityaamolbavadekar.hiphe.interaction.*
 import com.adityaamolbavadekar.hiphe.network.ConnectionLiveData
+import com.adityaamolbavadekar.hiphe.room.CrashDatabase
 import com.adityaamolbavadekar.hiphe.services.UploaderService
 import com.adityaamolbavadekar.hiphe.utils.ConfigureTheme
 import com.adityaamolbavadekar.hiphe.utils.constants
@@ -64,6 +62,8 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.label.ImageLabeling
@@ -81,6 +81,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var networkStateCardView: CardView
     private lateinit var networkStateTextView: TextView
     private lateinit var connectionLiveData: ConnectionLiveData
+    private lateinit var firestore: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,9 +92,14 @@ class MainActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
+
+        firestore = Firebase.firestore
+
         connectionLiveData = ConnectionLiveData(this)
         auth = Firebase.auth
-        startService(Intent(this, UploaderService::class.java))
+        if (!prefs.getBoolean("SENT", false)) {
+            startService(Intent(this, UploaderService::class.java))
+        }
 
         networkStateCardView = findViewById(R.id.offlineNotifierCardMain)
         networkStateTextView = findViewById(R.id.offlineNotifierCardTextViewMain)
@@ -177,10 +183,53 @@ class MainActivity : AppCompatActivity() {
             b.create()
             b.show()
         }
+
+        upload()
     }
 
     private fun takeHipheTour() {
 
+    }
+
+    private fun upload() {
+
+        Thread {
+            val crashDatabase = Room.databaseBuilder(
+                this,
+                CrashDatabase::class.java,
+                "NOTES_REGISTRY"
+            ).build()
+            crashDatabase.crashDao().getCrashes()
+
+            try {
+                connectionLiveData.observe(this, androidx.lifecycle.Observer {
+                    while (it == true) {
+                        val crashes = crashDatabase.crashDao().getCrashes()
+                            .observe(this, androidx.lifecycle.Observer { crashList ->
+                                for (crash in crashList) {
+                                    val crashHashMAP = hashMapOf(
+                                        "INDEX" to crash.index.toString(),
+                                        "CRASH_MAIN_DATA" to crash.crashMainData.toString(),
+                                        "CRASH_TIMESTAMP" to crash.timestamp.toString()
+                                    )
+                                    firestore.collection("CRASH_DATABASE")
+                                        .add(crashHashMAP)
+                                        .addOnSuccessListener {
+                                        }
+                                }
+                            })
+                    }
+                })
+
+            } catch (e: Exception) {
+                HipheErrorLog(
+                    UploaderService.TAG,
+                    "Error connectionLiveData.observeForever >> Service",
+                    e.toString()
+                )
+            }
+
+        }.start()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

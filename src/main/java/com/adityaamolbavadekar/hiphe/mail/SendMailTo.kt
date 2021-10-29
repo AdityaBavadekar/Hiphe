@@ -24,6 +24,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.mail.*
@@ -74,13 +75,21 @@ class SendMailTo(
         message.subject = "Welcome To Hiphe"
         message.setText(body)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                Transport.send(message)
-            } catch (e: Exception) {
-                HipheErrorLog("SendMailTo", "Error Sending email", e.toString())
-            }
+        CoroutineScope(Dispatchers.Default).launch {
+            sendEmail(message)
         }
+
+    }
+
+    private suspend fun sendEmail(message: MimeMessage) {
+//        CoroutineScope(Dispatchers.IO).launch {
+        try {
+            delay(1500)
+            Transport.send(message)
+        } catch (e: Exception) {
+            HipheErrorLog("SendMailTo", "Error Sending email", e.toString())
+        }
+//        }
 
     }
 

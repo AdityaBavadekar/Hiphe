@@ -17,24 +17,29 @@
 
 package com.adityaamolbavadekar.hiphe.interaction
 
+import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.view.View
+import java.io.File
+import java.io.FileOutputStream
 
-class CaptureScreenShot(private val view: View) {
+class CaptureScreenShot(private val activity: Activity,private val view: View) {
 
-    fun capture(): Bitmap? {
-        val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(bitmap)
-        val bgDrawable = view.background
-        if (bgDrawable != null) {
-            bgDrawable.draw(canvas)
-        } else {
-            canvas.drawColor(Color.WHITE)
-        }
-        view.draw(canvas)
-        return bitmap
+    fun capture(): String {
+
+        val view = activity.window.decorView.rootView
+        view.isDrawingCacheEnabled  = true
+        val bitmap = Bitmap.createBitmap(view.drawingCache)
+        view.isDrawingCacheEnabled  = false
+        val path = activity.filesDir.toString()+"/screenshot"+System.currentTimeMillis().toString()+".jpg"
+        val outputStream =FileOutputStream(File(path))
+        bitmap.compress(Bitmap.CompressFormat.JPEG,100,outputStream)
+        outputStream.flush()
+        outputStream.close()
+        return path
     }
 
 }

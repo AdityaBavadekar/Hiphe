@@ -61,7 +61,7 @@ import java.util.*
 data class HipheLogDatabaseDataClass(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "Index") val index: Long,
-    @ColumnInfo(name = "Log") val Log: String,//HipheLog,
+    @ColumnInfo(name = "Log") val Log: String,
     @ColumnInfo(name = "Timestamp") val timestamp: String = SimpleDateFormat(
         "EEE, dd-mm-yy, HH:mm",
         Locale.ENGLISH

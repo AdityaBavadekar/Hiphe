@@ -32,6 +32,7 @@
             android:layout_height="230dp"
             android:gravity="center"
             android:padding="15dp"
+            android:id="@+id/resultTetxView"
             android:text="@string/powered_by_hiphe"
             android:textColor="?android:textColorPrimary"
             android:textIsSelectable="true" />

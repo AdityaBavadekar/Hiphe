@@ -58,6 +58,9 @@ class constants {
         const val packageName: String = "com.adityaamolbavadekar.hiphe"
         const val APP_NAME = "Hiphe"
         const val REPO_NAME = "Hiphe"
+        const val CRASH_FULL_DATA_VALUE_KEY = "CRASH_FULL_DATA_VALUE"
+        const val CRASH_FULL_FILES_LIST_KEY = "CRASH_FULL_FILES_LIST"
+        const val CRASH_FULL_DATA_USER_KEY = "CRASH_FULL_DATA_USER_VALUE"
         const val HIPHE_VERSION_UPDATE_KEY = "HIPHE_VERSION_UPDATE"
         const val GITHUB_DEVELOPER_NAME = "AdityaBavadekar"
         const val UPDATE_FROM_XML_URL =

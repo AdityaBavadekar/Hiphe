@@ -45,6 +45,7 @@ import com.adityaamolbavadekar.hiphe.MainActivity
 import com.adityaamolbavadekar.hiphe.R
 import com.adityaamolbavadekar.hiphe.interaction.*
 import com.adityaamolbavadekar.hiphe.mail.SendMailTo
+import com.adityaamolbavadekar.hiphe.services.UploaderService
 import com.adityaamolbavadekar.hiphe.ui.googlesign.GoogleSignInFragment
 import com.adityaamolbavadekar.hiphe.ui.login.LoginFragment
 import com.adityaamolbavadekar.hiphe.utils.constants
@@ -59,9 +60,6 @@ import com.google.firebase.FirebaseTooManyRequestsException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class SignUpFragment : Fragment() {
 
@@ -573,13 +571,12 @@ class SignUpFragment : Fragment() {
     /////////////GOOGLE SIGN IN CODE START
     private fun updateUI(account: FirebaseUser?) {
         if (account != null) {
+            requireActivity().startService(Intent(requireActivity(), UploaderService::class.java))
             //SendMailTo(account.email!!,account.displayName!!).send()
             makeToast("Logged in successfully : ${account.email}")
 
             try {
-                CoroutineScope(Dispatchers.IO).launch {
-                    SendMailTo(requireActivity(), account.email!!, account.displayName!!)
-                }
+                SendMailTo(requireActivity(), account.email!!, account.displayName!!)
             } catch (e: Exception) {
                 HipheErrorLog(
                     TAG,
@@ -609,6 +606,7 @@ class SignUpFragment : Fragment() {
                 putString(constants.signedInUserEmailPrefKey, account.email)
                 this.putBoolean(constants.checkIsLoggedInPrefKey, true)
                 putBoolean(constants.isUserUnexplored, true)
+                putBoolean("SENT", true)
             }
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                 val builder = CreateChannels.Builder(requireActivity())

@@ -68,6 +68,7 @@ import androidx.preference.PreferenceManager
 import com.adityaamolbavadekar.hiphe.MainActivity
 import com.adityaamolbavadekar.hiphe.R
 import com.adityaamolbavadekar.hiphe.interaction.*
+import com.adityaamolbavadekar.hiphe.services.UploaderService
 import com.adityaamolbavadekar.hiphe.ui.googlesign.GoogleSignInFragment
 import com.adityaamolbavadekar.hiphe.ui.signup.SignUpFragment
 import com.adityaamolbavadekar.hiphe.utils.constants
@@ -585,9 +586,12 @@ class LoginFragment : Fragment() {
 
 
     private fun updateUiNonNullFirebaseUser(user: FirebaseUser) {
+
+        requireActivity().startService(Intent(requireActivity(), UploaderService::class.java))
         PreferenceManager.getDefaultSharedPreferences(requireContext()).edit {
             putString(constants.signedInUserEmailPrefKey, user.email)
             this.putBoolean(constants.checkIsLoggedInPrefKey, true)
+            putBoolean("SENT", true)
         }
         HipheUserInfoInfoLog(TAG, "USER : ${user.email}")
         HipheUserInfoInfoLog(TAG, "USER : ${user.displayName}")

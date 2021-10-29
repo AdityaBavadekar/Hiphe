@@ -19,10 +19,17 @@ package com.adityaamolbavadekar.hiphe.interaction
 
 import android.content.Context
 import android.content.Intent
+import androidx.room.Room
 import com.adityaamolbavadekar.hiphe.LauncherActivity
 import com.adityaamolbavadekar.hiphe.network.DoesNetworkHaveInternet
+import com.adityaamolbavadekar.hiphe.room.CrashDataClass
+import com.adityaamolbavadekar.hiphe.room.CrashDatabase
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.system.exitProcess
 
@@ -33,18 +40,42 @@ class SendDataToFirestore(
     private val fileName: String,
     private val email: String?
 ) {
+    private lateinit var crashDatabase: CrashDatabase
 
     fun start() {
-        val isConnected = DoesNetworkHaveInternet.execute()
-        if (isConnected) {
-            val firestore = Firebase.firestore
-            firestore.collection("HIPHE_REMOTE_CRASHES")
-                .document(fileName)
-                .set(returnData())
-            restartHipheLauncherActivity(returnData().toString())
-        } else {
-            restartHipheLauncherActivity(null)
-        }
+        Thread {
+            crashDatabase = Room.databaseBuilder(
+                context,
+                CrashDatabase::class.java,
+                "NOTES_REGISTRY"
+            ).build()
+            val timestamp = SimpleDateFormat(
+                "EEE, dd-mm-yy, HH:mm aaa Z",
+                Locale.ENGLISH
+            ).format(Date())
+                .toString()
+            try {
+                CoroutineScope(Dispatchers.IO).launch {
+                    crashDatabase.crashDao().commitCrashReport(
+                        CrashDataClass(
+                            0,
+                            "$mainData\n\nUSER : $email\n\n", timestamp
+                        )
+                    )
+                }
+            } catch (e: Exception) {
+            }
+            val isConnected = DoesNetworkHaveInternet.execute()
+            if (isConnected) {
+                val firestore = Firebase.firestore
+                firestore.collection("HIPHE_REMOTE_CRASHES")
+                    .document(fileName)
+                    .set(returnData())
+                restartHipheLauncherActivity(returnData().toString())
+            } else {
+                restartHipheLauncherActivity(null)
+            }
+        }.start()
     }
 
     private fun restartHipheLauncherActivity(data: String?) {
@@ -57,6 +88,7 @@ class SendDataToFirestore(
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(intent)
         exitProcess(404)
+
     }
 
     private fun returnData(): HashMap<String, String> {

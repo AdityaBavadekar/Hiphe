@@ -305,11 +305,13 @@ class HipheSettingsActivity : AppCompatActivity() {
                                             )
                                             b.setPositiveButton(getString(R.string.ok_update_hiphe)) { dialogInterface, _ ->
                                                 requireActivity().showLongToast("Updating in background, you can continue exploring app")
-                                                dialogInterface.dismiss()
                                                 try {
                                                     updateHipheWithChangeInfo(changeLogInfo)
                                                 } catch (e: Exception) {
+                                                    HipheErrorLog(TAG,"Error updating",e.toString())
                                                 }
+                                                dialogInterface.dismiss()
+
                                             }
                                             b.setNegativeButton(getString(R.string.cancel)) { dialogInterface, _ ->
                                                 preferenceManager.sharedPreferences.edit {
@@ -452,10 +454,10 @@ class HipheSettingsActivity : AppCompatActivity() {
                         .addOnFailureListener {
                             requireActivity().showToast("Feedback not sent, ${it.cause}")
                         }
-                    try {
-                        ScreenShot.bitmap = CaptureScreenShot(requireActivity().findViewById(R.id.coordinator)).capture()
-                    } catch (e: Exception) {
-                    }
+//                    try {
+//                        ScreenShot.bitmap = CaptureScreenShot(requireActivity().findViewById(R.id.coordinator)).capture()
+//                    } catch (e: Exception) {
+//                    }
                     startActivity(Intent(requireActivity(), SendFeedbackFragment::class.java))
 
                     return true
