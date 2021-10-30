@@ -18,6 +18,10 @@
 |![](https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/Screenshot_20211030-152519_Hiphe.jpg)|![](https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/Screenshot_20211030-153112_Hiphe.jpg)|
 |![](https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/Screenshot_20211030-152602_Hiphe.jpg)|![](https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/Screenshot_20211030-152622_Hiphe.jpg)
 
+# New Features
+
+<img src="https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/Screenshot_20211030-153845_Hiphe.jpg" alt="alt text"  height="400">
+
 
 ## __Download .Apk File__ : 
 _To download APK [click this link](https://github.com/AdityaBavadekar/Hiphe/releases/download/v2.231.58/Hiphe-v2.231.58.apk)._
