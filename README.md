@@ -10,9 +10,17 @@
 
  Screenshots|    Screenshots         |       Screenshots    |
 |-----------|-------------|-----------|
-|![](https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/web-build_2021-10-30T09_22_28.087Z_dt9z_redfin-30-en_US-portrait_artifacts_1.png)| ![](https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/web-build_2021-10-30T09_22_28.087Z_dt9z_redfin-30-en_US-portrait_artifacts_13.png)| ![](https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/web-build_2021-10-30T09_22_28.087Z_dt9z_redfin-30-en_US-portrait_artifacts_17.png)     
+|![](https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/web-build_2021-10-30T09_22_28.087Z_dt9z_redfin-30-en_US-portrait_artifacts_1.png)| ![](https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/web-build_2021-10-30T09_22_28.087Z_dt9z_redfin-30-en_US-portrait_artifacts_13.png)| ![](https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/web-build_2021-10-30T09_22_28.087Z_dt9z_redfin-30-en_US-portrait_artifacts_17.png)
+
+  
+ Dark Theme | Light Theme |
+|------|------|
+|![](https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/Screenshot_20211030-152519_Hiphe.jpg)|![](https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/Screenshot_20211030-153112_Hiphe.jpg)|
+|![](https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/Screenshot_20211030-152602_Hiphe.jpg)|![](https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/Screenshot_20211030-152622_Hiphe.jpg)
+
+
 ## __Download .Apk File__ : 
-_To download APK [click this link](https://github.com/AdityaBavadekar/Hiphe/releases/download/v2.231.56/Hiphe-v2.231.56.apk)._
+_To download APK [click this link](https://github.com/AdityaBavadekar/Hiphe/releases/download/v2.231.58/Hiphe-v2.231.58.apk)._
 
 
 
