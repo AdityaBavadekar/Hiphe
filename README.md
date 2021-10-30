@@ -8,6 +8,9 @@
 - Hiphe is written using [Android Studio](https://developer.android.com/studio) in Kotlin [@JetBrains](https://github.com/JetBrains/kotlin)
 
 
+ Screenshots|    Screenshots         |       Screenshots    |
+|-----------|-------------|-----------|
+|![](https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/web-build_2021-10-30T09_22_28.087Z_dt9z_redfin-30-en_US-portrait_artifacts_1.png)| ![](https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/web-build_2021-10-30T09_22_28.087Z_dt9z_redfin-30-en_US-portrait_artifacts_13.png)| ![](https://github.com/AdityaBavadekar/Hiphe/blob/main/Screenshots/web-build_2021-10-30T09_22_28.087Z_dt9z_redfin-30-en_US-portrait_artifacts_17.png)     
 ## __Download .Apk File__ : 
 _To download APK [click this link](https://github.com/AdityaBavadekar/Hiphe/releases/download/v2.231.56/Hiphe-v2.231.56.apk)._
 
