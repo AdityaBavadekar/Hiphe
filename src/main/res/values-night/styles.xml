@@ -90,7 +90,16 @@
 
     <style name="Hiphe.MainActivityTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:textColorPrimary">@android:color/white</item>
-<!--        <item name="colorOnPrimarySurface">@android:color/white</item>-->
+        <!--        <item name="colorOnPrimarySurface">@android:color/white</item>-->
+
+    </style>
+
+    <style name="Hiphe.NotesAppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <item name="colorPrimary">@android:color/black</item>
+        <item name="colorPrimaryDark">@android:color/black</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
 
     </style>
 

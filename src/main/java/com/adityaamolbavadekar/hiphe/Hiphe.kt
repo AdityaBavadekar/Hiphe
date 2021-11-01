@@ -21,8 +21,13 @@ import android.app.Application
 import android.content.Context
 import com.adityaamolbavadekar.hiphe.interaction.SendFeedback
 import com.adityaamolbavadekar.hiphe.interaction.showLongToast
+import com.adityaamolbavadekar.hiphe.room.note.NoteDatabaseClass
 
 class Hiphe : Application() {
+
+    val notesDatabase: NoteDatabaseClass by lazy {
+        NoteDatabaseClass.getDatabase(this)
+    }
 
     init {
         instance = this
@@ -48,29 +53,4 @@ class Hiphe : Application() {
             }
         }
     }
-
 }
-
-/*
-    override fun attachBaseContext(base: Context?) {
-        super.attachBaseContext(base)
-        initAcra {
-            buildConfigClass = BuildConfig::class.java
-            reportFormat = StringFormat.JSON
-            toast {
-                text = getString(R.string.app_name)
-            }
-            mailSender {
-                mailTo = "adityarbavadekar@gmail.com"
-                val dated = SimpleDateFormat(
-                    "EEE, dd MMM yyyy\' at \'HH:mm aaa Z",
-                    Locale.ENGLISH
-                ).format(Date()).toString()
-                reportAsFile = true
-                reportFileName = "HipheCrash_On_${dated}_Report.txt"
-                body = "Hiphe Crashed \n\n\n Occurrence : $dated"
-            }
-        }
-    }
-*/
-//}

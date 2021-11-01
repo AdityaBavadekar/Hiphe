@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2021. Aditya Bavadekar
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  ~
+  -->
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Hiphe.NotesAppTheme">
+
+
+    <!--
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?colorPrimaryDark"
+            android:theme="@style/AppTheme.AppBarOverlay"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$Behavior"
+            app:liftOnScroll="true"
+            app:liftOnScrollTargetViewId="@id/nav_host_fragment">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/offlineNotifierCardMain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:cardBackgroundColor="?colorPrimaryDark"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="2dp"
+                    tools:ignore="UseCompoundDrawables">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        tools:ignore="ContentDescription"
+                        tools:src="@drawable/ic_outline_link_off_24" />
+
+                    <TextView
+                        android:id="@+id/offlineNotifierCardTextViewMain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="?android:textColorPrimary"
+                        android:textStyle="bold"
+                        tools:text="@string/title_offline_no_connection" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>-->
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/app_bar_notes"
+        android:gravity="center"
+        android:paddingHorizontal="5dp"
+        android:paddingEnd="30dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:layout_scrollFlags="scroll|enterAlways|snap"
+        app:menu="@menu/notes"
+        app:navigationIcon="@drawable/ic_baseline_menu_24"
+        app:popupTheme="@style/Theme.MaterialComponents.DayNight"
+        app:title="Notes" />
+
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
+        app:navGraph="@navigation/mobile_navigation_notes" />
+    <!--    </com.google.android.material.appbar.AppBarLayout>-->
+
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottomAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="?colorPrimaryDark"
+        android:fitsSystemWindows="true"
+        android:paddingHorizontal="10dp"
+        android:paddingBottom="50dp"
+        app:backgroundTint="?colorPrimaryDark"
+        app:buttonGravity="center_vertical"
+        app:fabAlignmentMode="end"
+        app:fabAnimationMode="slide"
+        app:fabCradleMargin="20dp"
+        app:fabCradleRoundedCornerRadius="40dp"
+        app:fabCradleVerticalOffset="15dp"
+        app:hideOnScroll="true"
+        app:menu="@menu/activity_main_dashboard_homemain"
+        app:popupTheme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
+        app:title="@string/welcome_sub_note" />
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
