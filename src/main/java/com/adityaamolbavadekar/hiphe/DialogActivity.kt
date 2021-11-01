@@ -32,6 +32,7 @@ class DialogActivity : AppCompatActivity() {
 
     private lateinit var navigationView: NavigationView
     private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,10 +42,13 @@ class DialogActivity : AppCompatActivity() {
         navController = findNavController(R.id.nav_host_fragment)
         navigationView.setupWithNavController(navController)
         val drawerLayout = findViewById<DrawerLayout>(R.id.drawer_layout)
-        setupActionBarWithNavController(navController, AppBarConfiguration(
+        appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.notesFragment
-            ),drawerLayout
+            ), drawerLayout
+        )
+        setupActionBarWithNavController(
+            navController, appBarConfiguration
         ))
 
 
