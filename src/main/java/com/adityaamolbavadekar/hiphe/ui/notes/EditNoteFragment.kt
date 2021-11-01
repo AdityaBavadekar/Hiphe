@@ -61,6 +61,14 @@ class EditNoteFragment : Fragment() {
     ): View? {
         editNoteViewModel = ViewModelProviders.of(this).get(EditNoteViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_edit_note, container, false)
+
+        /*
+val args = ConfirmationFragmentArgs.fromBundle(bundle)
+showTravelerInformation(args.travelerInformation)
+showTravelAddOns(args.travelAddOns)
+showPromoCode(args.promoCode)
+        */
+
         return root
     }
 
