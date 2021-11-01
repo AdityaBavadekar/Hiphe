@@ -40,7 +40,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class LauncherActivity : AppCompatActivity() {
 
     private val loggedOutUserTimeOut: Long = 1500
-    private val normalTimeOut: Long = 1000
+    private val normalTimeOut: Long = 700
     private lateinit var connectionLiveData: ConnectionLiveData
 
     override fun onCreate(savedInstanceState: Bundle?) {
