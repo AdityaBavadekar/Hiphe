@@ -105,7 +105,7 @@ Consent  :     _By using our application, you hereby consent to our Privacy Poli
  
  # PRIVACY NOTICE OF HIPHE[^1] [^2]
 
-> Last updated October 27, 2021
+> Last updated October 30, 2021
 
 Thank you for choosing to be part of our community at Aditya Bavadekar Apps. ("Company," "we," "us," or "our"). We are committed to protecting your personal information and your right to privacy. If you have any questions or concerns about this privacy notice or our practices with regard to your personal information, please contact us at teamhiphe@gmail.com.
 This privacy notice describes how we might use your information if you:
@@ -344,7 +344,7 @@ Pune, Maharashtra 411000
 India
 
 ### 13. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?     
-Based on the applicable laws of your country, you may have the right to request access to the personal information we collect from you, change that information, or delete it in some circumstances. To request to review, update, or delete your personal information, please visit: https://hiphe.page.ink/myaccount.
+Based on the applicable laws of your country, you may have the right to request access to the personal information we collect from you, change that information, or delete it in some circumstances. To request to review, update, or delete your personal information, please visit: https://hiphe.page.link/myaccount.
 
 
 [^1]: Consent  :     _By using our application, you hereby consent to our Privacy Policy and agree to its terms._

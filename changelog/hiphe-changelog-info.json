@@ -2,7 +2,7 @@
   {
     "versionName": "2.231.58",
     "versionCode": "2.0",
-    "releaseNotes": "Bug Fixes, Performance Improvements, issue fixed for subset of users.",
+    "releaseNotes": "\nHere are some new features : \n\n1. You can now send feedback\n2. You can now view other profile only by a deeplink\n3. You can see their Profile photos\n4. You can now see Hiphe Privacy Policy and Terms of Service\n5. From Account Info Catageory now you can view their UserID as well as profile link, which they can share or click it to view their Hiphe Public Profile\n6.You can browse through Hiphe FAQs from settings",
     "apkURL": "https://github.com/AdityaBavadekar/Hiphe/releases/download/v2.231.56/Hiphe-v2.231.56.apk"
   }
 ]
