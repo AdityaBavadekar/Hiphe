@@ -69,7 +69,26 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:paddingBottom="20dp"
+            android:visibility="gone"
             android:src="@color/colorPrimaryDark" />
+
+
+        <com.jama.carouselview.CarouselView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:setAutoPlay="true"
+            android:id="@+id/carouselView"
+            app:setAutoPlayDelay="1000"
+            app:carouselOffset="center"
+            app:indicatorRadius="5"
+            app:indicatorPadding="5"
+            app:size="10"
+            app:spacing="10"
+            app:indicatorSelectedColor="?colorPrimary"
+            app:indicatorUnselectedColor="?colorPrimaryDark"
+            app:indicatorAnimationType="slide"
+            app:enableSnapping="true"
+            />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="match_parent"

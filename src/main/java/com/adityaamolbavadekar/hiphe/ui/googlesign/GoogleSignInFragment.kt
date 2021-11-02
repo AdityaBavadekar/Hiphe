@@ -17,47 +17,36 @@
 
 package com.adityaamolbavadekar.hiphe.ui.googlesign
 
-import android.accounts.AccountManager
-import android.app.Activity
-import android.app.AlertDialog
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
-import androidx.core.content.edit
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import androidx.preference.PreferenceManager
-import com.adityaamolbavadekar.hiphe.MainActivity
 import com.adityaamolbavadekar.hiphe.R
 import com.adityaamolbavadekar.hiphe.interaction.showToast
 import com.adityaamolbavadekar.hiphe.ui.login.LoginFragment
 import com.adityaamolbavadekar.hiphe.ui.signup.SignUpFragment
-import com.adityaamolbavadekar.hiphe.utils.constants
-import com.google.android.gms.auth.api.credentials.*
+import com.google.android.gms.auth.api.credentials.Credentials
+import com.google.android.gms.auth.api.credentials.CredentialsClient
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.AccountPicker
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import com.google.android.material.button.MaterialButton
-import java.text.SimpleDateFormat
-import java.util.*
+import com.jama.carouselview.CarouselView
+import com.jama.carouselview.enums.IndicatorAnimationType
 
 class GoogleSignInFragment : Fragment() {
     companion object {
         const val TAG: String = "GoogleSignInFragment"
     }
 
+    private val images = arrayListOf(
+        R.drawable.clouds,
+        R.drawable.ic_round_verified_user_24,
+        R.drawable.ic_twotone_important_devices_24
+    )//Images to be displayed
     private lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var mCredentialsClient: CredentialsClient
     private lateinit var root: View
@@ -69,6 +58,22 @@ class GoogleSignInFragment : Fragment() {
     ): View? {
         root = inflater.inflate(R.layout.fragment_googlesignin, container, false)
 
+        val carouselView = root.findViewById<CarouselView>(R.id.carouselView)
+
+        try {
+            carouselView.apply {
+                size = images.size
+                autoPlay = true
+                resource = R.layout.carousel_item
+                setCarouselViewListener { view, position ->
+                    val imageView = view.findViewById<ImageView>(R.id.imageView)
+                    imageView.setImageDrawable(resources.getDrawable(images[position]))
+                }
+                indicatorAnimationType = IndicatorAnimationType.SLIDE
+                show()
+            }
+        } catch (e: Exception) {
+        }
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
