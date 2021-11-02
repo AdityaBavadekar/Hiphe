@@ -86,4 +86,9 @@
         android:name="com.adityaamolbavadekar.hiphe.ui.dashboard.HomeFragmentMain"
         android:label="Home"
         tools:layout="@layout/fragment_home_main" />
+    <activity
+        android:id="@+id/dialogActivity"
+        android:name="com.adityaamolbavadekar.hiphe.DialogActivity"
+        android:label="Notes"
+        tools:layout="@layout/activity_dialog_crash" />
 </navigation>

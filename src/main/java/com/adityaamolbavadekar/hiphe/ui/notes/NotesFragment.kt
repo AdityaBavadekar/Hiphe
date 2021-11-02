@@ -73,7 +73,7 @@ class NotesFragment : Fragment() {
     }
 
     private fun setUpRecyclerViewWith(notes: List<NotesDataClass>) {
-        recyclerView.adapter = NotesAdapter(notes, requireActivity())
+        recyclerView.adapter = NotesAdapter(notes, this)
     }
 
     companion object {

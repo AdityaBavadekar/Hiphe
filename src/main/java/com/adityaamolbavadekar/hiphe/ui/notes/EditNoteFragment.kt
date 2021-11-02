@@ -22,14 +22,16 @@ import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.navArgs
 import com.adityaamolbavadekar.hiphe.R
-import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
 
 class EditNoteFragment : Fragment() {
 
+    private val args: EditNoteFragmentArgs by navArgs()
+    private lateinit var titleEditText: EditText
+    private lateinit var bodyEditText: EditText
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,20 +39,18 @@ class EditNoteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_edit_note, container, false)
-
-        /*
-val args = ConfirmationFragmentArgs.fromBundle(bundle)
-showTravelerInformation(args.travelerInformation)
-showTravelAddOns(args.travelAddOns)
-showPromoCode(args.promoCode)
-        */
+        titleEditText = root.findViewById(R.id.titleEditText)
+        bodyEditText = root.findViewById(R.id.bodyEditText)
+        titleEditText.setText(args.noteTitle.toString())
+        bodyEditText.setText(args.noteBody.toString())
 
         return root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val animation = TransitionInflater.from(requireActivity()).inflateTransition(android.R.transition.move)
+        val animation =
+            TransitionInflater.from(requireActivity()).inflateTransition(android.R.transition.move)
         sharedElementEnterTransition = animation
         sharedElementReturnTransition = animation
     }

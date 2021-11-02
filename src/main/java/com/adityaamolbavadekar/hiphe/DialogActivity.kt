@@ -37,7 +37,7 @@ class DialogActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dialog_crash)
-
+        setSupportActionBar(findViewById(R.id.toolbar))
         navigationView = findViewById(R.id.nav_view)
         navController = findNavController(R.id.nav_host_fragment)
         navigationView.setupWithNavController(navController)
@@ -47,11 +47,7 @@ class DialogActivity : AppCompatActivity() {
                 R.id.notesFragment
             ), drawerLayout
         )
-        setupActionBarWithNavController(
-            navController, appBarConfiguration
-        ))
-
-
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     override fun onSupportNavigateUp(): Boolean {

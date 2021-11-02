@@ -15,40 +15,6 @@
  *
  ******************************************************************************/
 
-/*******************************************************************************
- * Copyright (c) 2021. Aditya Bavadekar
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- *
- ******************************************************************************/
-
-/*******************************************************************************
- * Copyright (c) 2021. Aditya Bavadekar
- *
- *    Licensed under the Apache License, Version 2.0 (the "License");
- *    you may not use this file except in compliance with the License.
- *    You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *    Unless required by applicable law or agreed to in writing, software
- *    distributed under the License is distributed on an "AS IS" BASIS,
- *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *    See the License for the specific language governing permissions and
- *    limitations under the License.
- *
- ******************************************************************************/
-
 package com.adityaamolbavadekar.hiphe
 
 import android.app.Activity
@@ -109,6 +75,8 @@ class SharedActivity : AppCompatActivity() {
                     val text = intent.getStringExtra(Intent.EXTRA_TEXT)
                     if (intent.getStringExtra(Intent.EXTRA_TITLE) != null) {
                         textView.text = text + intent.getStringExtra(Intent.EXTRA_TITLE).toString()
+                    }else{
+                        textView.text = text
                     }
                 }
             }
@@ -119,7 +87,8 @@ class SharedActivity : AppCompatActivity() {
                 this.showToast("Video.mp4")
             }
             else -> {
-                this.showToast("Unknown type")
+                val type = contentResolver.getType(data!!).toString()
+                this.showToast("Unknown type: $type , ${data.scheme}")
             }
         }
 
@@ -127,103 +96,5 @@ class SharedActivity : AppCompatActivity() {
             setResult(Activity.RESULT_OK)
             finish()
         }
-
-
-
-
-
-        try {
-
-
-            val textExtensionMimeTypeMap =
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("txt")
-            val imagePngExtensionMimeTypeMap =
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("png")
-            val imageJpgExtensionMimeTypeMap =
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("jpg")
-            val imageJpegExtensionMimeTypeMap =
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("jpeg")
-            val imageGifExtensionMimeTypeMap =
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("gif")
-            val imageWebpExtensionMimeTypeMap =
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("webp")
-            val imageSvgzExtensionMimeTypeMap =
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("svgz")
-            val videoMp4ExtensionMimeTypeMap =
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("mp4")
-            val videoWavExtensionMimeTypeMap =
-                MimeTypeMap.getSingleton().getMimeTypeFromExtension("wav")
-
-            val mimeTypeHashmap = hashMapOf(
-                "txt" to "$textExtensionMimeTypeMap",
-                "png" to "$imagePngExtensionMimeTypeMap",
-                "jpg" to "$imageJpgExtensionMimeTypeMap",
-                "jpeg" to "$imageJpegExtensionMimeTypeMap",
-                "gif" to "$imageGifExtensionMimeTypeMap",
-                "webp" to "$imageWebpExtensionMimeTypeMap",
-                "svgz" to "$imageSvgzExtensionMimeTypeMap",
-                "mp4" to "$videoMp4ExtensionMimeTypeMap",
-                "mp4" to "$videoMp4ExtensionMimeTypeMap",
-                "wav" to "$videoWavExtensionMimeTypeMap"
-            )
-
-            val firestore: FirebaseFirestore = Firebase.firestore
-            firestore.collection("MimeTypes")
-                .document("MimeTypes")
-                .set(mimeTypeHashmap)
-                .addOnSuccessListener {
-                }
-
-
-        } catch (e: Exception) {
-        }
-
-
     }
-
-
-    private fun getContacts() {
-        val uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
-        val cursor = contentResolver.query(uri, null, null, null, null)
-        Log.i("CONTACT_PROVIDER", "Total of ${cursor?.columnCount} contacts")
-
-        if (cursor?.columnCount!! > 0) {
-            while (cursor.moveToNext()) {
-
-                val contactName =
-                    cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
-                val contactPhone =
-                    cursor.getString(cursor.getColumnIndexOrThrow(ContactsContract.CommonDataKinds.Phone.NUMBER))
-            }
-        }
-    }
-
-
-    private fun getDataFromMimeType() {
-        val uri = intent?.data
-
-        if (uri != null) {
-            val cursor = contentResolver.query(uri, null, null, null, null)
-
-            if (intent?.data != null) {
-
-                intent?.data?.let { returnUri ->
-                    val mimeType = contentResolver.getType(returnUri)
-                    val cursor1 = contentResolver.query(returnUri, null, null, null, null)
-                    if (cursor1 != null) {
-                        val nameIndex = cursor1.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                        val sizeIndex = cursor1.getColumnIndex(OpenableColumns.DISPLAY_NAME)
-                        cursor1.moveToFirst()
-
-
-                    }
-                }
-
-            }
-
-        }
-
-
-    }
-
 }

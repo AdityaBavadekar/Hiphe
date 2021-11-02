@@ -145,6 +145,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_account,
                 R.id.nav_about,
                 R.id.nav_settings,
+                R.id.dialogActivity,
                 R.id.nav_dashboard
 
             ), drawerLayout

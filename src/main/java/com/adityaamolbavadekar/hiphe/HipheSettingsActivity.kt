@@ -18,21 +18,11 @@
 package com.adityaamolbavadekar.hiphe
 
 import android.app.AlertDialog
-import android.app.DownloadManager
 import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.browser.customtabs.CustomTabColorSchemeParams
@@ -40,9 +30,7 @@ import androidx.browser.customtabs.CustomTabsClient
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.browser.customtabs.CustomTabsServiceConnection
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 import androidx.core.content.edit
-import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -56,8 +44,6 @@ import com.adityaamolbavadekar.hiphe.models.GitRawApi
 import com.adityaamolbavadekar.hiphe.ui.FaqsFragment
 import com.adityaamolbavadekar.hiphe.ui.feedback.SendFeedbackFragment
 import com.adityaamolbavadekar.hiphe.utils.constants
-import com.bumptech.glide.Glide
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -73,59 +59,6 @@ import java.io.File
 class HipheSettingsActivity : AppCompatActivity() {
 
     private lateinit var coordinatorLayout: CoordinatorLayout
-    val permissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            dojsfgfdsi(isGranted)
-        }
-
-    fun dojsfgfdsi(isGranted: Boolean) {
-        if (isGranted) {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-
-            HipheSettingsActivity.AboutSettingsFragment().download(
-                Uri.parse(prefs.getString("update_uri", "").toString()),
-                prefs.getString("fileName", "HipheUpdate").toString()
-            )
-        } else {
-            showLongToast("Permission for write is required to update Hiphe, You can disable it afterwards from settingd")
-        }
-    }
-
-    fun updateHipheWithChangeInfo(changeLogInfo: ChangeLogInfo) {
-        val versionName = changeLogInfo.versionName
-        val versionCode = changeLogInfo.versionCode
-        val releaseNotes = changeLogInfo.releaseNotes
-        val fileName = "Hiphe-$versionName"
-        PreferenceManager.getDefaultSharedPreferences(this)
-            .edit {
-                putString("update_uri", changeLogInfo.apkURL)
-                putString("fileName", fileName)
-            }
-        val apkURL = changeLogInfo.apkURL
-        val apkUri = Uri.parse(apkURL)
-        requestPermissionForWrite(apkUri, fileName)
-    }
-
-
-    fun requestPermissionForWrite(apkUri: Uri, fileName: String) {
-
-        when (ContextCompat.checkSelfPermission(
-            this,
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )) {
-            PackageManager.PERMISSION_DENIED -> {
-                launchPermissionGrantRequest(apkUri, fileName)
-            }
-            PackageManager.PERMISSION_GRANTED -> {
-                HipheSettingsActivity.AboutSettingsFragment().download(apkUri = apkUri, fileName)
-            }
-        }
-    }
-
-
-    fun launchPermissionGrantRequest(apkUri: Uri, fileName: String) {
-        permissionLauncher.launch(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -363,13 +296,11 @@ class HipheSettingsActivity : AppCompatActivity() {
                                             b.setPositiveButton(getString(R.string.ok_update_hiphe)) { dialogInterface, _ ->
                                                 requireActivity().showLongToast("Updating in background, you can continue exploring app")
                                                 try {
-                                                    HipheSettingsActivity().updateHipheWithChangeInfo(
-                                                        changeLogInfo
-                                                    )
+                                                    GrantAndUpdate(requireActivity(), changeLogInfo)
                                                 } catch (e: Exception) {
                                                     HipheErrorLog(
                                                         TAG,
-                                                        "Error updating",
+                                                        "Error updating ",
                                                         e.toString()
                                                     )
                                                 }
@@ -531,33 +462,6 @@ class HipheSettingsActivity : AppCompatActivity() {
                 else -> return false
             }
         }
-
-
-        fun download(apkUri: Uri, fileName: String) {
-            //Download APK
-            val downloadManager =
-                requireActivity().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-            val request = DownloadManager.Request(apkUri)
-            request.setTitle(getString(R.string.updating_hiphe))
-            request.setDescription(getString(R.string.we_will_download_apk_in_background))
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName)
-            request.allowScanningByMediaScanner()
-
-            val completion = downloadManager.enqueue(request)
-
-            //requestPermissionForWrite()
-            requireActivity().showLongToast(
-                downloadManager.getUriForDownloadedFile(completion).toString()
-            )
-            try {
-                downloadManager.openDownloadedFile(completion)
-                requireActivity().showToast("After downloading click Install")
-            } catch (e: Exception) {
-                HipheErrorLog(TAG, getString(R.string.error_opening_downloaded_file), e.toString())
-            }
-        }
-
     }
 
     class NotificationsSettingsFragment : PreferenceFragmentCompat() {
@@ -565,37 +469,6 @@ class HipheSettingsActivity : AppCompatActivity() {
             setPreferencesFromResource(R.xml.root_preferences_notifications, rootKey)
 
         }
-    }
-
-    class YouAndHipheFragment : Fragment() {
-        private lateinit var accountImageView: ImageView
-        private lateinit var emailAddressTextView: TextView
-        private lateinit var nameTextView: TextView
-
-        override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-        ): View? {
-            val root = inflater.inflate(R.layout.fragment_you_and_hiphe, container, false)
-            val auth: FirebaseAuth = Firebase.auth
-            accountImageView = root.findViewById(R.id.accountImageView)
-            emailAddressTextView = root.findViewById(R.id.emailAddressTextView)
-            nameTextView = root.findViewById(R.id.nameTextView)
-
-            val user = auth.currentUser
-            if (user != null) {
-                val email = user.email
-                val name = user.displayName
-                val purl = user.photoUrl
-                Glide.with(requireActivity())
-                    .load(purl)
-                    .into(accountImageView)
-            }
-
-            return root
-        }
-
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -38,12 +38,12 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/titleTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:ellipsize="end"
             android:focusable="true"
-            android:id="@+id/titleTextView"
             android:fontFamily="@font/roboto_black"
             android:hint="Title"
             android:maxLines="15"
@@ -51,6 +51,7 @@
             android:paddingVertical="5dp"
             android:textColor="?android:textColorPrimary"
             android:textSize="20sp"
+            android:transitionName="editTextTitleSmall"
             tools:text="@tools:sample/lorem/random" />
 
         <View
@@ -60,16 +61,17 @@
             android:background="?android:attr/listDivider" />
 
         <TextView
+            android:id="@+id/bodyTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:ellipsize="end"
             android:focusable="true"
-            android:id="@+id/bodyTextView"
             android:maxLines="30"
             android:paddingHorizontal="10dp"
             android:paddingVertical="10dp"
             android:textColor="?android:textColorPrimary"
+            android:transitionName="editTextBodySmall"
             tools:text="@tools:sample/lorem/random" />
 
     </LinearLayout>

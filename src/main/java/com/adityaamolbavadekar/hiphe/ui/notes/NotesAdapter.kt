@@ -21,18 +21,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.FragmentActivity
-import androidx.navigation.findNavController
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.FragmentNavigatorExtras
-import androidx.navigation.navArgs
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.adityaamolbavadekar.hiphe.R
 import com.adityaamolbavadekar.hiphe.room.note.NotesDataClass
-import io.grpc.NameResolver
 
 class NotesAdapter(
     private val notes: List<NotesDataClass>,
-    private val onItemClicked1: FragmentActivity
+    private val fragment: Fragment
 ) :
     RecyclerView.Adapter<NotesAdapter.ItemViewHolder>() {
 
@@ -53,23 +51,36 @@ class NotesAdapter(
             titleTextView.text = currentItem.noteTitle
             bodyTextView.text = currentItem.noteBody
             titleTextView.setOnClickListener {
-//                navigateToEditFragment(currentItem)
-                val extras = FragmentNavigatorExtras(titleTextView to "editTextTitleBig", bodyTextView to "editTextBodyBig")
+
+                val extras = FragmentNavigatorExtras(
+                    titleTextView to "editTextTitleBig",
+                    bodyTextView to "editTextBodyBig"
+                )
+                val action = NotesFragmentDirections.actionNotesFragmentToEditNoteFragment()
+                action.noteBody = currentItem.noteBody
+                action.noteTitle = currentItem.noteTitle
+
+                NavHostFragment.findNavController(fragment)
+                    .navigate(action, extras)
 
             }
             bodyTextView.setOnClickListener {
-                navigateToEditFragment(currentItem)
+
+                val extras = FragmentNavigatorExtras(
+                    titleTextView to "editTextTitleBig",
+                    bodyTextView to "editTextBodyBig"
+                )
+                val action = NotesFragmentDirections.actionNotesFragmentToEditNoteFragment()
+                action.noteBody = currentItem.noteBody
+                action.noteTitle = currentItem.noteTitle
+
+                NavHostFragment.findNavController(fragment)
+                    .navigate(action, extras)
+
             }
         }
     }
 
-    private fun navigateToEditFragment(currentItem: NotesDataClass) {
-//        val noteTitleArgs: NameResolver.Args = EditNoteFragment by onItemClicked1.navArgs()
-//        onItemClicked1.findNavController(R.id.nav_host_fragment).navigate(R.id.action_notesFragment_to_editNoteFragment,null,null,extras)
-//        val extras = FragmentNavigatorExtras(titleTextView to "editTextTitleBig", bodyTextView to "editTextBodyBig")
-
-
-    }
 
     override fun getItemCount(): Int = notes.size
 

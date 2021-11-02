@@ -18,6 +18,7 @@
 package com.adityaamolbavadekar.hiphe.ui.notes.view_model
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
@@ -32,13 +33,40 @@ class NotesViewModel(private val noteDao: NoteDao) : ViewModel() {
         HipheInfoLog(TAG, "NotesViewModel created!")
     }
 
+
+    private val _titleText = MutableLiveData<String>().apply {
+        value = null
+    }
+    val titleText: LiveData<String> = _titleText
+
+    fun setTitleText(title: String) {
+        _titleText.value = title
+    }
+
+    private val _bodyText = MutableLiveData<String>().apply {
+        value = null
+    }
+    val bodyText: LiveData<String> = _bodyText
+
+    fun setBodyText(title: String) {
+        _bodyText.value = title
+    }
+
+
     override fun onCleared() {
         super.onCleared()
         HipheInfoLog(TAG, "NotesViewModel destroyed!")
     }
 
     var defaultExampleNotes = listOf(
-        NotesDataClass(0,"Welcome to Hiphe Notes","This is how you can use Hiphe Notes for noting thing in a creative way!","","",0)
+        NotesDataClass(
+            0,
+            "Welcome to Hiphe Notes",
+            "This is how you can use Hiphe Notes for noting thing in a creative way!",
+            "",
+            "",
+            0
+        )
     )
 
     fun areNotesNull(notes: Int): Boolean {
@@ -57,9 +85,10 @@ class NotesViewModel(private val noteDao: NoteDao) : ViewModel() {
         }
     }
 
-    fun getAllTheNotes(): LiveData<List<NotesDataClass>>  = noteDao.getAllNotes()
+    fun getAllTheNotes(): LiveData<List<NotesDataClass>> = noteDao.getAllNotes()
 
-    fun getSpecificNoteFromId(indexId: Long): LiveData<NotesDataClass> = noteDao.getTheNotesFromId(indexId)
+    fun getSpecificNoteFromId(indexId: Long): LiveData<NotesDataClass> =
+        noteDao.getTheNotesFromId(indexId)
 
     fun updateTheNote(notesDataClass: NotesDataClass) {
         viewModelScope.launch {

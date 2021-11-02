@@ -181,7 +181,8 @@ class SendFeedbackFragment : AppCompatActivity() {
                 if (editText.text.toString() != "") {
                     data["USER_INPUT"] = editText.text.toString()
                     data["FEEDBACK_SENT_FROM"] = autoCompleteTextView.text.toString()
-                    checkForCheckBox(data, editText.text.toString())
+                    uploadOnlySystemLogs(data)
+//                    checkForCheckBox(data, editText.text.toString())
                 } else {
                     progressBar.visibility = View.GONE
                 }
@@ -190,19 +191,19 @@ class SendFeedbackFragment : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
-    private fun checkForCheckBox(data: HashMap<String, Any>, textInput: String) {
-
-        if (materialCheckBox.isChecked && materialCheckBox2.isChecked) {
-            uploadScreenShotAndSystemLogs(data)
-        } else if (!materialCheckBox.isChecked && !materialCheckBox2.isChecked) {
-            uploadText(textInput)
-        } else if (!materialCheckBox.isChecked && materialCheckBox2.isChecked) {
-            uploadOnlySystemLogs(data)
-        } else if (materialCheckBox.isChecked && !materialCheckBox2.isChecked) {
-            uploadOnlyScreenshot(textInput)
-        }
-    }
+//
+//    private fun checkForCheckBox(data: HashMap<String, Any>, textInput: String) {
+//
+//        if (materialCheckBox.isChecked && materialCheckBox2.isChecked) {
+//            uploadScreenShotAndSystemLogs(data)
+//        } else if (!materialCheckBox.isChecked && !materialCheckBox2.isChecked) {
+//            uploadText(textInput)
+//        } else if (!materialCheckBox.isChecked && materialCheckBox2.isChecked) {
+//            uploadOnlySystemLogs(data)
+//        } else if (materialCheckBox.isChecked && !materialCheckBox2.isChecked) {
+//            uploadOnlyScreenshot(textInput)
+//        }
+//    }
 
     private fun uploadText(data: String) {
 

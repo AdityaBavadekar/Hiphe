@@ -17,10 +17,7 @@
 package com.adityaamolbavadekar.hiphe.room.note
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 
 @Dao
 interface NoteDao {
@@ -32,7 +29,7 @@ interface NoteDao {
     @Query("SELECT * FROM hiphe_notes_table WHERE indexId = :indexId")
     fun getTheNotesFromId(indexId:Long): LiveData<NotesDataClass>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTheNote(notesDataClass: NotesDataClass)
 
     @Update
