@@ -4,8 +4,10 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'androidx.navigation.safeargs'//Navigation
 apply plugin: 'com.google.android.gms.oss-licenses-plugin'//Oss
 apply plugin: 'kotlin-kapt'//KAPT
-apply plugin: 'com.google.gms.google-services'
-apply plugin: 'com.google.firebase.firebase-perf'//google-services
+apply plugin: 'com.google.gms.google-services'//google-services
+apply plugin: 'com.google.firebase.firebase-perf'//perf
+apply plugin: 'com.google.firebase.crashlytics'//crashylitics
+
 
 android {
     compileSdkVersion 30
@@ -16,7 +18,7 @@ android {
         minSdkVersion 22
         targetSdkVersion 30
         versionCode 2
-        versionName "2.231.58"
+        versionName "2.231.59"
     }
 
 
@@ -157,6 +159,9 @@ dependencies {
 
     //FIREBASE APP INDEXING
     implementation 'com.google.firebase:firebase-appindexing:20.0.0'
+
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     //RETROFIT
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'

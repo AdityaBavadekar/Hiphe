@@ -54,6 +54,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
+import java.text.DecimalFormat
 
 
 class HipheSettingsActivity : AppCompatActivity() {
@@ -274,11 +275,16 @@ class HipheSettingsActivity : AppCompatActivity() {
                                         "@GET request's raw ${responseResult.raw()}"
                                     )
 
+
                                     if (changeLogInfo != null) {
                                         val versionNameResult = changeLogInfo.versionName
                                         val versionCodeResult = changeLogInfo.versionCode
                                         val releaseNotesResult = changeLogInfo.releaseNotes
+                                        val webVersion = versionNameResult.removeRange(1,6).toInt()
+                                        val appBuildVersion = buildVersionName.removeRange(1,6).toInt()
 
+
+//                                        if (webVersion < appBuildVersion) {
                                         if (buildVersionName != versionNameResult) {
 
                                             val b = AlertDialog.Builder(requireActivity())
