@@ -280,8 +280,9 @@ class HipheSettingsActivity : AppCompatActivity() {
                                         val versionNameResult = changeLogInfo.versionName
                                         val versionCodeResult = changeLogInfo.versionCode
                                         val releaseNotesResult = changeLogInfo.releaseNotes
-                                        val webVersion = versionNameResult.removeRange(1,6).toInt()
-                                        val appBuildVersion = buildVersionName.removeRange(1,6).toInt()
+                                        val webVersion = versionNameResult.removeRange(1, 6).toInt()
+                                        val appBuildVersion =
+                                            buildVersionName.removeRange(1, 6).toInt()
 
 
 //                                        if (webVersion < appBuildVersion) {
@@ -302,7 +303,10 @@ class HipheSettingsActivity : AppCompatActivity() {
                                             b.setPositiveButton(getString(R.string.ok_update_hiphe)) { dialogInterface, _ ->
                                                 requireActivity().showLongToast("Updating in background, you can continue exploring app")
                                                 try {
-                                                    GrantAndUpdate(requireActivity(), changeLogInfo).start()
+                                                    GrantAndUpdate(
+                                                        requireActivity(),
+                                                        changeLogInfo
+                                                    ).start()
                                                 } catch (e: Exception) {
                                                     HipheErrorLog(
                                                         TAG,

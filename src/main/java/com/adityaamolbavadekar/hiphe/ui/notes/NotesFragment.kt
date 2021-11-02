@@ -22,16 +22,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProviders
-import androidx.lifecycle.observe
+import androidx.lifecycle.*
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.adityaamolbavadekar.hiphe.Hiphe
 import com.adityaamolbavadekar.hiphe.R
+import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
+import com.adityaamolbavadekar.hiphe.room.note.NoteDao
 import com.adityaamolbavadekar.hiphe.room.note.NotesDataClass
-import com.adityaamolbavadekar.hiphe.ui.notes.view_model.NotesViewModel
-import com.adityaamolbavadekar.hiphe.ui.notes.view_model.NotesViewModelFactory
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class NotesFragment : Fragment() {
 
@@ -43,6 +45,73 @@ class NotesFragment : Fragment() {
         NotesViewModelFactory(
             (activity?.application as Hiphe).notesDatabase.noteDao()
         )
+    }
+
+    class NotesViewModel(private val noteDao: NoteDao) : ViewModel() {
+        init {
+            HipheInfoLog(TAG, "NotesViewModel created!")
+        }
+
+        override fun onCleared() {
+            super.onCleared()
+            HipheInfoLog(TAG, "NotesViewModel destroyed!")
+        }
+
+        var defaultExampleNotes = listOf(
+            NotesDataClass(
+                0,
+                "Welcome to Hiphe Notes",
+                "This is how you can use Hiphe Notes for noting thing in a creative way!",
+                "",
+                "",
+                0
+            )
+        )
+
+        fun areNotesNull(notes: Int): Boolean {
+            return notes == 0
+        }
+
+        fun create(noteTitle: String, noteBody: String) {
+            val createdOn =
+                SimpleDateFormat("dd/mm/yyyy HH:mm aaa Z ", Locale.ENGLISH).format(Date())
+                    .toString()
+            val editedOn =
+                SimpleDateFormat("dd/mm/yyyy HH:mm aaa Z ", Locale.ENGLISH).format(Date())
+                    .toString()
+            val notesDataClass = NotesDataClass(0, noteTitle, noteBody, createdOn, editedOn, 0)
+
+            viewModelScope.launch {
+                noteDao.insertTheNote(notesDataClass)
+            }
+        }
+
+        fun getAllTheNotes(): LiveData<List<NotesDataClass>> = noteDao.getAllNotes()
+
+        fun getSpecificNoteFromId(indexId: Long): LiveData<NotesDataClass> =
+            noteDao.getTheNotesFromId(indexId)
+
+        fun deleteAllNotes(notesDataClass: NotesDataClass) {
+            viewModelScope.launch {
+                noteDao.deleteAllNotes()
+            }
+        }
+
+        companion object {
+            const val TAG = "NotesViewModel"
+        }
+    }
+
+    class NotesViewModelFactory(private val noteDao: NoteDao) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(NotesViewModel::class.java)) {
+
+                @Suppress("UNCHECKED_CAST")
+                return NotesViewModel(noteDao) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+
+        }
     }
 
     override fun onCreateView(
@@ -58,7 +127,8 @@ class NotesFragment : Fragment() {
         fabNewNote = root.findViewById(R.id.fabNewNote)
 
         fabNewNote.setOnClickListener {
-            requireActivity().findNavController(R.id.nav_host_fragment).navigate(R.id.action_notesFragment_to_addNotesFragment)
+            requireActivity().findNavController(R.id.nav_host_fragment)
+                .navigate(R.id.action_notesFragment_to_addNotesFragment)
         }
 
         viewModel.getAllTheNotes().observe(this.viewLifecycleOwner, { notes ->

@@ -111,8 +111,6 @@ class SendFeedbackFragment : AppCompatActivity() {
                 "Feedback from : ${autoCompleteTextView.text} " + editText.text.toString()
             uploadText(editText.text.toString(), autoCompleteTextView.text.toString())
         }
-
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -217,7 +215,7 @@ class SendFeedbackFragment : AppCompatActivity() {
 //    }
 
     private fun uploadText(data: String, user: String) {
-        if (DoesNetworkHaveInternet.execute()) {
+//        if (DoesNetworkHaveInternet.execute()) {
 
             val firestore = Firebase.firestore
             firestore.collection("HIPHE_USER_INITIATED_FEEDBACKs")
@@ -244,9 +242,9 @@ class SendFeedbackFragment : AppCompatActivity() {
                     this.showToast("Something went wrong, please try again ${it.cause}")
                     progressBar.visibility = View.GONE
                 }
-        } else {
-            showToast("No network connection!")
-        }
+//        } else {
+//            showToast("No network connection!")
+//        }
     }
 
 //    private fun uploadOnlyScreenshot(data: String) {

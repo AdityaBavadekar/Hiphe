@@ -24,39 +24,104 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.*
 import com.adityaamolbavadekar.hiphe.Hiphe
 import com.adityaamolbavadekar.hiphe.R
-import com.adityaamolbavadekar.hiphe.ui.notes.view_model.NotesViewModel
-import com.adityaamolbavadekar.hiphe.ui.notes.view_model.NotesViewModelFactory
+import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
+import com.adityaamolbavadekar.hiphe.room.note.NoteDao
+import com.adityaamolbavadekar.hiphe.room.note.NotesDataClass
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AddNotesFragment : Fragment() {
 
-    private lateinit var notesViewModel: NotesViewModel
+    private lateinit var addNotesViewModel: AddNotesViewModel
     private lateinit var titleEditText: EditText
     private lateinit var bodyEditText: EditText
-    private val viewModel: NotesViewModel by activityViewModels {
-        NotesViewModelFactory(
+    private val viewModel: AddNotesViewModel by activityViewModels {
+        AddNotesViewModelFactory(
             (activity?.application as Hiphe).notesDatabase.noteDao()
         )
     }
+
+    class AddNotesViewModelFactory(private val noteDao: NoteDao) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(AddNotesViewModel::class.java)) {
+
+                @Suppress("UNCHECKED_CAST")
+                return AddNotesViewModel(noteDao) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+
+        }
+    }
+
+    class AddNotesViewModel(private val noteDao: NoteDao) : ViewModel() {
+        init {
+            HipheInfoLog(TAG, "AddNotesViewModel created!")
+        }
+
+        private val _titleText = MutableLiveData<String>().apply {
+            value = null
+        }
+        val titleText: LiveData<String> = _titleText
+
+        fun setTitleText(title: String) {
+            _titleText.value = title
+        }
+
+        private val _bodyText = MutableLiveData<String>().apply {
+            value = null
+        }
+        val bodyText: LiveData<String> = _bodyText
+
+        fun setBodyText(title: String) {
+            _bodyText.value = title
+        }
+
+
+        override fun onCleared() {
+            super.onCleared()
+            HipheInfoLog(TAG, "AddNotesViewModel destroyed!")
+        }
+
+        fun create(noteTitle: String, noteBody: String) {
+            val createdOn =
+                SimpleDateFormat("dd/mm/yyyy HH:mm aaa Z ", Locale.ENGLISH).format(Date())
+                    .toString()
+            val editedOn =
+                SimpleDateFormat("dd/mm/yyyy HH:mm aaa Z ", Locale.ENGLISH).format(Date())
+                    .toString()
+            val notesDataClass = NotesDataClass(0, noteTitle, noteBody, createdOn, editedOn, 0)
+
+            viewModelScope.launch {
+                noteDao.insertTheNote(notesDataClass)
+            }
+        }
+
+        companion object {
+            const val TAG = "AddNotesViewModel"
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        notesViewModel = ViewModelProviders.of(this).get(NotesViewModel::class.java)
+        addNotesViewModel = ViewModelProviders.of(this).get(AddNotesViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_add_note, container, false)
         titleEditText = root.findViewById(R.id.titleEditText)
         bodyEditText = root.findViewById(R.id.bodyEditText)
 
-        viewModel.titleText.observe(this.viewLifecycleOwner,{
-            titleEditText.setText(it.toString())
+        viewModel.titleText.observe(this.viewLifecycleOwner, {
+            titleEditText.setText(it)
         })
 
-        viewModel.bodyText.observe(this.viewLifecycleOwner,{
-            bodyEditText.setText(it.toString())
+        viewModel.bodyText.observe(this.viewLifecycleOwner, {
+            bodyEditText.setText(it)
         })
 
         return root
@@ -83,9 +148,9 @@ class AddNotesFragment : Fragment() {
     }
 
     private fun validateAndCreateNote() {
-        if (titleEditText.text != null || bodyEditText.text != null){
+        if (titleEditText.text != null || bodyEditText.text != null) {
             viewModel.apply {
-                create(titleEditText.text.toString(),bodyEditText.text.toString())
+                create(titleEditText.text.toString(), bodyEditText.text.toString())
                 setTitleText(titleEditText.text.toString())
                 setBodyText(bodyEditText.text.toString())
             }

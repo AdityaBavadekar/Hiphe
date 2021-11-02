@@ -21,14 +21,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.adityaamolbavadekar.hiphe.room.note.NoteDao
 
-class NotesViewModelFactory(private val noteDao: NoteDao) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(NotesViewModel::class.java)) {
-
-            @Suppress("UNCHECKED_CAST")
-            return NotesViewModel(noteDao) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-
-    }
-}
+//class NotesViewModelFactory(private val noteDao: NoteDao) : ViewModelProvider.Factory {
+//    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+//        if (modelClass.isAssignableFrom(AddNotesViewModel::class.java)) {
+//
+//            @Suppress("UNCHECKED_CAST")
+//            return AddNotesViewModel(noteDao) as T
+//        }
+//        throw IllegalArgumentException("Unknown ViewModel class")
+//
+//    }
+//}
