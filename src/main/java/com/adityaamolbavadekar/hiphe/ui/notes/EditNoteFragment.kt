@@ -37,6 +37,14 @@ class EditNoteFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_edit_note, container, false)
+
+        /*
+val args = ConfirmationFragmentArgs.fromBundle(bundle)
+showTravelerInformation(args.travelerInformation)
+showTravelAddOns(args.travelAddOns)
+showPromoCode(args.promoCode)
+        */
+
         return root
     }
 
