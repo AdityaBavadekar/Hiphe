@@ -61,7 +61,7 @@ Team Hiphe accepts no liability for any loss, direct or indirect, you experience
 
 If you have any questions or suggestions about Hiphe Terms and Conditions, then contact at 
 - teamhiphe@gmail.com
-- or www.site.google.com/view/teamhiphe
+- or www.sites.google.com/view/teamhiphe
 
 >__Note : These terms and conditions are effective as of 2021-10-26 (26 Oct 2021)__
 *************************************************************************************************************
