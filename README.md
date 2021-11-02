@@ -48,13 +48,13 @@ _To download APK [click this link](https://github.com/AdityaBavadekar/Hiphe/rele
 
 
 # Contributing
-Please be sure to review Hiphe's [contributing guidelines](.github/) to learn how to help the project.
+Please be sure to review Hiphe's [contributing guidelines](https://github.com/AdityaBavadekar/Hiphe/blob/main/.github/ISSUE_TEMPLATE/feature_request.md) to learn how to help the project.
 
 
 
 # Licence
 ```
-Copyright 2021 Aditya Bavadekar 
+   Copyright 2021 Aditya Bavadekar 
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
