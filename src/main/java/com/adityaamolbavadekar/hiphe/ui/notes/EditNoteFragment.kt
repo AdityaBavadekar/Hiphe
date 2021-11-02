@@ -18,6 +18,7 @@
 package com.adityaamolbavadekar.hiphe.ui.notes
 
 import android.os.Bundle
+import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,39 +30,21 @@ import com.adityaamolbavadekar.hiphe.interaction.HipheInfoLog
 
 class EditNoteFragment : Fragment() {
 
-    private lateinit var editNoteViewModel: EditNoteViewModel
-
-    class EditNoteViewModel : ViewModel() {
-        init {
-            HipheInfoLog(TAG, "EditNoteViewModel created!")
-        }
-
-        override fun onCleared() {
-            super.onCleared()
-            HipheInfoLog(TAG, "EditNoteViewModel destroyed!")
-        }
-
-        fun update(notesDataClass: NotesFragment.NotesDataClass) {
-
-        }
-
-        fun delete(notesDataClass: NotesFragment.NotesDataClass) {
-
-        }
-
-        companion object {
-            const val TAG = "EditNoteViewModel"
-        }
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        editNoteViewModel = ViewModelProviders.of(this).get(EditNoteViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_edit_note, container, false)
         return root
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val animation = TransitionInflater.from(requireActivity()).inflateTransition(android.R.transition.move)
+        sharedElementEnterTransition = animation
+        sharedElementReturnTransition = animation
     }
 
     companion object {

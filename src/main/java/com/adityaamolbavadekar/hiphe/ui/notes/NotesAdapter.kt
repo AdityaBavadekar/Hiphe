@@ -23,9 +23,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.navArgs
 import androidx.recyclerview.widget.RecyclerView
 import com.adityaamolbavadekar.hiphe.R
 import com.adityaamolbavadekar.hiphe.room.note.NotesDataClass
+import io.grpc.NameResolver
 
 class NotesAdapter(
     private val notes: List<NotesDataClass>,
@@ -50,7 +53,9 @@ class NotesAdapter(
             titleTextView.text = currentItem.noteTitle
             bodyTextView.text = currentItem.noteBody
             titleTextView.setOnClickListener {
-                navigateToEditFragment(currentItem)
+//                navigateToEditFragment(currentItem)
+                val extras = FragmentNavigatorExtras(titleTextView to "editTextTitleBig", bodyTextView to "editTextBodyBig")
+
             }
             bodyTextView.setOnClickListener {
                 navigateToEditFragment(currentItem)
@@ -59,7 +64,11 @@ class NotesAdapter(
     }
 
     private fun navigateToEditFragment(currentItem: NotesDataClass) {
-        onItemClicked1.findNavController(R.id.nav_host_fragment).navigate(R.id.action_notesFragment_to_editNoteFragment)
+//        val noteTitleArgs: NameResolver.Args = EditNoteFragment by onItemClicked1.navArgs()
+//        onItemClicked1.findNavController(R.id.nav_host_fragment).navigate(R.id.action_notesFragment_to_editNoteFragment,null,null,extras)
+//        val extras = FragmentNavigatorExtras(titleTextView to "editTextTitleBig", bodyTextView to "editTextBodyBig")
+
+
     }
 
     override fun getItemCount(): Int = notes.size

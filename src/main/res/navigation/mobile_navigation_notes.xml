@@ -42,5 +42,19 @@
         android:id="@+id/editNoteFragment"
         android:name="com.adityaamolbavadekar.hiphe.ui.notes.EditNoteFragment"
         android:label="EditNoteFragment"
-        tools:layout="@layout/fragment_edit_note" />
+        tools:layout="@layout/fragment_edit_note"
+        >
+
+
+        <argument
+            android:name="noteTitle"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="Title" />
+        <argument
+            android:name="noteBody"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="Note" />
+    </fragment>
 </navigation>
