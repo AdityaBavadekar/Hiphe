@@ -46,11 +46,8 @@ _To download APK [click this link](https://github.com/AdityaBavadekar/Hiphe/rele
 - Safety-net
 - Android Youtube Player
 
-
 # Contributing
 Please be sure to review Hiphe's [contributing guidelines](https://github.com/AdityaBavadekar/Hiphe/blob/main/.github/ISSUE_TEMPLATE/feature_request.md) to learn how to help the project.
-
-
 
 # Licence
 ```

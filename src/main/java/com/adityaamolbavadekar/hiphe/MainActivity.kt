@@ -203,8 +203,8 @@ class MainActivity : AppCompatActivity() {
             crashDatabase.crashDao().getCrashes()
 
             try {
-                connectionLiveData.observe(this, androidx.lifecycle.Observer {
-                    while (it == true) {
+//                connectionLiveData.observe(this, androidx.lifecycle.Observer {
+//                    while (it == true) {
                         val crashes = crashDatabase.crashDao().getCrashes()
                             .observe(this, androidx.lifecycle.Observer { crashList ->
                                 for (crash in crashList) {
@@ -219,13 +219,13 @@ class MainActivity : AppCompatActivity() {
                                         }
                                 }
                             })
-                    }
-                })
+//                    }
+//                })
 
             } catch (e: Exception) {
                 HipheErrorLog(
-                    UploaderService.TAG,
-                    "Error connectionLiveData.observeForever >> Service",
+                    TAG,
+                    "Error Upload MainActivity :",
                     e.toString()
                 )
             }
