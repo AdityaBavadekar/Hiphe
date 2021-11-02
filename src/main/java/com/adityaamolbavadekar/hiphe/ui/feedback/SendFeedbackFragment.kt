@@ -20,8 +20,6 @@ package com.adityaamolbavadekar.hiphe.ui.feedback
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
@@ -30,6 +28,8 @@ import com.adityaamolbavadekar.hiphe.R
 import com.adityaamolbavadekar.hiphe.interaction.HipheLog
 import com.adityaamolbavadekar.hiphe.interaction.getTheFinalLogs
 import com.adityaamolbavadekar.hiphe.interaction.showToast
+import com.adityaamolbavadekar.hiphe.network.DoesNetworkHaveInternet
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.checkbox.MaterialCheckBox
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -52,13 +52,14 @@ class SendFeedbackFragment : AppCompatActivity() {
     private lateinit var imageViewClicker2: ImageView
     private lateinit var materialCheckBox: MaterialCheckBox
     private lateinit var materialCheckBox2: MaterialCheckBox
+    private lateinit var sendFeedbackButton: MaterialButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.fragment_send_feedback_layout)
-        CoroutineScope(Dispatchers.IO).launch {
-            sysData = getTheData()
-        }.start()
+//        CoroutineScope(Dispatchers.IO).launch {
+//            sysData = getTheData()
+//        }.start()
         autoCompleteTextView = findViewById(R.id.autoCompleteTextView)
         editText = findViewById(R.id.editText)
         progressBar = findViewById(R.id.progressBar)
@@ -67,6 +68,7 @@ class SendFeedbackFragment : AppCompatActivity() {
         imageViewClicker2 = findViewById(R.id.SytemLogsCardClick)
         materialCheckBox = findViewById(R.id.materialCheckBox)
         materialCheckBox2 = findViewById(R.id.materialCheckBox2)
+        sendFeedbackButton = findViewById(R.id.sendFeedbackButton)
 
         imageViewClicker2.setOnClickListener {
             val b = AlertDialog.Builder(this)
@@ -101,6 +103,15 @@ class SendFeedbackFragment : AppCompatActivity() {
         }
         val arrayAdapter = ArrayAdapter(this, R.layout.dropdown_item, users)
         autoCompleteTextView.setAdapter(arrayAdapter)
+
+
+        sendFeedbackButton.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
+            val feedback =
+                "Feedback from : ${autoCompleteTextView.text} " + editText.text.toString()
+            uploadText(editText.text.toString(), autoCompleteTextView.text.toString())
+        }
+
 
     }
 
@@ -138,7 +149,7 @@ class SendFeedbackFragment : AppCompatActivity() {
                 .toString()
         val data = hashMapOf(
             "HIPHE_LOGS" to logs,
-            "Feedback" to editText.text.toString(),
+//            "Feedback" to editText.text.toString(),
             "Date" to SimpleDateFormat("E, dd-mm-yy", Locale.ENGLISH).format(Date()).toString(),
             "Time" to SimpleDateFormat("HH:mm Z", Locale.ENGLISH).format(Date()).toString(),
             "APP NAME" to "Hiphe",
@@ -167,30 +178,30 @@ class SendFeedbackFragment : AppCompatActivity() {
         return data
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.send_feedback, menu)
-        return true
-    }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        menuInflater.inflate(R.menu.send_feedback, menu)
+//        return true
+//    }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_send -> {
-                progressBar.visibility = View.VISIBLE
-                val data = sysData
-                if (editText.text.toString() != "") {
-                    data["USER_INPUT"] = editText.text.toString()
-                    data["FEEDBACK_SENT_FROM"] = autoCompleteTextView.text.toString()
-                    uploadOnlySystemLogs(data)
-//                    checkForCheckBox(data, editText.text.toString())
-                } else {
-                    progressBar.visibility = View.GONE
-                }
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
+//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+//        return when (item.itemId) {
+//            R.id.action_send -> {
+////                progressBar.visibility = View.VISIBLE
+////                val data = sysData
+////                if (editText.text.toString() != "") {
+////                    data["USER_INPUT"] = editText.text.toString()
+////                    data["FEEDBACK_SENT_FROM"] = autoCompleteTextView.text.toString()
+//                    uploadText(editText.text.toString())
+////                    checkForCheckBox(data, editText.text.toString())
+////                } else {
+////                    progressBar.visibility = View.GONE
+////                }
+//                true
+//            }
+//            else -> super.onOptionsItemSelected(item)
+//        }
+//    }
 //
 //    private fun checkForCheckBox(data: HashMap<String, Any>, textInput: String) {
 //
@@ -205,26 +216,43 @@ class SendFeedbackFragment : AppCompatActivity() {
 //        }
 //    }
 
-    private fun uploadText(data: String) {
+    private fun uploadText(data: String, user: String) {
+        if (DoesNetworkHaveInternet.execute()) {
 
-        val firestore = Firebase.firestore
-        firestore.collection("HIPHE_USER_INITIATED_FEEDBACKs")
-            .add(data)
-            .addOnSuccessListener {
-                progressBar.visibility = View.GONE
-                this.showToast("Your Feedback was recorded, Thankyou")
-                finish()
-            }
-            .addOnFailureListener {
-                this.showToast("Something went wrong, please try again ${it.cause}")
-                progressBar.visibility = View.GONE
-            }
+            val firestore = Firebase.firestore
+            firestore.collection("HIPHE_USER_INITIATED_FEEDBACKs")
+                .add(data)
+                .addOnSuccessListener {
+                    progressBar.visibility = View.GONE
+                    this.showToast("Your Feedback was recorded, Thankyou")
+                    val finaleData = getTheData()
+                    finaleData["Feedback"] = data
+                    finaleData["User"] = user
+                    CoroutineScope(Dispatchers.IO).launch {
+                        firestore.collection("HIPHE_USER_INITIATED_FEEDBACKs")
+                            .document("FeedbackFrom${user}${System.currentTimeMillis()}")
+                            .set(finaleData)
+                            .addOnSuccessListener {
+                                try {
+                                    finish()
+                                } catch (e: Exception) {
+                                }
+                            }
+                    }.start()
+                }
+                .addOnFailureListener {
+                    this.showToast("Something went wrong, please try again ${it.cause}")
+                    progressBar.visibility = View.GONE
+                }
+        } else {
+            showToast("No network connection!")
+        }
     }
 
-    private fun uploadOnlyScreenshot(data: String) {
-        //screenshot not implemented
-        uploadText(data)
-    }
+//    private fun uploadOnlyScreenshot(data: String) {
+//        //screenshot not implemented
+//        uploadText(data)
+//    }
 
     private fun uploadOnlySystemLogs(data: HashMap<String, Any>) {
         val firestore = Firebase.firestore
@@ -241,9 +269,9 @@ class SendFeedbackFragment : AppCompatActivity() {
             }
     }
 
-    private fun uploadScreenShotAndSystemLogs(data: HashMap<String, Any>) {
-        //Screenshot upload not implemented so this will default to uploadingSytemLogs
-        uploadOnlySystemLogs(data)
-    }
+//    private fun uploadScreenShotAndSystemLogs(data: HashMap<String, Any>) {
+//        //Screenshot upload not implemented so this will default to uploadingSytemLogs
+//        uploadOnlySystemLogs(data)
+//    }
 
 }

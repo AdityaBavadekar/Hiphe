@@ -296,7 +296,7 @@ class HipheSettingsActivity : AppCompatActivity() {
                                             b.setPositiveButton(getString(R.string.ok_update_hiphe)) { dialogInterface, _ ->
                                                 requireActivity().showLongToast("Updating in background, you can continue exploring app")
                                                 try {
-                                                    GrantAndUpdate(requireActivity(), changeLogInfo)
+                                                    GrantAndUpdate(requireActivity(), changeLogInfo).start()
                                                 } catch (e: Exception) {
                                                     HipheErrorLog(
                                                         TAG,

@@ -257,6 +257,7 @@ class MainActivity : AppCompatActivity() {
                         )
                     )
                     auth.signOut()
+                    PreferenceManager.getDefaultSharedPreferences(this).edit().clear().apply()
                     try {
                         googleSignInClient.revokeAccess()
                         auth.signOut()

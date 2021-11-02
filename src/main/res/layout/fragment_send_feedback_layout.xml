@@ -69,7 +69,6 @@
             android:background="?attr/colorPrimaryDark"
             app:contentInsetStartWithNavigation="10dp"
             app:layout_scrollFlags="enterAlways"
-            app:menu="@menu/send_feedback"
             app:navigationIcon="@drawable/ic_baseline_close_24_custom"
             app:popupTheme="@style/Theme.MaterialComponents.DayNight"
             app:title="Send Feedback"
@@ -179,8 +178,8 @@
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
                         android:gravity="top|start"
-                        android:longClickable="false"
                         android:hint="@string/have_feedback_we_d_love_to_hear_it_but_please_don_t_share_sensitive_information_have_questions_or_legal_concerns_visit_help_centre_or_contact_support_teamhiphe_gmail_com"
+                        android:longClickable="false"
                         android:minHeight="300dp"
                         android:padding="25dp"
                         android:textSize="14sp" />
@@ -197,6 +196,7 @@
                             android:layout_marginHorizontal="20dp"
                             android:layout_marginVertical="5dp"
                             android:clickable="true"
+                            android:visibility="gone"
                             app:cardBackgroundColor="?colorPrimaryDark"
                             app:cardCornerRadius="10dp"
                             app:cardElevation="0dp">
@@ -254,9 +254,9 @@
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <ImageView
+                                android:id="@+id/ScreenshotCardClick"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:id="@+id/ScreenshotCardClick"
                                 android:src="@drawable/curve" />
 
                         </androidx.cardview.widget.CardView>
@@ -267,6 +267,7 @@
                             android:layout_marginHorizontal="20dp"
                             android:layout_marginVertical="5dp"
                             android:clickable="true"
+                            android:visibility="gone"
                             app:cardBackgroundColor="?colorPrimaryDark"
                             app:cardCornerRadius="10dp"
                             app:cardElevation="0dp">
@@ -343,12 +344,23 @@
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
                             <ImageView
+                                android:id="@+id/SytemLogsCardClick"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:id="@+id/SytemLogsCardClick"
                                 android:src="@drawable/curve" />
 
                         </androidx.cardview.widget.CardView>
+
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/sendFeedbackButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:fontFamily="@font/roboto_black"
+                            android:padding="20dp"
+                            android:text="@string/send_feedback"
+                            android:textAllCaps="false" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -357,6 +369,19 @@
                             android:paddingHorizontal="25dp"
                             android:paddingVertical="10dp"
                             android:text="@string/go_to_the_legal_help_page_to_request_content_changes_for_legal_reasons_some_account_and_system_info_will_be_sent_to_google_we_ll_use_the_info_that_you_give_us_to_address_technical_issues_and_improve_our_services_subject_to_our_privacy_policy_and_terms_of_service"
+                            android:textSize="12sp" />
+
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/viewSystemLogsButton"
+                            style="@style/Widget.MaterialComponents.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="@string/view_logs"
+                            android:textAllCaps="false"
                             android:textSize="12sp" />
 
                     </LinearLayout>

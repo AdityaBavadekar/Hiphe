@@ -169,6 +169,8 @@
     <string name="to_share_your_profile_with_other_hiphe_users_use_this_link_nhttps_hiphe_page_link_user_1_s">To share your profile with other Hiphe Users, use this link : \nhttps://hiphe.page.link/user/%1$s</string>
     <string name="verified">VERIFIED</string>
     <string name="support_emailaddress">teamhiphe@gmail.com</string>
+    <string name="send_feedback">Send Feedback</string>
+    <string name="view_logs">View Logs</string>
 
     <string-array name="select_user">
         <item>Hiphe User</item>
