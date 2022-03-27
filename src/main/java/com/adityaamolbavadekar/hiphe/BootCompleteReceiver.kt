@@ -66,7 +66,7 @@ class BootCompleteReceiver : BroadcastReceiver() {
 
 
     override fun onReceive(context: Context?, intent: Intent?) {
-
+/**
         if (intent?.action == Intent.ACTION_BOOT_COMPLETED) {
             try {
                 if (Firebase.auth.currentUser != null) {
@@ -88,6 +88,7 @@ class BootCompleteReceiver : BroadcastReceiver() {
                 HipheErrorLog(TAG, "Download Manager Error ", e.toString())
             }
         }
+**/
     }
 
     companion object {
